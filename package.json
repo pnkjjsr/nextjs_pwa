@@ -1,0 +1,16 @@
+{
+  "name": "create-next-example-app",
+  "scripts": {
+    "dev": "next",
+    "build": "next build",
+    "export": "npm run build && next export",
+    "start": "NODE_ENV=production node server.js"
+    
+  },
+  "dependencies": {
+    "next": "^8.1.0",
+    "next-offline": "^4.0.1",
+    "react": "^16.8.6",
+    "react-dom": "^16.8.6"
+  }
+}
