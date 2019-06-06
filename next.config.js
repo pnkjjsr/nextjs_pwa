@@ -1,4 +1,6 @@
 const withOffline = require('next-offline')
+const withCSS = require('@zeit/next-css')
+const withSass = require('@zeit/next-sass')
 
 const nextConfig = {
   // next-offline options:
@@ -13,4 +15,4 @@ const nextConfig = {
   },
 }
 
-module.exports = withOffline(nextConfig)
+module.exports = withSass(withCSS(withOffline(nextConfig)));

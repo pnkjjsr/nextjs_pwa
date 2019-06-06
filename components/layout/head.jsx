@@ -22,7 +22,7 @@ export default class Head extends React.Component {
 
   render(){
     return(
-      <Header />
+      <Header title={this.props.title} />
     )
   }
 }
@@ -30,7 +30,7 @@ export default class Head extends React.Component {
 const Header = props => (
   <NextHead>
     <meta charSet="UTF-8" />
-    <title>{props.title || ''}</title>
+    <title>{props.title || 'Web title'}</title>
     <meta
       name="description"
       content={props.description || defaultDescription}
