@@ -6,9 +6,9 @@ export default class Layout extends Component {
     return (
       <Fragment>
         <Head title={this.props.pageTitle} />
-        header
+        Header
         {this.props.children}
-        footer
+        Footer
       </Fragment>
     );
   }
