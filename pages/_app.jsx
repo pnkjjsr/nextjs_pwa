@@ -19,7 +19,7 @@ class MyApp extends App {
 
     return (
       <Container>
-        <Layout>
+        <Layout pageTitle="">
           <Component {...pageProps} />
         </Layout>
       </Container>

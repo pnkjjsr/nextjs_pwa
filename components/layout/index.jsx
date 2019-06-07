@@ -1,14 +1,19 @@
 import React, { Fragment, Component } from "react";
+
 import Head from "./head";
+import Header from "./Header";
+import Footer from "./Footer";
+
+import "./style.scss";
 
 export default class Layout extends Component {
   render() {
     return (
       <Fragment>
         <Head title={this.props.pageTitle} />
-        Header
+        <Header />
         {this.props.children}
-        Footer
+        <Footer />
       </Fragment>
     );
   }
