@@ -4,6 +4,10 @@ import "firebase/auth";
 import "firebase/firestore";
 import "isomorphic-unfetch";
 import clientCredentials from "./client";
+import Link from 'next/link'
+
+import Nav from "../Nav"
+import './style.scss';
 
 export default class Auth extends Component {
   static async getInitialProps({ req, query }) {
@@ -35,28 +39,29 @@ export default class Auth extends Component {
     if (this.state.user) this.addDbListener();
 
     firebase.auth().onAuthStateChanged(user => {
+
       if (user) {
         this.setState({ user: user });
         return user
           .getIdToken()
           .then(token => {
             // eslint-disable-next-line no-undef
-            return fetch("/api/login", {
-              method: "POST",
-              // eslint-disable-next-line no-undef
-              headers: new Headers({ "Content-Type": "application/json" }),
-              credentials: "same-origin",
-              body: JSON.stringify({ token })
-            });
+            // return fetch("/api/login", {
+            //   method: "POST",
+            //   // eslint-disable-next-line no-undef
+            //   headers: new Headers({ "Content-Type": "application/json" }),
+            //   credentials: "same-origin",
+            //   body: JSON.stringify({ token })
+            // });
           })
           .then(res => this.addDbListener());
       } else {
         this.setState({ user: null });
         // eslint-disable-next-line no-undef
-        fetch("/api/logout", {
-          method: "POST",
-          credentials: "same-origin"
-        }).then(() => this.removeDbListener());
+        // fetch("/api/logout", {
+        //   method: "POST",
+        //   credentials: "same-origin"
+        // }).then(() => this.removeDbListener());
       }
     });
   }
@@ -70,7 +75,7 @@ export default class Auth extends Component {
     let unsubscribe = db.collection("messages").onSnapshot(
       querySnapshot => {
         var messages = {};
-        querySnapshot.forEach(function(doc) {
+        querySnapshot.forEach(function (doc) {
           messages[doc.id] = doc.data();
         });
         if (messages) this.setState({ messages });
@@ -118,30 +123,35 @@ export default class Auth extends Component {
     const { user, value, messages } = this.state;
 
     return (
-      <div>
+      <div className="auth">
         {user ? (
-          <button onClick={this.handleLogout}>Logout</button>
+          <Nav name={user.displayName} photo={user.photoURL} action={this.handleLogout} />
         ) : (
-          <button onClick={this.handleLogin}>Login</button>
-        )}
-        {user && (
-          <div>
-            <form onSubmit={this.handleSubmit}>
-              <input
-                type={"text"}
-                onChange={this.handleChange}
-                placeholder={"add message..."}
-                value={value}
-              />
-            </form>
-            <ul>
-              {messages &&
-                Object.keys(messages).map(key => (
-                  <li key={key}>{messages[key].text}</li>
-                ))}
-            </ul>
-          </div>
-        )}
+            <Link prefetch href="/account">
+              <a onClick={this.handleLogin}>Login</a>
+            </Link>
+          )
+        }
+        {
+          user && (
+            <div className="hidden">
+              <form onSubmit={this.handleSubmit}>
+                <input
+                  type={"text"}
+                  onChange={this.handleChange}
+                  placeholder={"add message..."}
+                  value={value}
+                />
+              </form>
+              <ul>
+                {messages &&
+                  Object.keys(messages).map(key => (
+                    <li key={key}>{messages[key].text}</li>
+                  ))}
+              </ul>
+            </div>
+          )
+        }
       </div>
     );
   }

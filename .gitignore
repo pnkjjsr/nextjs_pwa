@@ -26,3 +26,6 @@ out
 .firebase/
 .firebaserc
 firebase.json
+serviceAccountKey.json
+components/Auth/client.js
+components/Auth/server.js

@@ -6,7 +6,7 @@ export default class Footer extends Component {
   render() {
     return (
       <Fragment>
-        <div className="footer">Footer</div>
+        <div className="footer">Copyright @ 2019</div>
       </Fragment>
     );
   }

@@ -8,8 +8,7 @@ const Home = () => (
   <Fragment>
     <div className="p-4 shadow rounded bg-white">
       <h1 className="text-teal-500 text-2xl leading-normal">
-        Home: {state.title} 'PWA', 'React', 'Redux', 'NextJs', 'Tailwind Css'
-        StarterKit
+        Login
       </h1>
     </div>
 
