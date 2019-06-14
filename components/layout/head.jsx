@@ -9,13 +9,13 @@ const defaultOGImage = "";
 export default class Head extends React.Component {
   componentDidMount() {
     if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function() {
+      window.addEventListener("load", function () {
         navigator.serviceWorker
           .register("/service-worker.js", { scope: "/" })
-          .then(function(registration) {
+          .then(function (registration) {
             console.log("SW registered: ", registration);
           })
-          .catch(function(registrationError) {
+          .catch(function (registrationError) {
             console.log("SW registration failed: ", registrationError);
           });
       });

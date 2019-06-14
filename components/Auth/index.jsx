@@ -41,7 +41,9 @@ class Auth extends Component {
   }
 
   componentDidMount() {
-    const { actionAuth } = this.props;
+    const { props, actionAuth } = this.props;
+    const { uid, name, eVerified, email, mobile, photo } = this.state;
+
     firebase.initializeApp(clientCredentials);
 
     if (this.state.user) this.addDbListener();
@@ -61,26 +63,43 @@ class Auth extends Component {
 
         actionAuth.updateUser(this.state);
 
+        var db = firebase.firestore();
+        const date = new Date().getTime();
+        console.log(user.uid);
+
+        db.collection("users")
+          .doc(`${user.uid}`)
+          .set({
+            id: user.uid,
+            date: date,
+            name: user.displayName,
+            eVerified: user.emailVerified,
+            email: user.email,
+            mobile: user.phoneNumber,
+            photo: user.photoURL
+          });
+
+
         return user
           .getIdToken()
           .then(token => {
-            // eslint-disable-next-line no-undef
-            // return fetch("/api/login", {
-            //   method: "POST",
-            //   // eslint-disable-next-line no-undef
-            //   headers: new Headers({ "Content-Type": "application/json" }),
-            //   credentials: "same-origin",
-            //   body: JSON.stringify({ token })
-            // });
+            // eslint - disable - next - line no - undef
+            return fetch("/api/login", {
+              method: "POST",
+              // eslint-disable-next-line no-undef
+              headers: new Headers({ "Content-Type": "application/json" }),
+              credentials: "same-origin",
+              body: JSON.stringify({ token })
+            });
           })
           .then(res => this.addDbListener());
       } else {
         this.setState({ user: null });
-        // eslint-disable-next-line no-undef
-        // fetch("/api/logout", {
-        //   method: "POST",
-        //   credentials: "same-origin"
-        // }).then(() => this.removeDbListener());
+        // eslint - disable - next - line no - undef
+        fetch("/api/logout", {
+          method: "POST",
+          credentials: "same-origin"
+        }).then(() => this.removeDbListener());
       }
     });
   }
@@ -118,16 +137,16 @@ class Auth extends Component {
   }
 
   handleSubmit(event) {
-    event.preventDefault();
-    var db = firebase.firestore();
-    const date = new Date().getTime();
-    db.collection("messages")
-      .doc(`${date}`)
-      .set({
-        id: date,
-        text: this.state.value
-      });
-    this.setState({ value: "" });
+    // // event.preventDefault();
+    // // var db = firebase.firestore();
+    // // const date = new Date().getTime();
+    // // db.collection("messages")
+    // //   .doc(`${date}`)
+    // //   .set({
+    // //     id: date,
+    // //     text: this.state.value
+    // //   });
+    // this.setState({ value: "" });
   }
 
   handleLogin() {
