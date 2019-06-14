@@ -12,8 +12,6 @@ class Home extends Component {
   }
 
   render() {
-    console.log(this.props.foo);
-
     return (
       <Fragment>
         <div className="p-4 shadow rounded bg-white">

@@ -6,15 +6,16 @@ import "isomorphic-unfetch";
 import clientCredentials from "./client";
 import Link from 'next/link'
 
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import authAction from './actions'
+
 import Nav from "../Nav"
 import './style.scss';
 
-export default class Auth extends Component {
+class Auth extends Component {
   static async getInitialProps({ req, query }) {
     const user = req && req.session ? req.session.decodedToken : null;
-    // don't fetch anything from firebase if the user is not found
-    // const snap = user && await req.firebaseServer.database().ref('messages').once('value')
-    // const messages = snap && snap.val()
     const messages = null;
     return { user, messages };
   }
@@ -24,7 +25,13 @@ export default class Auth extends Component {
     this.state = {
       user: this.props.user,
       value: "",
-      messages: this.props.messages
+      messages: this.props.messages,
+      name: "",
+      eVerified: "",
+      email: "",
+      mobile: "",
+      photo: "",
+      uid: ""
     };
 
     this.addDbListener = this.addDbListener.bind(this);
@@ -34,6 +41,7 @@ export default class Auth extends Component {
   }
 
   componentDidMount() {
+    const { actionAuth } = this.props;
     firebase.initializeApp(clientCredentials);
 
     if (this.state.user) this.addDbListener();
@@ -41,7 +49,18 @@ export default class Auth extends Component {
     firebase.auth().onAuthStateChanged(user => {
 
       if (user) {
-        this.setState({ user: user });
+        this.setState({
+          user: user,
+          name: user.displayName,
+          eVerified: user.emailVerified,
+          email: user.email,
+          mobile: user.phoneNumber,
+          photo: user.photoURL,
+          uid: user.uid
+        });
+
+        actionAuth.updateUser(this.state);
+
         return user
           .getIdToken()
           .then(token => {
@@ -121,9 +140,11 @@ export default class Auth extends Component {
 
   render() {
     const { user, value, messages } = this.state;
+    const { props } = this.props;
 
     return (
       <div className="auth">
+
         {user ? (
           <Nav name={user.displayName} photo={user.photoURL} action={this.handleLogout} />
         ) : (
@@ -156,3 +177,12 @@ export default class Auth extends Component {
     );
   }
 }
+const mapDispatchToProps = dispatch => ({
+  actionAuth: bindActionCreators(authAction, dispatch)
+})
+
+const mapStateToProps = state => ({
+  props: state.auth
+})
+
+export default connect(mapStateToProps, mapDispatchToProps)(Auth);

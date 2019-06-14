@@ -1,16 +1,11 @@
-const defaultInitialState = {
-    foo: "Yes"
-};
+import {
+    combineReducers
+} from 'redux'
 
-const reducer = (state = defaultInitialState, action) => {
-    switch (action.type) {
-        case "FOO":
-            return Object.assign({}, state, {
-                foo: "No"
-            });
-        default:
-            return state;
-    }
-};
+import auth from '../components/Auth/reducer'
 
-export default reducer;
+const rootReducer = combineReducers({
+    auth
+})
+
+export default rootReducer;

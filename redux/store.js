@@ -6,11 +6,11 @@ import {
     composeWithDevTools
 } from "redux-devtools-extension";
 import thunkMiddleware from "redux-thunk";
-import reducer from "./reducer";
+import rootReducer from "./reducer";
 
 export const initStore = (initialState, options) => {
     return createStore(
-        reducer,
+        rootReducer,
         initialState,
         composeWithDevTools(applyMiddleware(thunkMiddleware))
     );

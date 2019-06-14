@@ -4,7 +4,6 @@ import App, { Container } from "next/app";
 import { Provider } from 'react-redux';
 import withRedux from "next-redux-wrapper";
 import { initStore } from "../redux/store";
-import Actions from "../redux/actions";
 
 import Layout from "../components/Layout";
 
@@ -28,11 +27,11 @@ class MyApp extends App {
 
     return (
       <Container>
-        <Layout pageTitle="">
-          <Provider store={store}>
+        <Provider store={store}>
+          <Layout pageTitle="">
             <Component {...pageProps} />
-          </Provider>
-        </Layout>
+          </Layout>
+        </Provider>
       </Container>
     );
   }
