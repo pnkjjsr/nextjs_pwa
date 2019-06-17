@@ -8,7 +8,7 @@ class Home extends Component {
     return (
       <Fragment>
         <div className="p-4 shadow rounded bg-white">
-          <h1 className="text-teal-500 text-2xl leading-normal">
+          <h1 className="text-2xl leading-normal">
             Home: 'PWA', 'React', 'Redux', 'NextJs', 'Tailwind Css'
             StarterKit
           </h1>

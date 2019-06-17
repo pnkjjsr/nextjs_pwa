@@ -83,22 +83,24 @@ class Auth extends Component {
           .getIdToken()
           .then(token => {
             // eslint - disable - next - line no - undef
-            return fetch("/api/login", {
-              method: "POST",
-              // eslint-disable-next-line no-undef
-              headers: new Headers({ "Content-Type": "application/json" }),
-              credentials: "same-origin",
-              body: JSON.stringify({ token })
-            });
+
+            // return fetch("/api/login", {
+            //   method: "POST",
+            //   // eslint-disable-next-line no-undef
+            //   headers: new Headers({ "Content-Type": "application/json" }),
+            //   credentials: "same-origin",
+            //   body: JSON.stringify({ token })
+            // });
           })
           .then(res => this.addDbListener());
       } else {
         this.setState({ user: null });
         // eslint - disable - next - line no - undef
-        fetch("/api/logout", {
-          method: "POST",
-          credentials: "same-origin"
-        }).then(() => this.removeDbListener());
+
+        // fetch("/api/logout", {
+        //   method: "POST",
+        //   credentials: "same-origin"
+        // }).then(() => this.removeDbListener());
       }
     });
   }
