@@ -65,7 +65,6 @@ class Auth extends Component {
 
         var db = firebase.firestore();
         const date = new Date().getTime();
-        console.log(user.uid);
 
         db.collection("users")
           .doc(`${user.uid}`)

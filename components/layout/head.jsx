@@ -1,40 +1,21 @@
 import React, { Fragment } from "react";
 import NextHead from "next/head";
 import { string } from "prop-types";
+import { connect } from "react-redux";
+
 
 const defaultDescription = "";
 const defaultOGURL = "";
 const defaultOGImage = "";
 
-export default class Head extends React.Component {
-  componentDidMount() {
-    if ("serviceWorker" in navigator) {
-      window.addEventListener("load", function () {
-        navigator.serviceWorker
-          .register("/service-worker.js", { scope: "/" })
-          .then(function (registration) {
-            console.log("SW registered: ", registration);
-          })
-          .catch(function (registrationError) {
-            console.log("SW registration failed: ", registrationError);
-          });
-      });
-    }
-  }
-
-  render() {
-    return <Header title={this.props.title} />;
-  }
-}
-
 const Header = props => (
   <Fragment>
     <NextHead>
       <meta charSet="UTF-8" />
-      <title>{`${props.title} | Web title` || "Web Title"}</title>
+      <title>{`${props.title} | Web title`}</title>
       <meta
         name="description"
-        content={props.description || defaultDescription}
+        content={props.desc || defaultDescription}
       />
       <meta name="viewport" content="width=device-width, initial-scale=1" />
       <link rel="icon" sizes="192x192" href="/static/touch-icon.png" />
@@ -46,7 +27,7 @@ const Header = props => (
       <meta property="og:title" content={props.title || ""} />
       <meta
         property="og:description"
-        content={props.description || defaultDescription}
+        content={props.des || defaultDescription}
       />
       <meta name="twitter:site" content={props.url || defaultOGURL} />
       <meta name="twitter:card" content="summary_large_image" />
@@ -70,9 +51,32 @@ const Header = props => (
   </Fragment>
 );
 
+class Head extends React.Component {
+  componentDidMount() {
+    if ("serviceWorker" in navigator) {
+      window.addEventListener("load", function () {
+        navigator.serviceWorker
+          .register("/service-worker.js", { scope: "/" })
+          .then(function (registration) {
+            console.log("SW registered: ", registration);
+          })
+          .catch(function (registrationError) {
+            console.log("SW registration failed: ", registrationError);
+          });
+      });
+    }
+  }
+
+  render() {
+    return <Header title={this.props.head.title} desc={this.props.head.desc} />;
+  }
+}
+
 Head.propTypes = {
   title: string,
   description: string,
   url: string,
   ogImage: string
 };
+
+export default connect(state => state)(Head);

@@ -3,8 +3,10 @@ import {
 } from 'redux'
 
 import auth from '../components/Auth/reducer'
+import head from '../components/Layout/reducer'
 
 const rootReducer = combineReducers({
+    head,
     auth
 })
 
