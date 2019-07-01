@@ -1,9 +1,5 @@
-require('dotenv').config()
-
 const express = require('express')
-const {
-  createServer
-} = require('http')
+var compression = require('compression')
 const bodyParser = require('body-parser')
 const {
   parse
@@ -23,6 +19,7 @@ const app = next({
 })
 const handle = app.getRequestHandler()
 
+
 const serviceAccount = require("./serviceAccountKey.json");
 const firebase = admin.initializeApp({
     credential: admin.credential.cert(serviceAccount),
@@ -34,6 +31,7 @@ const firebase = admin.initializeApp({
 app.prepare()
   .then(() => {
     const server = express()
+    server.use(compression())
     server.use(bodyParser.json())
 
     server.use(
@@ -86,30 +84,26 @@ app.prepare()
     })
 
     server.get('*', (req, res) => {
-      return handle(req, res)
+      const parsedUrl = parse(req.url, true)
+      const {
+        pathname
+      } = parsedUrl
+
+      // handle GET request to /service-worker.js
+      if (pathname === '/service-worker.js') {
+        const filePath = join(__dirname, '.next', pathname)
+
+        app.serveStatic(req, res, filePath)
+      } else {
+        handle(req, res, parsedUrl)
+      }
     })
 
-    // server.listen(port, (err) => {
-    //   if (err) throw err
-    //   console.log(`> Ready on http://localhost:${port}`)
-    // })
-
-    createServer((req, res) => {
-        const parsedUrl = parse(req.url, true)
-        const {
-          pathname
-        } = parsedUrl
-
-        // handle GET request to /service-worker.js
-        if (pathname === '/service-worker.js') {
-          const filePath = join(__dirname, '.next', pathname)
-
-          app.serveStatic(req, res, filePath)
-        } else {
-          handle(req, res, parsedUrl)
-        }
-      })
-      .listen(port, () => {
-        console.log(`> Ready on http://localhost:${port}`)
-      })
-  })
+    server.listen(port, err => {
+      if (err) throw err;
+      console.log(`> Ready on http://localhost:${port}`);
+    });
+  }).catch(ex => {
+    console.error(ex.stack);
+    process.exit(1);
+  });
