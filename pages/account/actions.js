@@ -1,13 +1,14 @@
 import {
-    ADD
+    UPDATE_LOCATION
 } from './constant'
 
-const addCount = () => {
+const udpate_vLocation = (e) => {
     return {
-        type: ADD
+        type: UPDATE_LOCATION,
+        payload: e
     };
 };
 
 export default {
-    addCount
+    udpate_vLocation
 };

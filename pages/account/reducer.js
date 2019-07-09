@@ -1,16 +1,16 @@
 import {
-    ADD
+    UPDATE_LOCATION
 } from './constant'
 
 const initialState = {
-    account: "Pankaj Jasoria"
+    v_location: ""
 };
 
 const account = (state = initialState, action) => {
     switch (action.type) {
-        case ADD:
+        case UPDATE_LOCATION:
             return Object.assign({}, state, {
-                account: "Jasoria Pankaj"
+                v_location: action.payload
             });
         default:
             return state;

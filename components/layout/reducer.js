@@ -1,6 +1,6 @@
 const initialState = {
-    title: "Home",
-    desc: "Home page description."
+    title: "Main",
+    desc: "Main page description."
 };
 
 const Head = (state = initialState, action) => {

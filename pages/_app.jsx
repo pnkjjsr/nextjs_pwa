@@ -7,13 +7,10 @@ import { initStore } from "../redux/store";
 
 import Layout from "../components/Layout";
 
-
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
     let pageProps = {};
 
-    // we can dispatch from here too
-    // ctx.store.dispatch({ type: 'FOO', payload: 'foo' });
 
     if (Component.getInitialProps) {
       pageProps = await Component.getInitialProps(ctx);
@@ -21,7 +18,6 @@ class MyApp extends App {
 
     return { pageProps };
   }
-
   render() {
     const { Component, pageProps, store } = this.props;
 

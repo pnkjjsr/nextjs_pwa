@@ -4,7 +4,7 @@
   "main": "server.js",
   "license": "ISC",
   "scripts": {
-    "dev": "node server.js",
+    "dev": "NODE_ENV=development node server.js",
     "build": "next build",
     "export": "npm run build && next export",
     "start": "NODE_ENV=production node server.js",
@@ -24,6 +24,7 @@
     "isomorphic-unfetch": "^3.0.0",
     "next": "^8.1.0",
     "next-compose-plugins": "^2.2.0",
+    "next-cookies": "^1.1.2",
     "next-offline": "^4.0.1",
     "next-redux-wrapper": "^3.0.0-alpha.3",
     "node-sass": "^4.12.0",
@@ -36,7 +37,6 @@
     "redux-devtools-extension": "^2.13.8",
     "redux-thunk": "^2.3.0",
     "session-file-store": "^1.2.0",
-    "tailwindcss": "^1.0.4",
-    "webpack": "^4.35.0"
+    "tailwindcss": "^1.0.4"
   }
 }

@@ -7,6 +7,12 @@ import Footer from "./Footer";
 import "./style.scss";
 
 export default class Layout extends Component {
+  constructor(props) {
+    super(props)
+    this.state = {
+      authtoken: props.authtoken
+    }
+  }
   render() {
     return (
       <Fragment>

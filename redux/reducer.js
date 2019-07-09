@@ -4,10 +4,12 @@ import {
 
 import auth from '../components/Auth/reducer'
 import head from '../components/Layout/reducer'
+import account from '../pages/account/reducer'
 
 const rootReducer = combineReducers({
     head,
-    auth
+    auth,
+    account
 })
 
 export default rootReducer;

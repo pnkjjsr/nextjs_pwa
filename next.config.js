@@ -1,4 +1,3 @@
-const webpack = require('webpack');
 const withOffline = require('next-offline')
 const withCSS = require('@zeit/next-css')
 const withSass = require('@zeit/next-sass')
@@ -11,4 +10,8 @@ module.exports = withPlugins([
 ]), {
   // next-offline options:
   dontAutoRegisterSw: true, // since we want runtime registration
+  env: {
+    customeKey: 'Value'
+  }
+
 }

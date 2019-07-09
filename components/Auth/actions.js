@@ -9,6 +9,8 @@ const updateUser = (el) => {
     };
 };
 
+const fetchData = () => {}
+
 export default {
     updateUser
 };
