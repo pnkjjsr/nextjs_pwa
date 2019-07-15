@@ -11,7 +11,7 @@ const initialState = {
     uid: ""
 };
 
-const auth = (state = initialState, action) => {
+const user = (state = initialState, action) => {
     switch (action.type) {
         case UPDATE:
             return Object.assign({}, state, {
@@ -27,4 +27,4 @@ const auth = (state = initialState, action) => {
     }
 };
 
-export default auth;
+export default user;

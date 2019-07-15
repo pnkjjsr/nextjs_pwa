@@ -1,9 +1,15 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 
+import initialize from '../../components/utils/initialize';
+
 import "./style.scss";
 
 class Home extends Component {
+  static async getInitialProps(ctx) {
+    initialize(ctx);
+  }
+
   render() {
     return (
       <Fragment>
@@ -18,7 +24,6 @@ class Home extends Component {
       </Fragment>
     )
   }
-
 };
 
 export default connect(state => state)(Home);

@@ -68,7 +68,7 @@ class Head extends React.Component {
   }
 
   render() {
-    return <Header title={this.props.head.title} desc={this.props.head.desc} />;
+    return <Header title={this.props.auth.title} desc={this.props.auth.desc} />;
   }
 }
 

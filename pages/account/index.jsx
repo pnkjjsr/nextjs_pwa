@@ -5,6 +5,7 @@ import actions from "./actions";
 import firebase from "firebase/app";
 
 import Location from './location'
+import withAuth from '../../components/utils/withAuth'
 
 import "./style.scss";
 
@@ -79,4 +80,4 @@ class Account extends Component {
   }
 }
 
-export default connect(state => state)(Account);
+export default connect(state => state)(withAuth(Account));

@@ -31,7 +31,11 @@ class Location extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { uid } = this.props.auth;
+    const profile = localStorage.getItem('profile');
+    const data = JSON.parse(profile)
+
+    const { uid } = this.props.user || data.uid;
+
     const { address, state, pincode, country } = this.state;
 
     var db = firebase.firestore();

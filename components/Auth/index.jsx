@@ -1,5 +1,4 @@
 import React, { Component } from "react";
-import Router from 'next/router';
 
 import firebase from "firebase/app";
 import "firebase/auth";
@@ -9,7 +8,10 @@ import clientCredentials from "./client";
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import authAction from './actions'
+import userAction from './actions'
+import authActions from '../../redux/actions';
+
+import AuthService from '../utils/authService'
 
 import Nav from "../Nav"
 import './style.scss';
@@ -31,32 +33,31 @@ class Auth extends Component {
   }
 
   componentDidMount() {
-    const { action } = this.props;
-    const { uid } = this.state;
+    const { userAction } = this.props;
     var _ = this;
 
     firebase.initializeApp(clientCredentials);
     firebase.auth().onAuthStateChanged(user => {
-
-
       if (user) {
         let db = firebase.firestore();
         let getUser = db.collection('users').doc(user.uid);
 
-        const setReducer = () => {
-          _.setState({
-            name: user.displayName,
-            eVerified: user.emailVerified,
-            email: user.email,
-            mobile: user.phoneNumber,
-            photo: user.photoURL,
-            uid: user.uid
-          });
-          action.updateUser(_.state);
-        }
-
         let getDoc = getUser.get()
           .then(doc => {
+
+            // Set User Details Reducer
+            const setReducer = () => {
+              _.setState({
+                name: user.displayName,
+                eVerified: user.emailVerified,
+                email: user.email,
+                mobile: user.phoneNumber,
+                photo: user.photoURL,
+                uid: user.uid
+              });
+              userAction.updateUser(_.state);
+            }
+
             if (!doc.exists) {
               console.log('No such document!');
               const date = new Date().getTime();
@@ -85,7 +86,6 @@ class Auth extends Component {
                   });
                 });
             } else {
-              console.log('Document data:', doc.data());
               setReducer();
             }
           })
@@ -100,20 +100,33 @@ class Auth extends Component {
           credentials: "same-origin"
         })
       }
-
-
-
-
-
     });
   }
 
   handleLogin() {
+    const auth = new AuthService('http://localhost:3000')
+    let _ = this;
+    const { userAction } = this.props;
+
+
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function (result) {
-      console.log(result.credential.accessToken);
+      _.setState({
+        name: result.user.displayName,
+        eVerified: result.user.emailVerified,
+        email: result.user.email,
+        mobile: result.user.phoneNumber,
+        photo: result.user.photoURL,
+        uid: result.user.uid
+      });
+      userAction.updateUser(_.state);
+
 
       if (result.operationType == "signIn") {
-        Router.push('/account');
+        _.props.authAction.authenticate({ email_id: result.user.email, token: result.credential.accessToken },
+          'login');
+
+        auth.login(result.user.email, result.credential.accessToken);
+        auth.setProfile(_.state);
       }
     }).catch(function (error) {
       // An error happened.
@@ -170,7 +183,8 @@ class Auth extends Component {
   }
 
   handleLogout() {
-    const { action } = this.props;
+    const { userAction } = this.props;
+    const auth = new AuthService('http://localhost:3000')
     const _ = this;
     firebase.auth().signOut().then(function (result) {
       _.setState({
@@ -182,7 +196,9 @@ class Auth extends Component {
         photo: "",
         uid: ""
       });
-      action.updateUser(_.state);
+      userAction.updateUser(_.state);
+      _.props.authAction.deauthenticate();
+      auth.logout();
     }).catch(function (error) {
       console.log(error);
     })
@@ -204,7 +220,8 @@ class Auth extends Component {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  action: bindActionCreators(authAction, dispatch)
+  userAction: bindActionCreators(userAction, dispatch),
+  authAction: bindActionCreators(authActions, dispatch)
 })
 
 const mapStateToProps = state => ({

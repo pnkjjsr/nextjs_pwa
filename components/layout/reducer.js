@@ -3,7 +3,7 @@ const initialState = {
     desc: "Main page description."
 };
 
-const Head = (state = initialState, action) => {
+const auth = (state = initialState, action) => {
     switch (action.type) {
         case "UPDATE":
             return Object.assign({}, state, {
@@ -14,4 +14,4 @@ const Head = (state = initialState, action) => {
     }
 };
 
-export default Head;
+export default auth;

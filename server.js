@@ -90,7 +90,11 @@ app.prepare()
         query
       } = parsedUrl
 
+      // Redirecting url before mount
 
+      // if (pathname === '/') {
+      //   app.render(req, res, '/account', query);
+      // }
 
       // handle GET request to /service-worker.js
       if (pathname === '/service-worker.js') {

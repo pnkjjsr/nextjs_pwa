@@ -2,12 +2,14 @@ import {
     combineReducers
 } from 'redux'
 
-import auth from '../components/Auth/reducer'
-import head from '../components/Layout/reducer'
+import authReducer from './authReducer';
+import user from '../components/Auth/reducer'
+import auth from '../components/Layout/reducer'
 import account from '../pages/account/reducer'
 
 const rootReducer = combineReducers({
-    head,
+    authReducer,
+    user,
     auth,
     account
 })
