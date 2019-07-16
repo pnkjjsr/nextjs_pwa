@@ -18,7 +18,10 @@ export default function withAuth(AuthComponent) {
             if (!Auth.loggedIn()) {
                 Router.push('/');
             }
-            this.setState({ isLoading: false })
+            else {
+                this.setState({ isLoading: false })
+            }
+            
         }
 
         render() {

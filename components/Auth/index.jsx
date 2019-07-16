@@ -108,25 +108,24 @@ class Auth extends Component {
     let _ = this;
     const { userAction } = this.props;
 
-
-    firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(function (result) {
-      _.setState({
-        name: result.user.displayName,
-        eVerified: result.user.emailVerified,
-        email: result.user.email,
-        mobile: result.user.phoneNumber,
-        photo: result.user.photoURL,
-        uid: result.user.uid
-      });
-      userAction.updateUser(_.state);
-
-
+    // signInWithRedirect
+    // signInWithPopup
+    firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(async function (result) {
       if (result.operationType == "signIn") {
-        _.props.authAction.authenticate({ email_id: result.user.email, token: result.credential.accessToken },
+        _.setState({
+          name: result.user.displayName,
+          eVerified: result.user.emailVerified,
+          email: result.user.email,
+          mobile: result.user.phoneNumber,
+          photo: result.user.photoURL,
+          uid: result.user.uid
+        });
+        await userAction.updateUser(_.state);
+        await _.props.authAction.authenticate({ email_id: result.user.email, token: result.credential.accessToken },
           'login');
 
-        auth.login(result.user.email, result.credential.accessToken);
-        auth.setProfile(_.state);
+        await auth.login(result.user.email, result.credential.accessToken);
+        await auth.setProfile(_.state);
       }
     }).catch(function (error) {
       // An error happened.
