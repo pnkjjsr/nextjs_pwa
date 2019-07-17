@@ -50,7 +50,6 @@ class Location extends Component {
         d_updated: date,
         v_location: 1
       });
-    this.props.udpate_vLocation(1);
   }
 
   render() {

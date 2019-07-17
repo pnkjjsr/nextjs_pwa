@@ -5,6 +5,7 @@ import actions from "./actions";
 import firebase from "firebase/app";
 
 import Location from './location'
+import Mobile from './mobile'
 import withAuth from '../../components/utils/withAuth'
 
 import "./style.scss";
@@ -13,24 +14,28 @@ class Account extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      v_location: 0
+      vLocation: 0,
+      vMobile: 0
     }
     this.dbListener = this.dbListener.bind(this);
   }
 
   dbListener = () => {
-    const { auth } = this.props;
-    if (auth.uid) {
+    const { user } = this.props;
+    if (user.uid) {
       var db = firebase.firestore();
-      let usersRef = db.collection('users').doc(auth.uid);
+      let usersRef = db.collection('users').doc(user.uid);
       let getDoc = usersRef.get()
         .then(doc => {
           if (!doc.exists) {
             console.log('No such document!');
           } else {
             let vLocation = doc.data().v_location;
+            let vMobile = doc.data().v_mobile;
+
             this.setState({
-              v_location: vLocation
+              vLocation: vLocation,
+              vMobile: vMobile
             });
           }
         })
@@ -41,36 +46,41 @@ class Account extends Component {
   }
 
   renderDashboard = () => {
-    const { auth } = this.props
+    const { user } = this.props
     return (
       <div className="p-4 shadow rounded bg-white">
         <h1 className="text-teal-500 text-2xl leading-normal">
           Account
         </h1>
         <hr />
-        <img src={auth.photo} alt="" />
+        <img src={user.photo} alt="" />
         <br />
-        {auth.name} [{auth.uid}] [{JSON.stringify(auth.eVerified)}]
+        {user.name} [{user.uid}] [{JSON.stringify(user.eVerified)}]
         <br />
-        {auth.email}
+        {user.email}
         <br />
-        {auth.mobile}
+        {user.mobile}
       </div>
     )
   }
 
   renderAccount = () => {
-    const { v_location } = this.state;
-    if (v_location === 0) {
+    const { vLocation, vMobile } = this.state;
+
+    if (vLocation !== 1) {
       return (<Location />)
     }
-    else if (v_location === 1) {
+    else if (vMobile !== 1) {
+      return (<Mobile />)
+    }
+    else if (vLocation === 1 && vMobile === 1) {
       return this.renderDashboard()
     }
   }
 
   render() {
-    // this.dbListener();
+    this.dbListener();
+
     return (
       <Fragment>
         {this.renderAccount()}
