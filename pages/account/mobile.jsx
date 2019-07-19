@@ -38,17 +38,17 @@ class Location extends Component {
 
     var phoneNumber = `+91 ${mobile}`;
     var appVerifier = verifier;
-    firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+
+    firebase.auth().currentUser.linkWithPhoneNumber(phoneNumber, appVerifier)
       .then(function (confirmationResult) {
-        // SMS sent. Prompt user to type the code from the message, then sign the
-        // user in with confirmationResult.confirm(code).
         _.setState({
           view: 1,
           confirmationResult: confirmationResult
         });
-      }).catch(function (error) {
-        console.log(error);
+      }, function (error) {
+        console.log("Account linking error", error);
       });
+
   }
 
   handleVerification(e) {
