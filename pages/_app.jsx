@@ -6,6 +6,7 @@ import withRedux from "next-redux-wrapper";
 import { initStore } from "../redux/store";
 
 import Layout from "../components/Layout";
+import Notification from "../components/Notification"
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx }) {
@@ -22,6 +23,7 @@ class MyApp extends App {
       <Container>
         <Provider store={store}>
           <Layout pageTitle="">
+            <Notification />
             <Component {...pageProps} />
           </Layout>
         </Provider>
@@ -30,4 +32,4 @@ class MyApp extends App {
   }
 }
 
-export default withRedux(initStore, { debug: true })(MyApp);
+export default withRedux(initStore, { debug: false })(MyApp);

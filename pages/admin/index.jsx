@@ -1,8 +1,9 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import action from "../../components/Notification/actions"
 
 import * as firebase from "firebase/app";
+
+import action from "../../components/Notification/actions"
 
 import "./style.scss";
 
@@ -10,23 +11,10 @@ class Home extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      address: "",
-      country: "",
-      d_created: "",
-      d_updateed: "",
-      email: "",
-      password: "",
       uid: "",
-      mobile: "",
-      name: "",
-      photo: "",
-      pincode: "",
-      state: "",
-      v_email: "false",
-      v_location: 0,
-      v_mobile: 0
+      email: "",
+      password: ""
     }
-
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
@@ -38,30 +26,13 @@ class Home extends Component {
 
     // signInWithEmailAndPassword
     // createUserWithEmailAndPassword
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((result) => {
-        let uid = result.user.uid;
+    firebase.auth().signInWithEmailAndPassword(email, password).then((result) => {
+      console.log(result);
+    }).catch(function (error) {
+      console.log(error);
 
-        this.setState({
-          uid: uid
-        });
-      }).catch(function (error) {
-        console.log(error);
-        showNotification(error);
-      });
-  }
-
-  componentDidMount() {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        firebase.auth().currentUser
-          .getIdToken()
-          .then(function (token) {
-            console.log(token);
-          });
-      } else {
-        console.log("Not Logged In");
-      }
+      showNotification(error)
+      // ...
     });
   }
 
@@ -73,16 +44,28 @@ class Home extends Component {
     });
   }
 
+  componentDidMount() {
+    firebase.auth().onAuthStateChanged(function (user) {
+      if (user) {
+        console.log(user);
+      } else {
+        console.log("nobody is login");
+
+      }
+    });
+  }
+
   render() {
+
     return (
       <Fragment>
         <div className="w-full max-w-xs mx-auto pt-4">
           <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={this.handleSubmit}>
             <h1 className="mb-4 text-lg font-bold">
-              User Registration
+              Admin Panel
             </h1>
             <div className="mb-4">
-              <label className="block text-gray-700 text-sm mb-2" htmlFor="username">
+              <label className="block text-gray-700 text-sm mb-2" htmlFor="email">
                 Email <span className="font-hairline text-xs"></span>
               </label>
               <input name="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="email" placeholder="ex: abc@cba.com" onChange={this.handleChange} />
@@ -97,7 +80,7 @@ class Home extends Component {
 
             <div className="flex items-center justify-between">
               <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                Create My Account
+                Login
               </button>
             </div>
           </form>
