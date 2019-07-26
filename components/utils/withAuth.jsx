@@ -21,7 +21,6 @@ export default function withAuth(AuthComponent) {
             else {
                 this.setState({ isLoading: false })
             }
-            
         }
 
         render() {

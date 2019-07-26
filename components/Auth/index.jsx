@@ -111,22 +111,28 @@ class Auth extends Component {
     // signInWithRedirect
     // signInWithPopup
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(async function (result) {
-      if (result.operationType == "signIn") {
-        _.setState({
-          name: result.user.displayName,
-          eVerified: result.user.emailVerified,
-          email: result.user.email,
-          mobile: result.user.phoneNumber,
-          photo: result.user.photoURL,
-          uid: result.user.uid
-        });
-        await userAction.updateUser(_.state);
-        await _.props.authAction.authenticate({ email_id: result.user.email, token: result.credential.accessToken },
-          'login');
 
-        await auth.login(result.user.email, result.credential.accessToken);
-        await auth.setProfile(_.state);
-      }
+      firebase.auth().onAuthStateChanged(user => {
+        if (user) {
+          console.log(user);
+          return;
+        }
+      })
+
+      _.setState({
+        name: result.user.displayName,
+        eVerified: result.user.emailVerified,
+        email: result.user.email,
+        mobile: result.user.phoneNumber,
+        photo: result.user.photoURL,
+        uid: result.user.uid
+      });
+      await userAction.updateUser(_.state);
+      await _.props.authAction.authenticate({ email_id: result.user.email, token: result.credential.accessToken },
+        'login');
+
+      await auth.login(result.user.email, result.credential.accessToken);
+      await auth.setProfile(_.state);
     }).catch(function (error) {
       // An error happened.
       if (error.code === 'auth/account-exists-with-different-credential') {
@@ -217,6 +223,7 @@ class Auth extends Component {
       </div>
     );
   }
+
 }
 const mapDispatchToProps = dispatch => ({
   userAction: bindActionCreators(userAction, dispatch),
