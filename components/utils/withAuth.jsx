@@ -2,10 +2,10 @@
 import React, { Component } from 'react'
 import Router from 'next/router';
 
-import AuthService from './authService'
+import authSession from './authSession'
 
 export default function withAuth(AuthComponent) {
-    const Auth = new AuthService('http://localhost:3000')
+    const Auth = new authSession()
     return class Authenticated extends Component {
         constructor(props) {
             super(props)

@@ -1,13 +1,19 @@
 import React, { Component, Fragment } from "react";
+
+import Router from 'next/router';
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
 
-import * as firebase from "firebase/app";
+import authentication from "../../components/utils/authentication"
+import authSession from "../../components/utils/authSession"
 
-import action from "../../components/Notification/actions"
+import actionNotification from "../../components/Notification/actions"
+import actionUser from "../../components/User/actions"
+
 
 import "./style.scss";
 
-class Home extends Component {
+class Login extends Component {
   constructor(props) {
     super(props)
     this.state = {
@@ -19,20 +25,23 @@ class Home extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
   }
 
+
   handleSubmit(e) {
     e.preventDefault();
     const { email, password } = this.state;
-    const { showNotification } = this.props;
+    const { user, notification } = this.props
+    const auth = new authentication;
+    const session = new authSession;
 
-    // signInWithEmailAndPassword
-    // createUserWithEmailAndPassword
-    firebase.auth().signInWithEmailAndPassword(email, password).then((result) => {
-      console.log(result);
-    }).catch(function (error) {
-      console.log(error);
-
-      showNotification(error)
-      // ...
+    auth.signInWithEmail(email, password).then(function (result) {
+      if (result.operationType === "signIn") {
+        let profile = session.getProfile()
+        user.updateUser(profile);
+        Router.push('/account')
+      }
+      else {
+        notification.showNotification(result);
+      }
     });
   }
 
@@ -45,24 +54,22 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        console.log(user);
-      } else {
-        console.log("nobody is login");
+    const { uid } = this.state;
+    const session = new authSession;
+    let profile = session.getProfile();
 
-      }
-    });
+    if (profile.uid !== undefined) {
+      Router.push('/account')
+    }
   }
 
   render() {
-
     return (
       <Fragment>
         <div className="w-full max-w-xs mx-auto pt-4">
           <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={this.handleSubmit}>
             <h1 className="mb-4 text-lg font-bold">
-              Admin Panel
+              Login
             </h1>
             <div className="mb-4">
               <label className="block text-gray-700 text-sm mb-2" htmlFor="email">
@@ -93,4 +100,9 @@ class Home extends Component {
   }
 };
 
-export default connect(state => state, action)(Home);
+const mapDispatchToProps = dispatch => ({
+  user: bindActionCreators(actionUser, dispatch),
+  notification: bindActionCreators(actionNotification, dispatch)
+})
+
+export default connect(state => state, mapDispatchToProps)(Login);

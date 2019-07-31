@@ -1,6 +1,6 @@
 import React, { Fragment, Component } from "react";
 import Link from 'next/link'
-import Auth from "../../Auth";
+import User from "../../User";
 
 import "./style.scss";
 
@@ -18,7 +18,7 @@ export default class Layout extends Component {
               </div>
             </div>
             <div className="w-1/2 text-right">
-              <Auth />
+              <User />
             </div>
           </div>
         </div>

@@ -1,6 +1,7 @@
 import React, { Component, Fragment } from 'react'
 import Link from 'next/link'
 
+import userIcon from "../../static/icons/user-solid-circle.svg"
 import './style.scss'
 
 
@@ -29,10 +30,12 @@ export default class Nav extends Component {
   }
   renderUser(e) {
     const { name, photo } = this.props;
+    let image = !photo ? userIcon : photo;
+
     return (
       <div className={`user ${e}`} onClick={this.handleOpenNav}>
         <figure>
-          <img src={photo} alt="" />
+          <img src={image} alt="" />
         </figure>
         <figcaption>
           {name}

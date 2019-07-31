@@ -58,7 +58,7 @@ class Head extends React.Component {
         navigator.serviceWorker
           .register("/service-worker.js", { scope: "/" })
           .then(function (registration) {
-            console.log("SW registered: ", registration);
+            // console.log("SW registered: ", registration);
           })
           .catch(function (registrationError) {
             console.log("SW registration failed: ", registrationError);
@@ -68,7 +68,7 @@ class Head extends React.Component {
   }
 
   render() {
-    return <Header title={this.props.auth.title} desc={this.props.auth.desc} />;
+    return <Header title={this.props.layout.title} desc={this.props.layout.desc} />;
   }
 }
 

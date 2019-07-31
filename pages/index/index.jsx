@@ -1,8 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
-import action from "../../components/Notification/actions"
+import { bindActionCreators } from 'redux';
 
-import * as firebase from "firebase/app";
+import notification from "../../components/Notification/actions"
+import user from "../../components/User/actions"
+
+import authentication from "../../components/utils/authentication"
+import authSession from "../../components/utils/authSession"
 
 import "./style.scss";
 
@@ -44,25 +48,21 @@ class Home extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { email, password } = this.state;
-    const { showNotification } = this.props;
+    const { notification, user } = this.props;
+    const auth = new authentication;
+    const session = new authSession;
+    auth.createUserWithEmailAndPassword(email, password).then(function (e) {
+      console.log(e);
+      if (e.operationType === "signIn") {
+        let profile = session.getProfile()
+        user.updateUser(profile);
+      } else { notification.showNotification(e) }
 
-    // signInWithEmailAndPassword
-    // createUserWithEmailAndPassword
-    firebase.auth().createUserWithEmailAndPassword(email, password)
-      .then((result) => {
-        this.setState({
-          view: 1
-        });
-
-      }).catch(function (error) {
-        console.log(error);
-        showNotification(error);
-      });
+    });
   }
 
   handleVerification(e) {
     e.preventDefault();
-    const { email } = this.state;
     const { showNotification } = this.props;
 
     firebase.auth().onAuthStateChanged(function (user) {
@@ -70,7 +70,6 @@ class Home extends Component {
         if (!user.emailVerified) {
           user.sendEmailVerification().then(function () {
             console.log("email sent");
-
           }).catch(function (error) {
             showNotification(error);
           });
@@ -153,19 +152,17 @@ class Home extends Component {
   }
 
   componentDidMount() {
-    firebase.auth().onAuthStateChanged(function (user) {
-      if (user) {
-        console.log(user.emailVerified);
-
-        firebase.auth().currentUser
-          .getIdToken()
-          .then(function (token) {
-            console.log(token);
-          });
-      } else {
-        console.log("Not Logged In");
-      }
-    });
+    // firebase.auth().onAuthStateChanged(function (user) {
+    //   if (user) {
+    //     firebase.auth().currentUser
+    //       .getIdToken()
+    //       .then(function (token) {
+    //         console.log(token);
+    //       });
+    //   } else {
+    //     console.log("Not Logged In");
+    //   }
+    // });
   }
 
   render() {
@@ -185,4 +182,9 @@ class Home extends Component {
   }
 };
 
-export default connect(state => state, action)(Home);
+const mapDispatchToProps = dispatch => ({
+  user: bindActionCreators(user, dispatch),
+  notification: bindActionCreators(notification, dispatch)
+})
+
+export default connect(state => state, mapDispatchToProps)(Home);

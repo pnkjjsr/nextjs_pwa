@@ -1,5 +1,5 @@
-// utils/AuthService.js
-export default class AuthService {
+// utils/authSession.js
+export default class authSession {
     constructor(domain) {
         this.domain = domain || 'http://localhost:3000'
         // this.fetch = this.fetch.bind(this)
@@ -7,7 +7,7 @@ export default class AuthService {
         this.getProfile = this.getProfile.bind(this)
     }
 
-    login(email, token) {
+    login(token) {
         this.setToken(token)
 
         // Get a token

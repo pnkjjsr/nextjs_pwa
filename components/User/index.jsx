@@ -1,22 +1,17 @@
 import React, { Component } from "react";
 
-import firebase from "firebase/app";
-import "firebase/auth";
-import "firebase/firestore";
-import fetch from "isomorphic-unfetch";
-import clientCredentials from "./client";
-
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import userAction from './actions'
 import authActions from '../../redux/actions';
 
-import AuthService from '../utils/authService'
+import authSession from '../utils/authSession'
+import authentication from "../utils/authentication"
 
 import Nav from "../Nav"
 import './style.scss';
 
-class Auth extends Component {
+class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
@@ -32,79 +27,8 @@ class Auth extends Component {
     this.handleLogout = this.handleLogout.bind(this);
   }
 
-  componentDidMount() {
-    const { userAction } = this.props;
-    var _ = this;
-
-    firebase.initializeApp(clientCredentials);
-    firebase.auth().onAuthStateChanged(user => {
-      if (user) {
-        let db = firebase.firestore();
-        let getUser = db.collection('users').doc(user.uid);
-
-        let getDoc = getUser.get()
-          .then(doc => {
-
-            // Set User Details Reducer
-            const setReducer = () => {
-              _.setState({
-                name: user.displayName,
-                eVerified: user.emailVerified,
-                email: user.email,
-                mobile: user.phoneNumber,
-                photo: user.photoURL,
-                uid: user.uid
-              });
-              userAction.updateUser(_.state);
-            }
-
-            if (!doc.exists) {
-              console.log('No such document!');
-              const date = new Date().getTime();
-              db.collection("users")
-                .doc(`${user.uid}`)
-                .set({
-                  id: user.uid,
-                  d_created: date,
-                  name: user.displayName,
-                  email: user.email,
-                  v_email: user.emailVerified,
-                  mobile: user.phoneNumber,
-                  photo: user.photoURL
-                });
-
-              setReducer();
-
-              return user
-                .getIdToken()
-                .then(token => {
-                  return fetch("/api/login", {
-                    method: "POST",
-                    headers: new Headers({ "Content-Type": "application/json" }),
-                    credentials: "same-origin",
-                    body: JSON.stringify({ token })
-                  });
-                });
-            } else {
-              setReducer();
-            }
-          })
-          .catch(err => {
-            console.log('Error getting document', err);
-          });
-      }
-      else {
-        this.setState({ uid: null });
-        fetch("/api/logout", {
-          method: "POST",
-          credentials: "same-origin"
-        })
-      }
-    });
-  }
-
   handleLogin() {
-    const auth = new AuthService('http://localhost:3000')
+    const auth = new authSession;
     let _ = this;
     const { userAction } = this.props;
 
@@ -187,34 +111,111 @@ class Auth extends Component {
     });
   }
 
-  handleLogout() {
+  handleLogout(e) {
+    e.preventDefault();
     const { userAction } = this.props;
-    const auth = new AuthService('http://localhost:3000')
-    const _ = this;
-    firebase.auth().signOut().then(function (result) {
-      _.setState({
-        user: "",
-        name: "",
-        eVerified: "",
-        email: "",
-        mobile: "",
-        photo: "",
-        uid: ""
-      });
-      userAction.updateUser(_.state);
-      _.props.authAction.deauthenticate();
-      auth.logout();
-    }).catch(function (error) {
-      console.log(error);
-    })
+    const session = new authSession()
+    const authFirebase = new authentication()
+
+    this.setState({
+      user: "",
+      name: "",
+      eVerified: "",
+      email: "",
+      mobile: "",
+      photo: "",
+      uid: ""
+    });
+    userAction.updateUser(this.state);
+    this.props.authAction.deauthenticate();
+    session.logout();
+    authFirebase.signOut();
+  }
+
+  componentDidMount() {
+    let auth = new authSession();
+    let profile = auth.getProfile();
+
+    this.setState({
+      uid: profile.uid
+    });
+
+    const { userAction } = this.props;
+    var _ = this;
+    // firebase.initializeApp(clientCredentials);
+    // firebase.auth().onAuthStateChanged(user => {
+    //   if (user) {
+    //     let db = firebase.firestore();
+    //     let getUser = db.collection('users').doc(user.uid);
+
+    //     let getDoc = getUser.get()
+    //       .then(doc => {
+
+    //         // Set User Details Reducer
+    //         const setReducer = () => {
+    //           _.setState({
+    //             name: user.displayName,
+    //             eVerified: user.emailVerified,
+    //             email: user.email,
+    //             mobile: user.phoneNumber,
+    //             photo: user.photoURL,
+    //             uid: user.uid
+    //           });
+    //           userAction.updateUser(_.state);
+    //         }
+
+    //         if (!doc.exists) {
+    //           console.log('No such document!');
+    //           const date = new Date().getTime();
+    //           db.collection("users")
+    //             .doc(`${user.uid}`)
+    //             .set({
+    //               id: user.uid,
+    //               d_created: date,
+    //               name: user.displayName,
+    //               email: user.email,
+    //               v_email: user.emailVerified,
+    //               mobile: user.phoneNumber,
+    //               photo: user.photoURL
+    //             });
+
+    //           setReducer();
+
+    //           return user
+    //             .getIdToken()
+    //             .then(token => {
+    //               return fetch("/api/login", {
+    //                 method: "POST",
+    //                 headers: new Headers({ "Content-Type": "application/json" }),
+    //                 credentials: "same-origin",
+    //                 body: JSON.stringify({ token })
+    //               });
+    //             });
+    //         } else {
+    //           setReducer();
+    //         }
+    //       })
+    //       .catch(err => {
+    //         console.log('Error getting document', err);
+    //       });
+    //   }
+    //   else {
+    //     this.setState({ uid: null });
+    //     fetch("/api/logout", {
+    //       method: "POST",
+    //       credentials: "same-origin"
+    //     })
+    //   }
+    // });
   }
 
   render() {
     const { uid, name, photo } = this.state;
+    const { user } = this.props;
 
     return (
       <div className="auth">
-        {uid ? (
+        {user.uid || uid ? (
           <Nav name={name} photo={photo} action={this.handleLogout} />
         ) : (
             <span className="link" onClick={this.handleLogin}>Login</span>
@@ -231,7 +232,8 @@ const mapDispatchToProps = dispatch => ({
 })
 
 const mapStateToProps = state => ({
-  state: state.auth
+  auth: state.auth,
+  user: state.user
 })
 
-export default connect(mapStateToProps, mapDispatchToProps)(Auth);
+export default connect(mapStateToProps, mapDispatchToProps)(User);
