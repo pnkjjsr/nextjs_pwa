@@ -8,6 +8,8 @@ import user from "../../components/User/actions"
 import authentication from "../../components/utils/authentication"
 import authSession from "../../components/utils/authSession"
 
+import { service } from '../../utils';
+
 import "./style.scss";
 
 class Home extends Component {
@@ -51,6 +53,19 @@ class Home extends Component {
     const { notification, user } = this.props;
     const auth = new authentication;
     const session = new authSession;
+    const data = {
+      email: 'pnkj_jsrr@yahoo.co.in',
+      password: '123123',
+      confirmPassword: '123123'
+    }
+
+    service.post('/signup', data).then((res) => {
+      return console.log(res);
+    }).catch((error) => {
+      return console.log(error);
+    });
+
+
     auth.createUserWithEmailAndPassword(email, password).then(function (e) {
       console.log(e);
       if (e.operationType === "signIn") {
@@ -151,19 +166,7 @@ class Home extends Component {
     )
   }
 
-  componentDidMount() {
-    // firebase.auth().onAuthStateChanged(function (user) {
-    //   if (user) {
-    //     firebase.auth().currentUser
-    //       .getIdToken()
-    //       .then(function (token) {
-    //         console.log(token);
-    //       });
-    //   } else {
-    //     console.log("Not Logged In");
-    //   }
-    // });
-  }
+  componentDidMount() { }
 
   render() {
     const { view } = this.state

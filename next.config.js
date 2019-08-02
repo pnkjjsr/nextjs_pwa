@@ -11,8 +11,4 @@ module.exports = withPlugins([
   withImages
 ]), {
   dontAutoRegisterSw: true, // since we want runtime registration
-  env: {
-    customeKey: 'Value'
-  }
-
 }

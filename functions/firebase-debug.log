@@ -1,0 +1,28 @@
+[debug] [2019-08-01T10:51:10.255Z] ----------------------------------------------------------------------
+[debug] [2019-08-01T10:51:10.257Z] Command:       /usr/local/Cellar/node/11.6.0/bin/node /usr/local/bin/firebase serve --only functions
+[debug] [2019-08-01T10:51:10.258Z] CLI Version:   6.3.0
+[debug] [2019-08-01T10:51:10.258Z] Platform:      darwin
+[debug] [2019-08-01T10:51:10.258Z] Node Version:  v11.6.0
+[debug] [2019-08-01T10:51:10.259Z] Time:          Thu Aug 01 2019 16:21:10 GMT+0530 (India Standard Time)
+[debug] [2019-08-01T10:51:10.259Z] ----------------------------------------------------------------------
+[debug] 
+[debug] [2019-08-01T10:51:10.270Z] > command requires scopes: ["email","openid","https://www.googleapis.com/auth/cloudplatformprojects.readonly","https://www.googleapis.com/auth/firebase","https://www.googleapis.com/auth/cloud-platform"]
+[debug] [2019-08-01T10:51:10.271Z] > authorizing via signed-in user
+[debug] [2019-08-01T10:51:10.271Z] [iam] checking project neta-62fcb for permissions ["firebase.projects.get"]
+[debug] [2019-08-01T10:51:10.272Z] >>> HTTP REQUEST POST https://cloudresourcemanager.googleapis.com/v1/projects/neta-62fcb:testIamPermissions  
+
+[debug] [2019-08-01T10:51:12.579Z] <<< HTTP RESPONSE 200
+[debug] [2019-08-01T10:51:12.581Z] >>> HTTP REQUEST GET https://cloudresourcemanager.googleapis.com/v1/projects/neta-62fcb  
+ 
+[debug] [2019-08-01T10:51:14.622Z] <<< HTTP RESPONSE 200
+[info] 
+[info] === Serving from '/Users/jasoria/www/NETA'...
+[info] 
+[info] i  functions: Preparing to emulate functions.
+[debug] [2019-08-01T10:51:15.418Z] Fetching environment
+[debug] [2019-08-01T10:51:15.422Z] >>> HTTP REQUEST GET https://mobilesdk-pa.googleapis.com/v1/projects/1060146521323:getServerAppConfig  
+ 
+[debug] [2019-08-01T10:51:16.126Z] <<< HTTP RESPONSE 200
+[debug] [2019-08-01T10:51:16.126Z] Starting @google-cloud/functions-emulator
+[debug] [2019-08-01T10:51:17.198Z] Parsing function triggers
+[info] ✔  functions: api: http://localhost:5000/neta-62fcb/us-central1/api
