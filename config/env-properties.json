@@ -6,7 +6,7 @@
   "API_HOST": "localhost",
   "API_PORT": 5000,
   "API_VERSION": "v1",
-  "REQUEST_TIMEOUT": 5000,
+  "REQUEST_TIMEOUT": 10000,
   "REQUEST_BASEURL": "http://localhost:5000/neta-62fcb/us-central1",
   "MIN_DELAY": 0,
   "SECRET_KEY": "this.is.your.secret.key",

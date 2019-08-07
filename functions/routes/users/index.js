@@ -1,25 +1,19 @@
 const {
   admin,
   db
-} = require('../utils/admin');
+} = require('../../utils/admin');
 
-const config = require('../utils/config');
+const config = require('../../utils/config');
 
 const firebase = require('firebase');
 firebase.initializeApp(config);
 
 const {
   validateSignupData,
+  validateLocationData,
   validateLoginData,
   reduceUserDetails
-} = require('../utils/validators');
-
-exports.warmup = (request, response) => {
-  response.json({
-    "name": 'Pankaj Jasoria',
-    "number": 9210882260
-  });
-};
+} = require('./validators');
 
 // Sign users up
 exports.signup = (req, res) => {
@@ -34,60 +28,99 @@ exports.signup = (req, res) => {
     errors
   } = validateSignupData(newUser);
 
-  if (!valid) return res.status(400).json(errors);
-
-  const noImg = 'no-img.png';
+  if (!valid) {
+    return res.status(400).json(errors);
+  }
 
   let token, userId;
-  db.doc(`/users/${userId}`)
+  let usersRef = db.collection('users');
+  let query = usersRef.where('email', '==', newUser.email)
     .get()
-    .then((doc) => {
-      if (doc.exists) {
+    .then(snapshot => {
+      if (!snapshot.empty) {
         return res.status(400).json({
-          handle: 'this handle is already taken'
+          message: 'Email is already registered with our website'
         });
       } else {
-        return firebase
-          .auth()
-          .createUserWithEmailAndPassword(newUser.email, newUser.password);
-      }
-    })
-    .then((data) => {
-      userId = data.user.uid;
-      return data.user.getIdToken();
-    })
-    .then((idToken) => {
-      token = idToken;
-      const userCredentials = {
-        email: newUser.email,
-        createdAt: new Date().toISOString(),
-        imageUrl: `https://firebasestorage.googleapis.com/v0/b/${
-          config.storageBucket
-        }/o/${noImg}?alt=media`,
-        userId
-      };
-      return db.doc(`/users/${userId}`).set(userCredentials);
-    })
-    .then(() => {
-      return res.status(201).json({
-        token
-      });
-    })
-    .catch((err) => {
-      console.error(err);
-      if (err.code === 'auth/email-already-in-use') {
-        return res.status(400).json({
-          email: 'Email is already is use'
-        });
-      } else {
-        return res
-          .status(500)
-          .json({
-            general: 'Something went wrong, please try again'
+        db.doc(`/users/${userId}`)
+          .get()
+          .then((doc) => {
+            if (doc.exists) {
+              return res.status(400).json({
+                handle: 'this DOC is already taken'
+              });
+            } else {
+              return firebase
+                .auth()
+                .createUserWithEmailAndPassword(newUser.email, newUser.password);
+            }
+          })
+          .then((data) => {
+            userId = data.user.uid;
+            return userId;
+          })
+          .then((idToken) => {
+            token = idToken;
+            const userCredentials = {
+              uid: userId,
+              email: newUser.email,
+              password: newUser.password,
+              createdAt: new Date().toISOString(),
+            };
+            return db.doc(`/users/${userId}`).set(userCredentials);
+          })
+          .then(() => {
+            return res.status(201).json({
+              token
+            });
+          })
+          .catch((err) => {
+            if (err.code === 'auth/email-already-in-use') {
+              return res.status(400).json({
+                email: 'Email is already is use'
+              });
+            } else {
+              return res
+                .status(500)
+                .json({
+                  general: err.message
+                });
+            }
           });
       }
-    });
+    })
+    .catch(err => {
+      console.log('Error getting documents', err);
+      return res.status(400).json(err)
+    })
 };
+
+exports.location = (req, res) => {
+  const location = {
+    token: req.body.token,
+    address: req.body.address,
+    state: req.body.state,
+    pincode: req.body.pincode,
+    country: req.body.country
+  }
+  const {
+    valid,
+    errors
+  } = validateLocationData(location);
+
+  if (!valid) return res.status(400).json(errors);
+
+
+  // firebase.auth().signInWithCustomToken(req.body.token)
+  //   .then((result) => {
+  //     res.status(200).send(result)
+  //   })
+  //   .catch(function (error) {
+  //     res.status(400).json(error)
+  //     console.log(error);
+  //   });
+
+}
 // Log user in
 exports.login = (req, res) => {
   const user = {
@@ -106,7 +139,7 @@ exports.login = (req, res) => {
     .auth()
     .signInWithEmailAndPassword(user.email, user.password)
     .then((data) => {
-      return data.user.getIdToken();
+      return data.user.uid;
     })
     .then((token) => {
       return res.json({
@@ -145,44 +178,62 @@ exports.addUserDetails = (req, res) => {
 };
 // Get any user's details
 exports.getUserDetails = (req, res) => {
-  let userData = {};
-  db.doc(`/users/${req.params.handle}`)
-    .get()
-    .then((doc) => {
-      if (doc.exists) {
-        userData.user = doc.data();
-        return db
-          .collection('screams')
-          .where('userHandle', '==', req.params.handle)
-          .orderBy('createdAt', 'desc')
-          .get();
-      } else {
-        return res.status(404).json({
-          errror: 'User not found'
-        });
-      }
-    })
-    .then((data) => {
-      userData.screams = [];
-      data.forEach((doc) => {
-        userData.screams.push({
-          body: doc.data().body,
-          createdAt: doc.data().createdAt,
-          userHandle: doc.data().userHandle,
-          userImage: doc.data().userImage,
-          likeCount: doc.data().likeCount,
-          commentCount: doc.data().commentCount,
-          screamId: doc.id
-        });
+  let userData = {
+    uid: req.body.uid
+  }
+
+  admin.auth().createCustomToken(userData.uid)
+    .then(function (customToken) {
+      return res.status(201).json({
+        customToken
       });
-      return res.json(userData);
     })
-    .catch((err) => {
-      console.error(err);
-      return res.status(500).json({
-        error: err.code
+    .catch(function (error) {
+      return res.status(400).json({
+        message: error
       });
     });
+
+
+
+
+  // db.doc(`/users/${req.params.handle}`)
+  //   .get()
+  //   .then((doc) => {
+  //     if (doc.exists) {
+  //       userData.user = doc.data();
+  //       return db
+  //         .collection('screams')
+  //         .where('userHandle', '==', req.params.handle)
+  //         .orderBy('createdAt', 'desc')
+  //         .get();
+  //     } else {
+  //       return res.status(404).json({
+  //         errror: 'User not found'
+  //       });
+  //     }
+  //   })
+  //   .then((data) => {
+  //     userData.screams = [];
+  //     data.forEach((doc) => {
+  //       userData.screams.push({
+  //         body: doc.data().body,
+  //         createdAt: doc.data().createdAt,
+  //         userHandle: doc.data().userHandle,
+  //         userImage: doc.data().userImage,
+  //         likeCount: doc.data().likeCount,
+  //         commentCount: doc.data().commentCount,
+  //         screamId: doc.id
+  //       });
+  //     });
+  //     return res.json(userData);
+  //   })
+  //   .catch((err) => {
+  //     console.error(err);
+  //     return res.status(500).json({
+  //       error: err.code
+  //     });
+  //   });
 };
 // Get own user details
 exports.getAuthenticatedUser = (req, res) => {

@@ -10,6 +10,8 @@ import authSession from "../../components/utils/authSession"
 import actionNotification from "../../components/Notification/actions"
 import actionUser from "../../components/User/actions"
 
+import { service } from '../../utils';
+import notification from "../../components/Notification/actions"
 
 import "./style.scss";
 
@@ -29,20 +31,27 @@ class Login extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { email, password } = this.state;
-    const { user, notification } = this.props
-    const auth = new authentication;
+    const { user, notification } = this.props;
     const session = new authSession;
 
-    auth.signInWithEmail(email, password).then(function (result) {
-      if (result.operationType === "signIn") {
-        let profile = session.getProfile()
-        user.updateUser(profile);
+    const data = {
+      email: email,
+      password: password
+    }
+
+    service.post('/login', data)
+      .then(function (res) {
+        let token = res.data.token;
+        user.updateUser({ token: token });
+        session.setToken(token);
         Router.push('/account')
-      }
-      else {
-        notification.showNotification(result);
-      }
-    });
+      })
+      .catch(error => {
+        let data = error.response.data;
+        let msg = data[Object.keys(data)[0]]
+        let obj = { message: msg }
+        notification.showNotification(obj)
+      });
   }
 
   handleChange(e) {

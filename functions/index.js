@@ -8,18 +8,18 @@ const {
     db
 } = require('./utils/admin');
 const {
-    warmup,
     signup,
-    login
+    location,
+    login,
+    getUserDetails
 } = require('./routes/users');
 
 main.use(cors());
 main.use('/v1', app)
 exports.api = functions.https.onRequest(main);
 
-// For Testing Get API
-app.get('/warmup', warmup);
-
-// Signup routes
+// User routes
 app.post('/signup', signup);
+app.post('/location', location);
 app.post('/login', login);
+app.post('/user', getUserDetails);

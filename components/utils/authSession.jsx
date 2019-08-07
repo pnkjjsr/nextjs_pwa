@@ -47,18 +47,17 @@ export default class authSession {
 
     setToken(idToken) {
         // Saves user token to localStorage
-        localStorage.setItem('id_token', idToken)
+        localStorage.setItem('token', idToken)
     }
 
     getToken() {
         // Retrieves the user token from localStorage
-        return localStorage.getItem('id_token')
+        return localStorage.getItem('token')
     }
 
     logout() {
         // Clear user token and profile data from localStorage
-        localStorage.removeItem('id_token');
-        localStorage.removeItem('profile');
+        localStorage.removeItem('token');
     }
 
     // _checkStatus(response) {

@@ -1,9 +1,12 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
 import actions from "./actions";
 
-import firebase from "firebase/app";
-import "firebase/firestore";
+import { service } from '../../utils';
+import notification from "../../components/Notification/actions"
+
+
 
 import "./style.scss";
 
@@ -11,6 +14,7 @@ class Location extends Component {
   constructor(props) {
     super(props)
     this.state = {
+      token: "",
       address: "",
       state: "",
       pincode: "",
@@ -31,25 +35,28 @@ class Location extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const profile = localStorage.getItem('profile');
-    const data = JSON.parse(profile)
-
-    const { uid } = this.props.user || data.uid;
-
+    const token = localStorage.getItem('token');
     const { address, state, pincode, country } = this.state;
+    const { notification } = this.props;
+    const data = {
+      token: token,
+      address: address,
+      state: state,
+      pincode: pincode,
+      country: country
+    }
 
-    var db = firebase.firestore();
-    const date = new Date().getTime();
-    db.collection("users")
-      .doc(uid)
-      .update({
-        address: address,
-        state: state,
-        pincode: pincode,
-        country: country,
-        d_updated: date,
-        v_location: 1
-      });
+    service.post('/location', data).then((res) => {
+      console.log(res);
+    }).catch(async (error) => {
+      console.log(error);
+
+      let data = error.response.data;
+      let msg = data[Object.keys(data)[0]]
+      let obj = { message: msg }
+
+      notification.showNotification(obj)
+    });
   }
 
   render() {
@@ -109,5 +116,9 @@ class Location extends Component {
     )
   }
 }
+const mapDispatchToProps = dispatch => ({
+  account: bindActionCreators(actions, dispatch),
+  notification: bindActionCreators(notification, dispatch)
+})
 
-export default connect(state => state, actions)(Location);
+export default connect(state => state, mapDispatchToProps)(Location);

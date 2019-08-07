@@ -1,14 +1,15 @@
 import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-
-import notification from "../../components/Notification/actions"
+import Router from 'next/router';
 import user from "../../components/User/actions"
 
-import authentication from "../../components/utils/authentication"
+import { service } from '../../utils';
+import notification from "../../components/Notification/actions"
+
 import authSession from "../../components/utils/authSession"
 
-import { service } from '../../utils';
+
 
 import "./style.scss";
 
@@ -23,6 +24,7 @@ class Home extends Component {
       d_updateed: "",
       email: "",
       password: "",
+      confirmPassword: "",
       uid: "",
       mobile: "",
       name: "",
@@ -49,30 +51,27 @@ class Home extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { email, password } = this.state;
+    const { email, password, confirmPassword } = this.state;
     const { notification, user } = this.props;
-    const auth = new authentication;
-    const session = new authSession;
     const data = {
-      email: 'pnkj_jsrr@yahoo.co.in',
-      password: '123123',
-      confirmPassword: '123123'
+      email: email,
+      password: password,
+      confirmPassword: confirmPassword
     }
 
     service.post('/signup', data).then((res) => {
-      return console.log(res);
-    }).catch((error) => {
-      return console.log(error);
-    });
+      const session = new authSession;
+      let token = res.data.token;
+      session.setToken(token);
+      user.updateUser({ token: token });
+      Router.push('/account');
 
+    }).catch(async (error) => {
+      let data = error.response.data;
+      let msg = data[Object.keys(data)[0]]
+      let obj = { message: msg }
 
-    auth.createUserWithEmailAndPassword(email, password).then(function (e) {
-      console.log(e);
-      if (e.operationType === "signIn") {
-        let profile = session.getProfile()
-        user.updateUser(profile);
-      } else { notification.showNotification(e) }
-
+      notification.showNotification(obj)
     });
   }
 
@@ -114,6 +113,13 @@ class Home extends Component {
               Password <span className="font-hairline text-xs"></span>
             </label>
             <input name="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="******" autoComplete="true" onChange={this.handleChange} />
+          </div>
+
+          <div className="mb-4">
+            <label className="block text-gray-700 text-sm mb-2" htmlFor="confirmPassword">
+              Confirm Password <span className="font-hairline text-xs"></span>
+            </label>
+            <input name="confirmPassword" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="******" autoComplete="true" onChange={this.handleChange} />
           </div>
 
           <div className="flex items-center justify-between">

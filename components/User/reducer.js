@@ -8,7 +8,8 @@ const initialState = {
     email: "",
     mobile: "",
     photo: "",
-    uid: ""
+    uid: "",
+    token: ""
 };
 
 const user = (state = initialState, action) => {
@@ -20,7 +21,8 @@ const user = (state = initialState, action) => {
                 email: action.payload.email,
                 mobile: action.payload.mobile,
                 photo: action.payload.photo,
-                uid: action.payload.uid
+                uid: action.payload.uid,
+                token: action.payload.token
             });
         default:
             return state;

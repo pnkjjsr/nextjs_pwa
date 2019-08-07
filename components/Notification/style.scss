@@ -8,7 +8,7 @@ div[role="alert"] {
     transition: all 0.5s ease;
 
     &.show {
-        top: 5px;
+        top: 0;
         opacity: 1;
     }
 

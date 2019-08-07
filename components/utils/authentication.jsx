@@ -62,7 +62,7 @@ export default class Authentication {
     signOut() {
         this.initialize();
         firebase.auth().signOut().then(function (result) {
-            console.log(result);
+            console.log("Logout Successfully");
         }).catch(function (error) {
             console.log(error);
         })

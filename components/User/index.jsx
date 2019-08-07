@@ -3,10 +3,13 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import userAction from './actions'
-import authActions from '../../redux/actions';
+import Router from 'next/router';
 
 import authSession from '../utils/authSession'
 import authentication from "../utils/authentication"
+import { service } from '../../utils';
+
+import notification from "../Notification/actions"
 
 import Nav from "../Nav"
 import './style.scss';
@@ -15,6 +18,7 @@ class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      token: "",
       uid: "",
       name: "",
       eVerified: "",
@@ -124,98 +128,49 @@ class User extends Component {
       email: "",
       mobile: "",
       photo: "",
-      uid: ""
+      uid: "",
+      token: ""
     });
     userAction.updateUser(this.state);
-    this.props.authAction.deauthenticate();
     session.logout();
     authFirebase.signOut();
+    Router.push('/');
   }
 
   componentDidMount() {
     let auth = new authSession();
-    let profile = auth.getProfile();
+    let token = auth.getToken();
+    if (!token) {
+      return
+    }
+    else {
+      let data = {
+        uid: token
+      }
+      this.setState({
+        token: token
+      });
+      service.post('/user', data).then((res) => {
+        let token = res.data.customToken;
+      }).catch(async (error) => {
+        console.log(error);
 
-    this.setState({
-      uid: profile.uid
-    });
+        let data = error.response.data;
+        let msg = data[Object.keys(data)[0]]
+        let obj = { message: msg }
 
-    const { userAction } = this.props;
-    var _ = this;
-    // firebase.initializeApp(clientCredentials);
-    // firebase.auth().onAuthStateChanged(user => {
-    //   if (user) {
-    //     let db = firebase.firestore();
-    //     let getUser = db.collection('users').doc(user.uid);
-
-    //     let getDoc = getUser.get()
-    //       .then(doc => {
-
-    //         // Set User Details Reducer
-    //         const setReducer = () => {
-    //           _.setState({
-    //             name: user.displayName,
-    //             eVerified: user.emailVerified,
-    //             email: user.email,
-    //             mobile: user.phoneNumber,
-    //             photo: user.photoURL,
-    //             uid: user.uid
-    //           });
-    //           userAction.updateUser(_.state);
-    //         }
-
-    //         if (!doc.exists) {
-    //           console.log('No such document!');
-    //           const date = new Date().getTime();
-    //           db.collection("users")
-    //             .doc(`${user.uid}`)
-    //             .set({
-    //               id: user.uid,
-    //               d_created: date,
-    //               name: user.displayName,
-    //               email: user.email,
-    //               v_email: user.emailVerified,
-    //               mobile: user.phoneNumber,
-    //               photo: user.photoURL
-    //             });
-
-    //           setReducer();
-
-    //           return user
-    //             .getIdToken()
-    //             .then(token => {
-    //               return fetch("/api/login", {
-    //                 method: "POST",
-    //                 headers: new Headers({ "Content-Type": "application/json" }),
-    //                 credentials: "same-origin",
-    //                 body: JSON.stringify({ token })
-    //               });
-    //             });
-    //         } else {
-    //           setReducer();
-    //         }
-    //       })
-    //       .catch(err => {
-    //         console.log('Error getting document', err);
-    //       });
-    //   }
-    //   else {
-    //     this.setState({ uid: null });
-    //     fetch("/api/logout", {
-    //       method: "POST",
-    //       credentials: "same-origin"
-    //     })
-    //   }
-    // });
+        notification.showNotification(obj)
+      });
+    }
   }
 
   render() {
-    const { uid, name, photo } = this.state;
+    const { token, name, photo } = this.state;
     const { user } = this.props;
 
     return (
       <div className="auth">
-        {user.uid || uid ? (
+        {user.token || token ? (
           <Nav name={name} photo={photo} action={this.handleLogout} />
         ) : (
             <span className="link" onClick={this.handleLogin}>Login</span>
@@ -227,8 +182,7 @@ class User extends Component {
 
 }
 const mapDispatchToProps = dispatch => ({
-  userAction: bindActionCreators(userAction, dispatch),
-  authAction: bindActionCreators(authActions, dispatch)
+  userAction: bindActionCreators(userAction, dispatch)
 })
 
 const mapStateToProps = state => ({

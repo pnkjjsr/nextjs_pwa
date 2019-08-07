@@ -43,6 +43,7 @@ export default class Nav extends Component {
       </div>
     )
   }
+  componentDidMount() {}
 
   render() {
     const { action } = this.props;
