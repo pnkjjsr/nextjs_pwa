@@ -1,12 +1,21 @@
+import {
+    GET_VERIFICATION,
+    GET_REGISTRATION
+} from "./constant"
+
 const initialState = {
-    home: "Pankaj Jasoria"
+    view: 0
 };
 
 const home = (state = initialState, action) => {
     switch (action.type) {
-        case "ADD":
+        case GET_VERIFICATION:
             return Object.assign({}, state, {
-                home: action.payload
+                view: action.payload
+            });
+        case GET_REGISTRATION:
+            return Object.assign({}, state, {
+                view: action.payload
             });
         default:
             return state;

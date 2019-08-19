@@ -31,3 +31,5 @@ firebase.json
 serviceAccountKey.json
 components/Auth/client.js
 components/Auth/server.js
+
+functions/firebase-debug.log

@@ -1,10 +1,10 @@
 import React, { Component, Fragment } from "react";
+import Link from 'next/link';
 
 import Router from 'next/router';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 
-import authentication from "../../components/utils/authentication"
 import authSession from "../../components/utils/authSession"
 
 import actionNotification from "../../components/Notification/actions"
@@ -99,9 +99,14 @@ class Login extends Component {
                 Login
               </button>
             </div>
+            <div className="text-gray text-xs font-hairline mt-2">
+              Create you account, click here to <Link href="/">
+                <a className="font-medium text-blue-600">Registration</a>
+              </Link>
+            </div>
           </form>
           <hr />
-          <p className="text-gray-500 text-xs italic font-hairline">By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'</p>
+          <p className="text-gray text-xs italic font-hairline">By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'</p>
         </div>
         <style jsx>{``}</style>
       </Fragment>

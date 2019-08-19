@@ -12,7 +12,9 @@ const {
   validateSignupData,
   validateLocationData,
   validateLoginData,
-  reduceUserDetails
+  reduceUserDetails,
+  validateMobileData,
+  validateOTPData
 } = require('./validators');
 
 // Sign users up
@@ -62,10 +64,15 @@ exports.signup = (req, res) => {
           .then((idToken) => {
             token = idToken;
             const userCredentials = {
+              createdAt: new Date().toISOString(),
               uid: userId,
               email: newUser.email,
+              emailVerified: false,
               password: newUser.password,
-              createdAt: new Date().toISOString(),
+              phoneNumber: '',
+              phoneVerified: false,
+              displayName: '',
+              photoURL: ''
             };
             return db.doc(`/users/${userId}`).set(userCredentials);
           })
@@ -95,8 +102,30 @@ exports.signup = (req, res) => {
     })
 };
 
-exports.location = (req, res) => {
-  const location = {
+exports.getLocation = (req, res) => {
+  let uid = req.body.uid;
+  let userRef = db.collection('users').doc(uid);
+  let getDoc = userRef.get()
+    .then(doc => {
+      if (!doc.exists) {
+        return res.status(400).json({
+          message: "No such document.!"
+        })
+      } else {
+        let data = doc.data();
+        return res.status(200).json(data);
+      }
+    })
+    .catch(error => {
+      res.status(400).json({
+        message: error
+      })
+    })
+}
+
+exports.updateLocation = (req, res) => {
+  let token = req.body.token;
+  const validationData = {
     token: req.body.token,
     address: req.body.address,
     state: req.body.state,
@@ -106,21 +135,90 @@ exports.location = (req, res) => {
   const {
     valid,
     errors
-  } = validateLocationData(location);
+  } = validateLocationData(validationData);
 
   if (!valid) return res.status(400).json(errors);
 
+  const data = {
+    uid: req.body.token,
+    address: req.body.address,
+    state: req.body.state,
+    pincode: req.body.pincode,
+    country: req.body.country
+  }
 
-  // firebase.auth().signInWithCustomToken(req.body.token)
-  //   .then((result) => {
-  //     res.status(200).send(result)
-  //   })
-  //   .catch(function (error) {
-  //     res.status(400).json(error)
-  //     console.log(error);
-  //   });
-
+  db.collection('users').doc(token).update(data)
+    .then(function () {
+      return res.json({
+        status: 'done',
+        message: "Location update in user document"
+      });
+    })
+    .catch(function (error) {
+      return res.status(400).json(error)
+    });
 }
+
+// Update Mobile
+exports.updatePhone = (req, res) => {
+  console.log(req.body.verifier);
+
+  const validationData = {
+    token: req.body.token,
+    country_code: req.body.country_code,
+    phoneNumber: req.body.phoneNumber
+  }
+  const {
+    valid,
+    errors
+  } = validateMobileData(validationData);
+  if (!valid) return res.status(400).json(errors);
+
+  let token = req.body.token;
+  const data = {
+    country_code: req.body.country_code,
+    phoneNumber: req.body.phoneNumber
+  }
+
+  db.collection('users').doc(token).update(data)
+    .then(() => {
+      return res.json({
+        status: 'done',
+        messsage: "Phone update in user document"
+      });
+    })
+    .catch(function (error) {
+      return res.status(400).json(error)
+    });
+}
+exports.verifyPhone = (req, res) => {
+  const validationData = {
+    token: req.body.token,
+    phoneVerified: req.body.phoneVerified
+  }
+  const {
+    valid,
+    errors
+  } = validateOTPData(validationData);
+  if (!valid) return res.status(400).json(errors);
+
+  let token = req.body.token;
+  const data = {
+    phoneVerified: req.body.phoneVerified
+  }
+
+  db.collection('users').doc(token).update(data)
+    .then(() => {
+      return res.json({
+        status: 'done',
+        messsage: "Phone verified in user document"
+      });
+    })
+    .catch(function (error) {
+      return res.status(400).json(error)
+    });
+}
+
 // Log user in
 exports.login = (req, res) => {
   const user = {
@@ -157,6 +255,40 @@ exports.login = (req, res) => {
         });
     });
 };
+
+exports.logout = (req, res) => {
+  firebase.auth().signOut().then(function () {
+    res.json({
+      status: 'done',
+      message: "Log user out."
+    });
+  }).catch(function (error) {
+    res.status(400).json(error)
+  });
+}
+
+// Send Email Verification
+exports.sendEmailVerification = (req, res) => {
+  firebase.auth().onAuthStateChanged(function (user) {
+    if (user) {
+      if (!user.emailVerified) {
+        user.sendEmailVerification()
+          .then(function () {
+            return res.json({
+              status: 'done',
+              message: "Verification email sent.",
+            });
+          }).catch(function (error) {
+            return res.status(400).json(error)
+          });
+      }
+    } else {
+      return res.status(400).json({
+        error: "Not Logged In"
+      })
+    }
+  });
+}
 
 // Add user details
 exports.addUserDetails = (req, res) => {

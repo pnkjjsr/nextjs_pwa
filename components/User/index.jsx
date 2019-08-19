@@ -3,6 +3,7 @@ import React, { Component } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import userAction from './actions'
+import homeActions from '../../pages/index/action'
 import Router from 'next/router';
 
 import authSession from '../utils/authSession'
@@ -117,7 +118,7 @@ class User extends Component {
 
   handleLogout(e) {
     e.preventDefault();
-    const { userAction } = this.props;
+    const { userAction, homeAction } = this.props;
     const session = new authSession()
     const authFirebase = new authentication()
 
@@ -132,6 +133,7 @@ class User extends Component {
       token: ""
     });
     userAction.updateUser(this.state);
+    homeAction.get_registration();
     session.logout();
     authFirebase.signOut();
     Router.push('/');
@@ -150,17 +152,15 @@ class User extends Component {
       this.setState({
         token: token
       });
-      service.post('/user', data).then((res) => {
-        let token = res.data.customToken;
-      }).catch(async (error) => {
-        console.log(error);
-
-        let data = error.response.data;
-        let msg = data[Object.keys(data)[0]]
-        let obj = { message: msg }
-
-        notification.showNotification(obj)
-      });
+      // service.post('/user', data).then((res) => {
+      //   let token = res.data.customToken;
+      // }).catch(async (error) => {
+      //   console.log(error);
+      //   let data = error.response.data;
+      //   let msg = data[Object.keys(data)[0]]
+      //   let obj = { message: msg }
+      //   notification.showNotification(obj)
+      // });
     }
   }
 
@@ -182,7 +182,8 @@ class User extends Component {
 
 }
 const mapDispatchToProps = dispatch => ({
-  userAction: bindActionCreators(userAction, dispatch)
+  userAction: bindActionCreators(userAction, dispatch),
+  homeAction: bindActionCreators(homeActions, dispatch)
 })
 
 const mapStateToProps = state => ({

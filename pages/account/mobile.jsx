@@ -1,9 +1,16 @@
 import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import actions from "./actions";
+import Link from 'next/link';
 
-import firebase from "firebase/app";
-import "firebase/firestore";
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import accountActions from "./actions";
+import notifictionActions from "../../components/Notification/actions"
+
+import {
+  service
+} from "../../utils/service"
+import authSession from "../../components/utils/authSession"
+import authentication from "../../components/utils/authentication"
 
 import "./style.scss";
 
@@ -12,9 +19,10 @@ class Location extends Component {
     super(props)
     this.state = {
       view: 0,
-      verifier: "",
+      country_code: "+91",
       mobile: "",
       otp: "",
+      verifier: "",
       confirmationResult: ""
     }
 
@@ -31,49 +39,65 @@ class Location extends Component {
     });
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
-    let _ = this;
-    const { mobile, verifier } = this.state;
+    const { country_code, mobile, verifier } = this.state;
+    const { notificationAction } = this.props;
+    const session = new authSession();
+    const auth = new authentication;
+    const token = session.getToken();
 
-    var phoneNumber = `+91 ${mobile}`;
-    var appVerifier = verifier;
+    const data = {
+      token: token,
+      country_code: country_code,
+      phoneNumber: mobile
+    }
 
-    firebase.auth().currentUser.linkWithPhoneNumber(phoneNumber, appVerifier)
-      .then(function (confirmationResult) {
-        _.setState({
-          view: 1,
-          confirmationResult: confirmationResult
-        });
-      }, function (error) {
-        console.log("Account linking error", error);
-      });
+    let phoneNumber = `${data.country_code} ${data.phoneNumber}`
+    let appVerifier = verifier;
+    let confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, appVerifier)
 
+    if (confirmationResult) {
+      service.post('/phone', data)
+        .then(res => {
+          this.setState({
+            view: 1,
+            confirmationResult: confirmationResult
+          })
+        })
+        .catch(error => {
+          notificationAction.showNotification(error);
+        })
+    }
   }
 
   handleVerification(e) {
     e.preventDefault();
-    const _ = this;
-    const { mobile, otp, confirmationResult } = this.state;
-    let phone = `+91 ${mobile}`;
-    var code = otp;
+    const { otp, confirmationResult } = this.state;
+    const { notificationAction, accountAction } = this.props;
 
-    confirmationResult.confirm(code).then(function (result) {
-      const profile = localStorage.getItem('profile');
-      const data = JSON.parse(profile);
-      const { uid } = _.props.user || data.uid;
-      var db = firebase.firestore();
-      const date = new Date().getTime();
-      db.collection("users")
-        .doc(uid)
-        .update({
-          d_updated: date,
-          mobile: phone,
-          v_mobile: 1
-        });
+    let session = new authSession();
+    let uid = session.getToken();
+
+    const data = {
+      token: uid,
+      phoneVerified: true
+    }
+
+    confirmationResult.confirm(otp).then(function (result) {
+      service.post('/verifyPhone', data)
+        .then(res => {
+          accountAction.update_mobile();
+        })
+        .catch(error => {
+          notificationAction.showNotification(error);
+        })
+
     }).catch(function (error) {
-      console.log(error);
+      notificationAction.showNotification(error);
     });
+
+
   }
 
   renderMobile = () => {
@@ -104,20 +128,23 @@ class Location extends Component {
   renderVerification = () => {
     return (
       <div className="w-full max-w-xs mx-auto pt-4">
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={this.handleVerification}>
+        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" autoComplete="off" onSubmit={this.handleVerification}>
           <h1 className="mb-4 text-lg font-bold">
             Please enter verification code
             </h1>
           <div className="mb-4">
-            <label className="block text-gray-700 text-sm mb-2" htmlFor="address">
+            <label className="block text-gray-700 text-sm mb-2" htmlFor="otp">
               OTP <span className="font-hairline text-xs">one-time password</span>
             </label>
-            <input name="otp" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="Mobile" placeholder="ex: 123456" onChange={this.handleChange} />
+            <input name="otp" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" pattern="[0-9]*" inputMode="numeric" placeholder="ex: 123456" autoComplete="off" onChange={this.handleChange} />
           </div>
           <div className="flex items-center justify-between">
             <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
               Proceed
               </button>
+          </div>
+          <div className="text-gray text-xs font-hairline mt-2">
+            Click here to <span className="font-medium text-blue-600 cursor-pointer" onClick={this.handleSubmit}>resend</span>
           </div>
         </form>
         <hr />
@@ -127,15 +154,11 @@ class Location extends Component {
   }
 
   componentDidMount() {
-    const recaptchaVerifier = new firebase.auth.RecaptchaVerifier(this.recaptcha, {
-      'size': 'invisible',
-      'callback': function (response) {
-        onSignInSubmit();
-      }
-    });
+    const auth = new authentication;
+    let recaptchaVerifier = auth.recaptchaVerifier(this.recaptcha);
     this.setState({
       verifier: recaptchaVerifier
-    });
+    })
   }
 
   render() {
@@ -152,4 +175,9 @@ class Location extends Component {
   }
 }
 
-export default connect(state => state, actions)(Location);
+const mapDispatchToProps = dispatch => ({
+  accountAction: bindActionCreators(accountActions, dispatch),
+  notificationAction: bindActionCreators(notifictionActions, dispatch)
+})
+
+export default connect(state => state, mapDispatchToProps)(Location);

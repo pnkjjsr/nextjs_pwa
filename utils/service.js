@@ -42,15 +42,13 @@ export default class Service {
   getBaseURL() {
     const api = `/api/${ENV['API_VERSION']}`;
 
-    // use it if request base URL is explicitly defined (eg: domain name)
-    if (ENV['REQUEST_BASEURL'].trim()) {
-      return `${ENV['REQUEST_BASEURL']}${api}`;
-    }
-
-    // else, construct base URL when is on server side
+    // construct base URL when is on server side
     if (NODE) {
-      // return `${ENV['PROTOCOL']}://${ENV['HOST']}:${ENV['PORT']}${api}`;
       return `${ENV['PROTOCOL']}://${ENV['HOST']}${api}`;
+    }
+    // else, use it if request base URL is explicitly defined (eg: domain name)
+    else if (ENV['REQUEST_BASEURL_LOCAL'].trim()) {
+      return `${ENV['REQUEST_BASEURL_LOCAL']}${api}`;
     }
 
     // or return as it is

@@ -1,6 +1,7 @@
 const {
   isEmail,
-  isEmpty
+  isEmpty,
+  isBoolean
 } = require('../../utils/validation');
 
 exports.validateSignupData = (data) => {
@@ -26,6 +27,9 @@ exports.validateSignupData = (data) => {
 exports.validateLocationData = (data) => {
   let errors = {};
 
+  if (isEmpty(data.token)) {
+    errors.token = 'Token must not be empty';
+  }
   if (isEmpty(data.address)) {
     errors.address = 'Address must not be empty';
   }
@@ -71,3 +75,37 @@ exports.reduceUserDetails = (data) => {
 
   return userDetails;
 };
+
+exports.validateMobileData = (data) => {
+  let errors = {};
+
+  if (isEmpty(data.token)) {
+    errors.token = 'Token must not be empty';
+  }
+  if (isEmpty(data.phoneNumber)) {
+    errors.phoneNumber = 'Mobile must not be empty';
+  }
+  if (isEmpty(data.country_code)) {
+    errors.country_code = 'Country Code is not define.';
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false
+  };
+}
+exports.validateOTPData = (data) => {
+  let errors = {};
+
+  if (isEmpty(data.token)) {
+    errors.token = 'Token not define.';
+  }
+  if (isBoolean(data.phoneVerified)) {
+    errors.phoneVerified = 'phoneVerified not define.';
+  }
+
+  return {
+    errors,
+    valid: Object.keys(errors).length === 0 ? true : false
+  };
+}

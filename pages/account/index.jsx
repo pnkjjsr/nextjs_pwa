@@ -1,11 +1,14 @@
 import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
 
-import firebase from "firebase/app";
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import accountActions from "./actions"
+
+import withAuth from '../../components/utils/withAuth'
 
 import Location from './location'
 import Mobile from './mobile'
-import withAuth from '../../components/utils/withAuth'
+
 
 import "./style.scss";
 
@@ -13,8 +16,8 @@ class Account extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      vLocation: 0,
-      vMobile: 0
+      location: 0,
+      mobile: 0
     }
     this.dbListener = this.dbListener.bind(this);
   }
@@ -64,17 +67,30 @@ class Account extends Component {
   }
 
   renderAccount = () => {
-    const { vLocation, vMobile } = this.state;
+    const { account } = this.props;
 
-    if (vLocation !== 1) {
+
+    if (account.location !== 1) {
       return (<Location />)
     }
-    else if (vMobile !== 1) {
+    else if (account.mobile !== 1) {
       return (<Mobile />)
     }
-    else if (vLocation === 1 && vMobile === 1) {
+    else if (account.location === 1 && account.mobile === 1) {
       return this.renderDashboard()
     }
+  }
+
+  componentDidMount() {
+    const { account, accountAction } = this.props;
+    accountAction.prefetchData();
+
+    if (account.pincode) {
+      this.setState({
+        location: 1
+      });
+    }
+
   }
 
   render() {
@@ -89,4 +105,8 @@ class Account extends Component {
   }
 }
 
-export default connect(state => state)(withAuth(Account));
+const mapDispatchToProps = dispatch => ({
+  accountAction: bindActionCreators(accountActions, dispatch)
+})
+
+export default connect(state => state, mapDispatchToProps)(withAuth(Account));

@@ -7,7 +7,8 @@
   "API_PORT": 5000,
   "API_VERSION": "v1",
   "REQUEST_TIMEOUT": 10000,
-  "REQUEST_BASEURL": "http://localhost:5000/neta-62fcb/us-central1",
+  "REQUEST_BASEURL": "https://us-central1-neta-62fcb.cloudfunctions.net",
+  "REQUEST_BASEURL_LOCAL": "http://localhost:5000/neta-62fcb/us-central1",
   "MIN_DELAY": 0,
   "SECRET_KEY": "this.is.your.secret.key",
   "COOKIE_MAXAGE": 86400000

@@ -3,6 +3,8 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import actions from "./actions";
 
+import authSession from "../../components/utils/authSession"
+
 import { service } from '../../utils';
 import notification from "../../components/Notification/actions"
 
@@ -35,9 +37,9 @@ class Location extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const token = localStorage.getItem('token');
     const { address, state, pincode, country } = this.state;
-    const { notification } = this.props;
+    const session = new authSession();
+    const token = session.getToken();
     const data = {
       token: token,
       address: address,
@@ -47,15 +49,14 @@ class Location extends Component {
     }
 
     service.post('/location', data).then((res) => {
-      console.log(res);
+      const { action } = this.props;
+      action.update_location();
     }).catch(async (error) => {
-      console.log(error);
-
       let data = error.response.data;
       let msg = data[Object.keys(data)[0]]
       let obj = { message: msg }
 
-      notification.showNotification(obj)
+      notificationAction.showNotification(obj);
     });
   }
 
@@ -108,7 +109,7 @@ class Location extends Component {
             </div>
           </form>
           <hr />
-          <p className="text-gray-500 text-xs italic font-hairline">By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'</p>
+          <p className="text-gray text-xs italic font-hairline">By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'</p>
         </div>
 
         <style jsx>{``}</style>
@@ -117,8 +118,8 @@ class Location extends Component {
   }
 }
 const mapDispatchToProps = dispatch => ({
-  account: bindActionCreators(actions, dispatch),
-  notification: bindActionCreators(notification, dispatch)
+  action: bindActionCreators(actions, dispatch),
+  notificationAction: bindActionCreators(notification, dispatch)
 })
 
 export default connect(state => state, mapDispatchToProps)(Location);

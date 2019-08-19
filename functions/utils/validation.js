@@ -8,3 +8,8 @@ exports.isEmpty = (string) => {
   if (string.trim() === '') return true;
   else return false;
 };
+
+exports.isBoolean = (boolean) => {
+  if (boolean === '') return true;
+  else return false;
+};

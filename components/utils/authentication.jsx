@@ -3,7 +3,7 @@ import 'firebase/auth'
 
 import clientCredentials from "./client";
 
-import authSession from "./authSession";
+import services from "../../utils/service"
 
 export default class Authentication {
     constructor(props) {
@@ -11,21 +11,11 @@ export default class Authentication {
     }
 
     initialize() {
-        const auth = new authSession();
-
         if (!firebase.apps.length) {
             firebase.initializeApp(clientCredentials);
             firebase.auth().onAuthStateChanged(user => {
                 if (user) {
-                    let profile = {
-                        "uid": user.uid,
-                        "name": user.displayName,
-                        "mobile": user.phoneNumber,
-                        "email": user.email,
-                        "v_email": user.emailVerified,
-                        "photo": user.photoURL
-                    }
-                    auth.setProfile(profile)
+                    console.log(user);
                 } else {
                     console.log("Not Logged In");
                 }
@@ -67,5 +57,49 @@ export default class Authentication {
             console.log(error);
         })
     }
+
+    recaptchaVerifier(e) {
+        this.initialize()
+        let recaptchaVerifier
+        return recaptchaVerifier = new firebase.auth.RecaptchaVerifier(e, {
+            'size': 'invisible',
+            'callback': function (response) {
+                onSignInSubmit();
+            }
+        });
+    }
+
+    async signInWithPhoneNumber(phoneNumber, appVerifier) {
+        let confirm
+        await firebase.auth().signInWithPhoneNumber(phoneNumber, appVerifier)
+            .then(function (confirmationResult) {
+                confirm = confirmationResult;
+            }).catch(function (error) {
+                console.log(error);
+            });
+        return confirm;
+    }
+
+    signInWithCustomToken(token) {
+        services.getUserDetails();
+
+        firebase.auth().signInWithCustomToken(token).catch(function (error) {
+            // Handle Errors here.
+            var errorCode = error.code;
+            var errorMessage = error.message;
+            // ...
+        });
+    }
+
+    linkWithPhoneNumber(uid, phoneNumber, appVerifier) {
+        // this.signInWithCustomToken(token)
+        firebase.auth().currentUser.linkWithPhoneNumber(phoneNumber, appVerifier)
+            .then(function (confirmationResult) {
+                return confirmationResult
+            }, function (error) {
+                console.log("Account linking error", error);
+            });
+    }
+
 
 }

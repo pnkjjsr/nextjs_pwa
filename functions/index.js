@@ -9,9 +9,13 @@ const {
 } = require('./utils/admin');
 const {
     signup,
-    location,
+    getLocation,
+    updateLocation,
     login,
-    getUserDetails
+    sendEmailVerification,
+    getUserDetails,
+    updatePhone,
+    verifyPhone
 } = require('./routes/users');
 
 main.use(cors());
@@ -20,6 +24,10 @@ exports.api = functions.https.onRequest(main);
 
 // User routes
 app.post('/signup', signup);
-app.post('/location', location);
+app.post('/location', updateLocation);
+app.post('/getLocation', getLocation);
 app.post('/login', login);
 app.post('/user', getUserDetails);
+app.post('/email', sendEmailVerification);
+app.post('/phone', updatePhone);
+app.post('/verifyPhone', verifyPhone);
