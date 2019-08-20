@@ -1,5 +1,4 @@
 import React, { Component, Fragment } from "react";
-import Link from 'next/link';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
@@ -8,7 +7,7 @@ import notifictionActions from "../../components/Notification/actions"
 
 import {
   service
-} from "../../utils/service"
+} from "../../utils"
 import authSession from "../../components/utils/authSession"
 import authentication from "../../components/utils/authentication"
 
@@ -47,17 +46,16 @@ class Location extends Component {
     const auth = new authentication;
     const token = session.getToken();
 
-    const data = {
-      token: token,
-      country_code: country_code,
-      phoneNumber: mobile
-    }
-
-    let phoneNumber = `${data.country_code} ${data.phoneNumber}`
+    let phoneNumber = `${country_code} ${mobile}`
     let appVerifier = verifier;
-    let confirmationResult = await auth.signInWithPhoneNumber(phoneNumber, appVerifier)
+    let confirmationResult = await auth.linkWithPhoneNumber(phoneNumber, appVerifier)
 
     if (confirmationResult) {
+      const data = {
+        token: token,
+        country_code: country_code,
+        phoneNumber: mobile
+      }
       service.post('/phone', data)
         .then(res => {
           this.setState({
@@ -75,7 +73,7 @@ class Location extends Component {
     e.preventDefault();
     const { otp, confirmationResult } = this.state;
     const { notificationAction, accountAction } = this.props;
-
+    let auth = new authentication;
     let session = new authSession();
     let uid = session.getToken();
 

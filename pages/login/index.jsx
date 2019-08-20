@@ -6,6 +6,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 
 import authSession from "../../components/utils/authSession"
+import authentication from "../../components/utils/authentication"
 
 import actionNotification from "../../components/Notification/actions"
 import actionUser from "../../components/User/actions"
@@ -33,6 +34,19 @@ class Login extends Component {
     const { email, password } = this.state;
     const { user, notification } = this.props;
     const session = new authSession;
+    const auth = new authentication;
+
+    auth.signInWithEmail(email, password)
+      .then(res => {
+        let token = res.user.uid;
+        user.updateUser({ token: token });
+        session.setToken(token);
+        Router.push('/account')
+      })
+      .catch(error => {
+        notification.showNotification(error)
+      })
+    return;
 
     const data = {
       email: email,

@@ -1,9 +1,7 @@
 import firebase from "firebase/app";
 import 'firebase/auth'
-
 import clientCredentials from "./client";
-
-import services from "../../utils/service"
+import { service } from "../../utils"
 
 export default class Authentication {
     constructor(props) {
@@ -81,24 +79,29 @@ export default class Authentication {
     }
 
     signInWithCustomToken(token) {
-        services.getUserDetails();
-
-        firebase.auth().signInWithCustomToken(token).catch(function (error) {
-            // Handle Errors here.
-            var errorCode = error.code;
-            var errorMessage = error.message;
-            // ...
-        });
+        let user
+        const data = {
+            uid: token
+        }
+        service.post("/user", data)
+            .then(result => {
+                user = result;
+            })
+            .catch(error => {
+                console.log(error);
+            })
+        return user
     }
 
-    linkWithPhoneNumber(uid, phoneNumber, appVerifier) {
-        // this.signInWithCustomToken(token)
-        firebase.auth().currentUser.linkWithPhoneNumber(phoneNumber, appVerifier)
+    async linkWithPhoneNumber(phoneNumber, appVerifier) {
+        let confirm
+        await firebase.auth().currentUser.linkWithPhoneNumber(phoneNumber, appVerifier)
             .then(function (confirmationResult) {
-                return confirmationResult
+                confirm = confirmationResult
             }, function (error) {
-                console.log("Account linking error", error);
+                console.log(error);
             });
+        return confirm
     }
 
 

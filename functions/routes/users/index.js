@@ -161,8 +161,6 @@ exports.updateLocation = (req, res) => {
 
 // Update Mobile
 exports.updatePhone = (req, res) => {
-  console.log(req.body.verifier);
-
   const validationData = {
     token: req.body.token,
     country_code: req.body.country_code,

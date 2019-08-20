@@ -118,7 +118,7 @@ class User extends Component {
     e.preventDefault();
     const { userAction, homeAction } = this.props;
     const session = new authSession()
-    const authFirebase = new authentication()
+    const auth = new authentication()
 
     this.setState({
       user: "",
@@ -133,13 +133,13 @@ class User extends Component {
 
     homeAction.get_registration();
     session.logout();
-    authFirebase.signOut();
+    auth.signOut();
     Router.push('/');
   }
 
   componentDidMount() {
-    let auth = new authSession();
-    let token = auth.getToken();
+    let session = new authSession();
+    let token = session.getToken();
     if (!token) {
       return
     }
