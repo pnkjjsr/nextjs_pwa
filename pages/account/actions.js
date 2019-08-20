@@ -8,7 +8,6 @@ import {
     service
 } from "../../utils/service"
 import authSession from "../../components/utils/authSession"
-import action from '../index/action';
 
 const prefetchData = () => {
     return function (dispatch) {

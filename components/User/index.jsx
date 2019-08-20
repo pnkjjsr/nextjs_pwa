@@ -1,16 +1,14 @@
 import React, { Component } from "react";
+import Router from 'next/router';
+import Link from 'next/link';
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import userAction from './actions'
 import homeActions from '../../pages/index/action'
-import Router from 'next/router';
 
 import authSession from '../utils/authSession'
 import authentication from "../utils/authentication"
-import { service } from '../../utils';
-
-import notification from "../Notification/actions"
 
 import Nav from "../Nav"
 import './style.scss';
@@ -131,8 +129,8 @@ class User extends Component {
       photo: "",
       uid: "",
       token: ""
-    });
-    userAction.updateUser(this.state);
+    }, () => userAction.updateUser(this.state));
+
     homeAction.get_registration();
     session.logout();
     authFirebase.signOut();
@@ -173,7 +171,9 @@ class User extends Component {
         {user.token || token ? (
           <Nav name={name} photo={photo} action={this.handleLogout} />
         ) : (
-            <span className="link" onClick={this.handleLogin}>Login</span>
+            <Link href="/login">
+              <a>Login</a>
+            </Link>
           )
         }
       </div>

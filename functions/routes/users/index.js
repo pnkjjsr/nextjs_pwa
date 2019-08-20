@@ -251,7 +251,8 @@ exports.login = (req, res) => {
       return res
         .status(403)
         .json({
-          general: 'Wrong credentials, please try again'
+          status: "done",
+          message: 'Wrong credentials, please try again'
         });
     });
 };
@@ -316,9 +317,13 @@ exports.getUserDetails = (req, res) => {
 
   admin.auth().createCustomToken(userData.uid)
     .then(function (customToken) {
-      return res.status(201).json({
-        customToken
-      });
+      firebase.auth().signInWithCustomToken(customToken)
+        .then(function (result) {
+          return res.status(201).json(result);
+        })
+        .catch(function (error) {
+          return res.status(400).json(error)
+        });
     })
     .catch(function (error) {
       return res.status(400).json({

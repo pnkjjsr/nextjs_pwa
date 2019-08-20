@@ -38,7 +38,7 @@ class Home extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { email, password, confirmPassword } = this.state;
-    const { notification, user } = this.props;
+    const { notification, user, homeActions } = this.props;
     const data = {
       email: email,
       password: password,
@@ -51,9 +51,7 @@ class Home extends Component {
         let token = res.data.token;
         session.setToken(token);
         user.updateUser({ token: token });
-        this.setState({
-          view: 1
-        });
+        homeActions.get_verification();
 
         const verificationData = {
           email: data.email
@@ -89,6 +87,14 @@ class Home extends Component {
         let data = err.response.data;
         notification.showNotification(data)
       })
+  }
+
+  renderHome = () => {
+    return (
+      <div className="text-center">
+        HomePage
+      </div>
+    )
   }
 
   renderRegistration = () => {
@@ -171,6 +177,9 @@ class Home extends Component {
     }
     else if (home.view === 1) {
       return this.renderVerification()
+    }
+    else if (home.view === 2) {
+      return this.renderHome()
     }
     <style jsx>{``}</style>
   }

@@ -63,11 +63,10 @@ class Login extends Component {
   }
 
   componentDidMount() {
-    const { uid } = this.state;
     const session = new authSession;
-    let profile = session.getProfile();
+    let token = session.getToken();
 
-    if (profile.uid !== undefined) {
+    if (token) {
       Router.push('/account')
     }
   }
