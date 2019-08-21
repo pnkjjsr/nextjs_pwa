@@ -10,6 +10,7 @@ import { service } from '../../utils';
 import notification from "../../components/Notification/actions"
 
 import authSession from "../../components/utils/authSession"
+import authentication from "../../components/utils/authentication"
 
 import "./style.scss";
 
@@ -39,54 +40,57 @@ class Home extends Component {
     e.preventDefault();
     const { email, password, confirmPassword } = this.state;
     const { notification, user, homeActions } = this.props;
-    const data = {
-      email: email,
-      password: password,
-      confirmPassword: confirmPassword
+
+    if (password !== confirmPassword) {
+      return notification.showNotification({
+        message: "Passwords must match"
+      })
+    }
+    else {
+      const auth = new authentication;
+      auth.createUserWithEmailAndPassword(email, password)
+        .then(res => {
+          if (res.code) {
+            notification.showNotification(res)
+          }
+          else {
+            const session = new authSession;
+            let token = res.user.uid;
+            session.setToken(token);
+            user.updateUser({ token: token });
+
+            const data = {
+              uid: token,
+              email: email,
+              password: password,
+              confirmPassword: confirmPassword
+            }
+            service.post('/signup', data)
+              .then((res) => {
+                homeActions.get_verification();
+                auth.sendEmailVerification()
+
+              }).catch(async (error) => {
+                let data = error.response.data;
+                let msg = data[Object.keys(data)[0]]
+                let obj = { message: msg }
+
+                notification.showNotification(obj)
+              });
+          }
+        })
+        .catch(error => {
+          notification.showNotification(error)
+        })
     }
 
-    service.post('/signup', data)
-      .then((res) => {
-        const session = new authSession;
-        let token = res.data.token;
-        session.setToken(token);
-        user.updateUser({ token: token });
-        homeActions.get_verification();
 
-        const verificationData = {
-          email: data.email
-        }
-        service.post('/email', verificationData)
-          .then((res) => {
-            console.log(res);
-          })
-          .catch((err) => {
-            notification.showNotification(err)
-          })
-      }).catch(async (error) => {
-        let data = error.response.data;
-        let msg = data[Object.keys(data)[0]]
-        let obj = { message: msg }
-
-        notification.showNotification(obj)
-      });
   }
 
   handleVerification(e) {
     e.preventDefault();
-    const { email } = this.state;
-    const { notification } = this.props;
-    const data = {
-      email: email
-    }
-    service.post('/email', data)
-      .then((res) => {
-        console.log(res);
-      })
-      .catch((err) => {
-        let data = err.response.data;
-        notification.showNotification(data)
-      })
+    const auth = new authentication;
+    auth.sendEmailVerification()
   }
 
   renderHome = () => {

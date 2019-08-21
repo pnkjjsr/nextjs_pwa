@@ -20,6 +20,7 @@ const {
 // Sign users up
 exports.signup = (req, res) => {
   const newUser = {
+    uid: req.body.uid,
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword
@@ -33,8 +34,8 @@ exports.signup = (req, res) => {
   if (!valid) {
     return res.status(400).json(errors);
   }
-
-  let token, userId;
+  
+  let userId = newUser.uid;
   let usersRef = db.collection('users');
   let query = usersRef.where('email', '==', newUser.email)
     .get()
@@ -52,33 +53,24 @@ exports.signup = (req, res) => {
                 handle: 'this DOC is already taken'
               });
             } else {
-              return firebase
-                .auth()
-                .createUserWithEmailAndPassword(newUser.email, newUser.password);
+              const userCredentials = {
+                createdAt: new Date().toISOString(),
+                uid: newUser.uid,
+                email: newUser.email,
+                emailVerified: false,
+                password: newUser.password,
+                phoneNumber: '',
+                phoneVerified: false,
+                displayName: '',
+                photoURL: ''
+              };
+              return db.doc(`/users/${userId}`).set(userCredentials);
             }
-          })
-          .then((data) => {
-            userId = data.user.uid;
-            return userId;
-          })
-          .then((idToken) => {
-            token = idToken;
-            const userCredentials = {
-              createdAt: new Date().toISOString(),
-              uid: userId,
-              email: newUser.email,
-              emailVerified: false,
-              password: newUser.password,
-              phoneNumber: '',
-              phoneVerified: false,
-              displayName: '',
-              photoURL: ''
-            };
-            return db.doc(`/users/${userId}`).set(userCredentials);
           })
           .then(() => {
             return res.status(201).json({
-              token
+              status: "done",
+              message: "New user created."
             });
           })
           .catch((err) => {

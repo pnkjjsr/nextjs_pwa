@@ -9,6 +9,7 @@ export default class Authentication {
     }
 
     initialize() {
+
         if (!firebase.apps.length) {
             firebase.initializeApp(clientCredentials);
             firebase.auth().onAuthStateChanged(user => {
@@ -19,6 +20,7 @@ export default class Authentication {
                 }
             })
         }
+
     }
 
     createUserWithEmailAndPassword(email, password) {
@@ -104,5 +106,21 @@ export default class Authentication {
         return confirm
     }
 
+    sendEmailVerification() {
+        this.initialize();
 
+        firebase.auth().onAuthStateChanged(function (user) {
+            if (user) {
+                user.sendEmailVerification()
+                    .then(function () {
+                        return console.log("Verification email sent.");
+                    }).catch(function (error) {
+                        return console.log(error);
+                    });
+            } else {
+                console.log("Not Logged In");
+
+            }
+        });
+    }
 }
