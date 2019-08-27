@@ -4,6 +4,8 @@ import Router from 'next/router';
 
 import authSession from './authSession'
 
+import PageLoader from '../loader/page'
+
 export default function withAuth(AuthComponent) {
     const Auth = new authSession()
     return class Authenticated extends Component {
@@ -16,7 +18,7 @@ export default function withAuth(AuthComponent) {
 
         componentDidMount() {
             if (!Auth.loggedIn()) {
-                Router.push('/');
+                Router.push('/register');
             }
             else {
                 this.setState({ isLoading: false })
@@ -27,7 +29,7 @@ export default function withAuth(AuthComponent) {
             return (
                 <div>
                     {this.state.isLoading ? (
-                        <div>LOADING....</div>
+                        <PageLoader />
                     ) : (
                             <AuthComponent {...this.props} auth={Auth} />
                         )}

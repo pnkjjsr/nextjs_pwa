@@ -50,7 +50,7 @@ class Location extends Component {
 
     service.post('/location', data).then((res) => {
       const { action } = this.props;
-      action.update_location();
+      action.mobile();
     }).catch(async (error) => {
       let data = error.response.data;
       let msg = data[Object.keys(data)[0]]

@@ -5,7 +5,6 @@ import Link from 'next/link';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import userAction from './actions'
-import homeActions from '../../pages/index/action'
 
 import authSession from '../utils/authSession'
 import authentication from "../utils/authentication"
@@ -38,14 +37,12 @@ class User extends Component {
     // signInWithRedirect
     // signInWithPopup
     firebase.auth().signInWithPopup(new firebase.auth.GoogleAuthProvider()).then(async function (result) {
-
       firebase.auth().onAuthStateChanged(user => {
         if (user) {
           console.log(user);
           return;
         }
       })
-
       _.setState({
         name: result.user.displayName,
         eVerified: result.user.emailVerified,
@@ -116,7 +113,7 @@ class User extends Component {
 
   handleLogout(e) {
     e.preventDefault();
-    const { userAction, homeAction } = this.props;
+    const { userAction, registerAction } = this.props;
     const session = new authSession()
     const auth = new authentication()
 
@@ -131,35 +128,17 @@ class User extends Component {
       token: ""
     }, () => userAction.updateUser(this.state));
 
-    homeAction.get_registration();
     session.logout();
     auth.signOut();
-    Router.push('/');
+    Router.push('/login');
   }
 
   componentDidMount() {
     let session = new authSession();
     let token = session.getToken();
-    if (!token) {
-      return
-    }
-    else {
-      let data = {
-        uid: token
-      }
-      this.setState({
-        token: token
-      });
-      // service.post('/user', data).then((res) => {
-      //   let token = res.data.customToken;
-      // }).catch(async (error) => {
-      //   console.log(error);
-      //   let data = error.response.data;
-      //   let msg = data[Object.keys(data)[0]]
-      //   let obj = { message: msg }
-      //   notification.showNotification(obj)
-      // });
-    }
+    this.setState({
+      token: token
+    });
   }
 
   render() {
@@ -168,7 +147,7 @@ class User extends Component {
 
     return (
       <div className="auth">
-        {user.token || token ? (
+        {user.profile.uid || token ? (
           <Nav name={name} photo={photo} action={this.handleLogout} />
         ) : (
             <Link href="/login">
@@ -182,8 +161,7 @@ class User extends Component {
 
 }
 const mapDispatchToProps = dispatch => ({
-  userAction: bindActionCreators(userAction, dispatch),
-  homeAction: bindActionCreators(homeActions, dispatch)
+  userAction: bindActionCreators(userAction, dispatch)
 })
 
 const mapStateToProps = state => ({

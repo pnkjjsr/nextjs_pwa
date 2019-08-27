@@ -52,8 +52,7 @@ exports.validateLocationData = (data) => {
 exports.validateLoginData = (data) => {
   let errors = {};
 
-  if (isEmpty(data.email)) errors.email = 'Email is not be empty';
-  if (isEmpty(data.password)) errors.password = 'Password not be empty';
+  if (isEmpty(data.uid)) errors.email = 'Token is not define.';
 
   return {
     errors,

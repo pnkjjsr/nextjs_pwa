@@ -1,20 +1,20 @@
 import {
-    VIEW
-} from './constant'
+    CHECK_LOGIN
+} from "./constant"
 
 const initialState = {
     view: 0
 };
 
-const account = (state = initialState, action) => {
+const register = (state = initialState, action) => {
     switch (action.type) {
-        case VIEW:
+        case CHECK_LOGIN:
             return Object.assign({}, state, {
-                view: action.payload
+                view: 1
             });
         default:
             return state;
     }
 };
 
-export default account;
+export default register;

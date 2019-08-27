@@ -1,7 +1,5 @@
 import {
-    UPDATE_LOCATION,
-    UPDATE_MOBILE,
-    PREFETCH
+    VIEW
 } from './constant'
 
 import {
@@ -10,43 +8,30 @@ import {
 import authSession from "../../components/utils/authSession"
 
 const prefetchData = () => {
-    return function (dispatch) {
+    return (dispatch) => {
         let e;
         const session = new authSession();
         const token = session.getToken();
         let data = {
             uid: token
         }
-        return service.post("/getLocation", data)
+        service.post("/getLocation", data)
             .then((res) => {
                 e = res.data;
-                if (e.pincode && !e.phoneNumber) {
-                    let data = {
-                        location: 1,
-                        mobile: 0
-                    };
-                    dispatch({
-                        type: PREFETCH,
-                        payload: data
-                    })
+                if (!e.pincode) {
+                    dispatch(location())
                 } else if (!e.pincode && e.phoneNumber) {
                     let data = {
                         location: 0,
                         mobile: 1
                     };
-                    dispatch({
-                        type: PREFETCH,
-                        payload: data
-                    })
+                    dispatch(mobile())
                 } else if (e.pincode && e.phoneNumber) {
                     let data = {
                         location: 1,
                         mobile: 1
                     };
-                    dispatch({
-                        type: PREFETCH,
-                        payload: data
-                    })
+                    dispatch(account())
                 }
 
             })
@@ -56,19 +41,28 @@ const prefetchData = () => {
     }
 }
 
-const update_location = () => {
+const location = () => {
     return {
-        type: UPDATE_LOCATION
-    };
-};
-const update_mobile = () => {
+        type: VIEW,
+        payload: 1
+    }
+}
+const mobile = () => {
     return {
-        type: UPDATE_MOBILE
-    };
-};
+        type: VIEW,
+        payload: 2
+    }
+}
+const account = () => {
+    return {
+        type: VIEW,
+        payload: 3
+    }
+}
 
 export default {
     prefetchData,
-    update_location,
-    update_mobile
+    location,
+    mobile,
+    account
 };

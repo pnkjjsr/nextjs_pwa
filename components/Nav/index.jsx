@@ -1,15 +1,19 @@
 import React, { Component, Fragment } from 'react'
 import Link from 'next/link'
 
+import { connect } from "react-redux";
+
+import authSession from '../utils/authSession'
+
 import userIcon from "../../static/icons/user-solid-circle.svg"
 import './style.scss'
 
-
-export default class Nav extends Component {
+class Nav extends Component {
   constructor(props) {
     super(props)
 
     this.state = {
+      admin: props.user.profile.userType,
       nav: "",
       anime: ""
     }
@@ -43,11 +47,21 @@ export default class Nav extends Component {
       </div>
     )
   }
-  componentDidMount() {}
+  async componentDidMount() {
+    const auth = new authSession;
+    const profile = await auth.getProfile()
+
+    if (profile.userType == "admin") {
+      this.setState({
+        admin: "admin"
+      });
+    }
+  }
 
   render() {
+    const { nav, anime, admin } = this.state;
     const { action } = this.props;
-    const { nav, anime } = this.state;
+
     return (
       <Fragment>
         <div className={`nav ${nav}`}>
@@ -58,6 +72,19 @@ export default class Nav extends Component {
               <li>
                 {this.renderUser('inside')}
               </li>
+
+              {
+                admin === "admin" ?
+                  (
+                    <li>
+                      <Link prefetch href="/admin/dashboard">
+                        <a>Dashboard</a>
+                      </Link>
+                    </li>
+                  ) : null
+              }
+
+
               <li>
                 <Link prefetch href="/account">
                   <a>Account</a>
@@ -75,3 +102,5 @@ export default class Nav extends Component {
     )
   }
 }
+
+export default connect(state => state)(Nav);

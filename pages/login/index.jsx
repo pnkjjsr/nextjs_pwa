@@ -12,7 +12,6 @@ import actionNotification from "../../components/Notification/actions"
 import actionUser from "../../components/User/actions"
 
 import { service } from '../../utils';
-import notification from "../../components/Notification/actions"
 
 import "./style.scss";
 
@@ -39,33 +38,27 @@ class Login extends Component {
     auth.signInWithEmail(email, password)
       .then(res => {
         let token = res.user.uid;
-        user.updateUser({ token: token });
+        let data = {
+          uid: token
+        }
         session.setToken(token);
-        Router.push('/account')
+        service.post('/login', data)
+          .then(result => {
+            user.updateUser(result.data);
+            session.setProfile(result.data);
+            Router.push('/account')
+          })
+          .catch(error => {
+            notification.showNotification(error);
+            let data = error.response.data;
+            let msg = data[Object.keys(data)[0]]
+            let obj = { message: msg }
+            notification.showNotification(obj)
+          })
       })
       .catch(error => {
         notification.showNotification(error)
       })
-    return;
-
-    const data = {
-      email: email,
-      password: password
-    }
-
-    service.post('/login', data)
-      .then(function (res) {
-        let token = res.data.token;
-        user.updateUser({ token: token });
-        session.setToken(token);
-        Router.push('/account')
-      })
-      .catch(error => {
-        let data = error.response.data;
-        let msg = data[Object.keys(data)[0]]
-        let obj = { message: msg }
-        notification.showNotification(obj)
-      });
   }
 
   handleChange(e) {

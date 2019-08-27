@@ -21,6 +21,7 @@ const {
 exports.signup = (req, res) => {
   const newUser = {
     uid: req.body.uid,
+    userType: req.body.userType,
     email: req.body.email,
     password: req.body.password,
     confirmPassword: req.body.confirmPassword
@@ -34,7 +35,7 @@ exports.signup = (req, res) => {
   if (!valid) {
     return res.status(400).json(errors);
   }
-  
+
   let userId = newUser.uid;
   let usersRef = db.collection('users');
   let query = usersRef.where('email', '==', newUser.email)
@@ -56,6 +57,7 @@ exports.signup = (req, res) => {
               const userCredentials = {
                 createdAt: new Date().toISOString(),
                 uid: newUser.uid,
+                userType: newUser.userType,
                 email: newUser.email,
                 emailVerified: false,
                 password: newUser.password,
@@ -81,9 +83,7 @@ exports.signup = (req, res) => {
             } else {
               return res
                 .status(500)
-                .json({
-                  general: err.message
-                });
+                .json(err);
             }
           });
       }
@@ -211,40 +211,30 @@ exports.verifyPhone = (req, res) => {
 
 // Log user in
 exports.login = (req, res) => {
-  const user = {
-    email: req.body.email,
-    password: req.body.password
-  };
-
+  let userData = {
+    uid: req.body.uid
+  }
   const {
     valid,
     errors
-  } = validateLoginData(user);
+  } = validateLoginData(userData);
 
   if (!valid) return res.status(400).json(errors);
 
-  firebase
-    .auth()
-    .signInWithEmailAndPassword(user.email, user.password)
-    .then((data) => {
-      return data.user.uid;
+  db.doc(`/users/${userData.uid}`)
+    .get()
+    .then(doc => {
+      if (!doc.exists) {
+        return res.status(400).json(error)
+      } else {
+        let data = doc.data();
+        return res.status(201).json(data)
+      }
     })
-    .then((token) => {
-      return res.json({
-        token
-      });
+    .catch((error) => {
+      console.log(error);
+      return res.status(400).json(error)
     })
-    .catch((err) => {
-      console.error(err);
-      // auth/wrong-password
-      // auth/user-not-user
-      return res
-        .status(403)
-        .json({
-          status: "done",
-          message: 'Wrong credentials, please try again'
-        });
-    });
 };
 
 exports.logout = (req, res) => {
@@ -304,63 +294,20 @@ exports.getUserDetails = (req, res) => {
   let userData = {
     uid: req.body.uid
   }
-
-  admin.auth().createCustomToken(userData.uid)
-    .then(function (customToken) {
-      firebase.auth().signInWithCustomToken(customToken)
-        .then(function (result) {
-          return res.status(201).json(result);
-        })
-        .catch(function (error) {
-          return res.status(400).json(error)
-        });
+  db.doc(`/users/${userData.uid}`)
+    .get()
+    .then(doc => {
+      if (!doc.exists) {
+        return res.status(400).json(error)
+      } else {
+        let data = doc.data();
+        return res.status(201).json(data)
+      }
     })
-    .catch(function (error) {
-      return res.status(400).json({
-        message: error
-      });
-    });
-
-
-
-
-  // db.doc(`/users/${req.params.handle}`)
-  //   .get()
-  //   .then((doc) => {
-  //     if (doc.exists) {
-  //       userData.user = doc.data();
-  //       return db
-  //         .collection('screams')
-  //         .where('userHandle', '==', req.params.handle)
-  //         .orderBy('createdAt', 'desc')
-  //         .get();
-  //     } else {
-  //       return res.status(404).json({
-  //         errror: 'User not found'
-  //       });
-  //     }
-  //   })
-  //   .then((data) => {
-  //     userData.screams = [];
-  //     data.forEach((doc) => {
-  //       userData.screams.push({
-  //         body: doc.data().body,
-  //         createdAt: doc.data().createdAt,
-  //         userHandle: doc.data().userHandle,
-  //         userImage: doc.data().userImage,
-  //         likeCount: doc.data().likeCount,
-  //         commentCount: doc.data().commentCount,
-  //         screamId: doc.id
-  //       });
-  //     });
-  //     return res.json(userData);
-  //   })
-  //   .catch((err) => {
-  //     console.error(err);
-  //     return res.status(500).json({
-  //       error: err.code
-  //     });
-  //   });
+    .catch((error) => {
+      console.log(error);
+      return res.status(400).json(error)
+    })
 };
 // Get own user details
 exports.getAuthenticatedUser = (req, res) => {
