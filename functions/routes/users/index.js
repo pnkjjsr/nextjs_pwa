@@ -46,6 +46,18 @@ exports.signup = (req, res) => {
           message: 'Email is already registered with our website'
         });
       } else {
+        const userCredentials = {
+          createdAt: new Date().toISOString(),
+          uid: newUser.uid,
+          userType: newUser.userType,
+          email: newUser.email,
+          emailVerified: false,
+          password: newUser.password,
+          phoneNumber: '',
+          phoneVerified: false,
+          displayName: '',
+          photoURL: ''
+        };
         db.doc(`/users/${userId}`)
           .get()
           .then((doc) => {
@@ -54,26 +66,11 @@ exports.signup = (req, res) => {
                 handle: 'this DOC is already taken'
               });
             } else {
-              const userCredentials = {
-                createdAt: new Date().toISOString(),
-                uid: newUser.uid,
-                userType: newUser.userType,
-                email: newUser.email,
-                emailVerified: false,
-                password: newUser.password,
-                phoneNumber: '',
-                phoneVerified: false,
-                displayName: '',
-                photoURL: ''
-              };
               return db.doc(`/users/${userId}`).set(userCredentials);
             }
           })
           .then(() => {
-            return res.status(201).json({
-              status: "done",
-              message: "New user created."
-            });
+            return res.status(201).json(userCredentials);
           })
           .catch((err) => {
             if (err.code === 'auth/email-already-in-use') {

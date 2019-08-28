@@ -85,7 +85,7 @@ class Location extends Component {
     confirmationResult.confirm(otp).then(function (result) {
       service.post('/verifyPhone', data)
         .then(res => {
-          accountAction.update_mobile();
+          accountAction.account();
         })
         .catch(error => {
           notificationAction.showNotification(error);

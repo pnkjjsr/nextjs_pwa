@@ -68,7 +68,9 @@ class Register extends Component {
               confirmPassword: confirmPassword
             }
             service.post('/signup', data)
-              .then((res) => {
+              .then((result) => {
+                user.updateUser(result.data);
+                session.setProfile(result.data);
                 auth.sendEmailVerification()
                 Router.push("/account")
               }).catch(async (error) => {
