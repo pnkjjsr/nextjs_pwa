@@ -4,12 +4,12 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
+import actionNotifications from "../../components/Notification/actions"
+import actionUser from "../../components/User/actions"
 
 import authSession from "../../components/utils/authSession"
 import authentication from "../../components/utils/authentication"
-
-import actionNotification from "../../components/Notification/actions"
-import actionUser from "../../components/User/actions"
+import Button from "../../components/Button"
 
 import { service } from '../../utils';
 
@@ -31,7 +31,7 @@ class Login extends Component {
   handleSubmit(e) {
     e.preventDefault();
     const { email, password } = this.state;
-    const { user, notification } = this.props;
+    const { user, actionNotification } = this.props;
     const session = new authSession;
     const auth = new authentication;
 
@@ -49,15 +49,15 @@ class Login extends Component {
             Router.push('/account')
           })
           .catch(error => {
-            notification.showNotification(error);
+            actionNotification.showNotification(error);
             let data = error.response.data;
             let msg = data[Object.keys(data)[0]]
             let obj = { message: msg }
-            notification.showNotification(obj)
+            actionNotification.showNotification(obj)
           })
       })
       .catch(error => {
-        notification.showNotification(error)
+        actionNotification.showNotification(error)
       })
   }
 
@@ -101,9 +101,7 @@ class Login extends Component {
             </div>
 
             <div className="flex items-center justify-between">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                Login
-              </button>
+              <Button text="Login" />
             </div>
             <div className="text-gray text-xs font-hairline mt-2">
               Create you account, click here to <Link href="/">
@@ -122,7 +120,7 @@ class Login extends Component {
 
 const mapDispatchToProps = dispatch => ({
   user: bindActionCreators(actionUser, dispatch),
-  notification: bindActionCreators(actionNotification, dispatch)
+  actionNotification: bindActionCreators(actionNotifications, dispatch)
 })
 
 export default connect(state => state, mapDispatchToProps)(Login);
