@@ -6,12 +6,13 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import user from "../../components/User/actions"
 import registerActions from "./action"
+import notification from "../../components/Notification/actions"
 
 import { service } from '../../utils';
-import notification from "../../components/Notification/actions"
 
 import authSession from "../../components/utils/authSession"
 import authentication from "../../components/utils/authentication"
+import Button from "../../components/Button"
 
 import "./style.scss";
 
@@ -133,9 +134,7 @@ class Register extends Component {
           </div>
 
           <div className="flex items-center justify-between">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-              Create My Account
-              </button>
+            <Button text="Create My Account" />
           </div>
           <div className="text-gray text-xs font-hairline mt-2">
             Alrady registered, click here to <Link href="/login">
