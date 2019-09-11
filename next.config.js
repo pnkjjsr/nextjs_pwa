@@ -3,6 +3,7 @@ const withCSS = require('@zeit/next-css')
 const withSass = require('@zeit/next-sass')
 const withPlugins = require("next-compose-plugins");
 const withImages = require('next-images');
+const path = require('path')
 
 const nextConfig = {
   env: {
@@ -19,6 +20,11 @@ const nextConfig = {
     staticFolder: '/static',
   },
   dontAutoRegisterSw: true, // since we want runtime registration,
+  webpack(config, options) {
+    config.resolve.alias['components'] = path.join(__dirname, 'components')
+    config.resolve.alias['utils'] = path.join(__dirname, 'utils')
+    return config
+  }
 }
 
 module.exports = withPlugins([

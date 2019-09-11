@@ -163,7 +163,7 @@ exports.updatePhone = (req, res) => {
 
   let token = req.body.token;
   const data = {
-    country_code: req.body.country_code,
+    countryCode: req.body.country_code,
     phoneNumber: req.body.phoneNumber
   }
 

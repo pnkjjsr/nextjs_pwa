@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import accountActions from "./actions"
 
-import userAuth from '../../components/utils/userAuth'
-import PageLoader from '../../components/loader/page'
+import userAuth from 'components/utils/userAuth'
+import PageLoader from 'components/loader/page'
 
 import Location from './location'
 import Mobile from './mobile'
+import Main from './account'
 
 
 import "./style.scss";
@@ -20,27 +21,6 @@ class Account extends Component {
       view: 0
     }
   }
-
-  renderDashboard = () => {
-    const { user } = this.props
-    return (
-      <div className="p-4 shadow rounded bg-white">
-        <h1 className="text-teal-500 text-2xl leading-normal">
-          Account
-        </h1>
-        <hr />
-        <img src={user.photo} alt="" />
-        <br />
-        {user.name} [{user.uid}] [{JSON.stringify(user.eVerified)}]
-        <br />
-        {user.email}
-        <br />
-        {user.mobile}
-      </div>
-    )
-  }
-
-  // static getDerivedStateFromProps(props, state) { }
 
   componentDidMount() {
     const { accountAction } = this.props;
@@ -60,7 +40,7 @@ class Account extends Component {
       return (<Mobile />)
     }
     else if (view === 3) {
-      return this.renderDashboard()
+      return (<Main />)
     }
   }
 }
