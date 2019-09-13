@@ -3,7 +3,7 @@ import {
 } from './constant'
 
 const initialState = {
-    show: "hide",
+    open: false,
     message: ""
 };
 
@@ -11,12 +11,12 @@ const notification = (state = initialState, action) => {
     switch (action.type) {
         case SHOW:
             return Object.assign({}, state, {
-                show: "show",
+                open: true,
                 message: action.payload.message
             });
         case HIDE:
             return Object.assign({}, state, {
-                show: "hide",
+                open: false,
                 message: ""
             });
         default:
