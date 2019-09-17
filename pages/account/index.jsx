@@ -4,11 +4,12 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import accountActions from "./actions"
 
-import userAuth from '../../components/utils/userAuth'
-import PageLoader from '../../components/loader/page'
+import userAuth from 'components/utils/userAuth'
+import PageLoader from 'components/loader/page'
 
 import Location from './location'
 import Mobile from './mobile'
+import Main from './account'
 
 import userImg from '../../static/images/pj.gif'
 
@@ -23,6 +24,7 @@ class Account extends Component {
     }
   }
 
+<<<<<<< HEAD
   renderDashboard = () => {
     const { user } = this.props
     return (
@@ -51,6 +53,8 @@ class Account extends Component {
 
   // static getDerivedStateFromProps(props, state) {}
 
+=======
+>>>>>>> e713844f469485a314ac9b3f6934fb7776c28b32
   componentDidMount() {
     const { accountAction } = this.props;
     accountAction.prefetchData();
@@ -69,7 +73,7 @@ class Account extends Component {
       return (<Mobile />)
     }
     else if (view === 3) {
-      return this.renderDashboard()
+      return (<Main />)
     }
   }
 }

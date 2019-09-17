@@ -1,7 +1,7 @@
-@import "~tailwindcss/base";
-@import "~tailwindcss/components";
-@import "~tailwindcss/utilities";
+figure {
+    padding: 0;
 
-body {
-    @apply bg-gray-300;
+    img {
+        width: 100%;
+    }
 }
