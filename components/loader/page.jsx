@@ -10,7 +10,7 @@ export default class PageLoader extends Component {
         return (
             <Fragment>
                 <figure className="w-full">
-                    <img className="m-auto my-64" src={loader} alt="page loader" />
+                    <img className="m-auto my-24" src={loader} alt="page loader" />
                 </figure>
             </Fragment>
         )

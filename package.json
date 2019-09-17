@@ -4,12 +4,15 @@
   "main": "server.js",
   "license": "ISC",
   "scripts": {
-    "dev": "NODE_ENV=development node --require dotenv/config server.js",
+    "dev-mac": "NODE_ENV=development node --require dotenv/config server.js",
+    "dev": "node --require dotenv/config server.js",
+    "serve": "cd functions && firebase serve --only functions",
     "next": "next",
     "build": "next build",
     "export": "npm run build && next export",
     "start": "NODE_ENV=production node server.js",
-    "deploy": "rimraf .next && yarn build && gcloud app deploy"
+    "deploy": "rimraf .next && yarn build && gcloud app deploy",
+    "deploy-api": "firebase deploy --only functions"
   },
   "dependencies": {
     "@zeit/next-sass": "^1.0.1",
