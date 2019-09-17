@@ -13,10 +13,6 @@ exports.validateSignupData = (data) => {
     errors.email = 'Must be a valid email address';
   }
 
-  if (isEmpty(data.mobile)) {
-    errors.mobile = 'Mobile must not be empty';
-  }
-
   if (isEmpty(data.password)) errors.password = 'Password must not be empty';
 
   return {

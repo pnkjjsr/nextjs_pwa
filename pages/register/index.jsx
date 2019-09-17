@@ -26,8 +26,8 @@ class Register extends Component {
     super(props)
     this.state = {
       view: 0,
+      fullName: "",
       email: "",
-      mobile: "",
       password: ""
     }
     this.handleChange = this.handleChange.bind(this);
@@ -44,7 +44,7 @@ class Register extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { email, mobile, password } = this.state;
+    const { email, fullName, password } = this.state;
     const { notification, user, homeActions } = this.props;
 
     const auth = new authentication;
@@ -63,7 +63,7 @@ class Register extends Component {
             uid: token,
             userType: "normal",
             email: email,
-            mobile: mobile,
+            fullName: fullName,
             password: password
           }
           service.post('/signup', data)
@@ -121,18 +121,18 @@ class Register extends Component {
                 </h1>
 
                 <Input
-                  name="email"
-                  type="email"
-                  label="Email"
-                  htmlFor="email"
+                  name="fullName"
+                  type="text"
+                  label="Full name"
+                  htmlFor="fullName"
                   onChange={this.handleChange}
                 />
 
                 <Input
-                  name="mobile"
-                  type="text"
-                  label="Mobile"
-                  htmlFor="mobile"
+                  name="email"
+                  type="email"
+                  label="Email"
+                  htmlFor="email"
                   onChange={this.handleChange}
                 />
 

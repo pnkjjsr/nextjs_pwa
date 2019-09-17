@@ -23,7 +23,7 @@ exports.signup = (req, res) => {
     uid: req.body.uid,
     userType: req.body.userType,
     email: req.body.email,
-    mobile: req.body.mobile,
+    displayName: req.body.fullName,
     password: req.body.password
   };
 
@@ -39,14 +39,11 @@ exports.signup = (req, res) => {
   let userId = newUser.uid;
   let usersRef = db.collection('users');
   usersRef.where('email', '==', newUser.email)
-  usersRef.where('phoneNumber', '==', newUser.mobile)
     .get()
     .then(snapshot => {
-      console.log(snapshot);
-
       if (!snapshot.empty) {
         return res.status(400).json({
-          message: 'Email is already registered with our website'
+          message: 'Email already sign up with us.'
         });
       } else {
         const userCredentials = {
@@ -56,9 +53,9 @@ exports.signup = (req, res) => {
           email: newUser.email,
           emailVerified: false,
           password: newUser.password,
-          phoneNumber: newUser.mobile,
+          phoneNumber: '',
           phoneVerified: false,
-          displayName: '',
+          displayName: newUser.displayName,
           photoURL: ''
         };
         db.doc(`/users/${userId}`)
