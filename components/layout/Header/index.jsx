@@ -4,7 +4,7 @@ import Link from 'next/link'
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
-import User from "../../User";
+import User from "components/User";
 
 import "./style.scss";
 
@@ -18,7 +18,7 @@ export default class Layout extends Component {
               <Grid item xs={6}>
                 <div className="logo">
                   <Link prefetch href="/">
-                    <a>N</a>
+                    <a>[Name]</a>
                   </Link>
                 </div>
               </Grid>

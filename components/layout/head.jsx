@@ -25,10 +25,7 @@ const Header = props => (
       <link rel="manifest" href="static/manifest.json" />
       <meta property="og:url" content={props.url || defaultOGURL} />
       <meta property="og:title" content={props.title || ""} />
-      <meta
-        property="og:description"
-        content={props.des || defaultDescription}
-      />
+      <meta property="og:description" content={props.des || defaultDescription} />
       <meta name="twitter:site" content={props.url || defaultOGURL} />
       <meta name="twitter:card" content="summary_large_image" />
       <meta name="twitter:image" content={props.ogImage || defaultOGImage} />

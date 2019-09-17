@@ -2,6 +2,8 @@ import React, { Fragment, Component } from 'react'
 
 import { connect } from "react-redux";
 
+import NButton from '@material-ui/core/Button';
+
 class Button extends Component {
     constructor(props) {
         super(props)
@@ -30,9 +32,9 @@ class Button extends Component {
 
         return (
             <Fragment>
-                <button className={`${loadIn} min-w-1/2 bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline`} type="submit" onClick={this.handleClick}>
+                <NButton className={`${loadIn} `} variant="contained" color="primary" type="submit" onClick={this.handleClick}>
                     {text}
-                </button>
+                </NButton>
                 <style jsx>{`
                     .loading:after {
                         content: ' .';

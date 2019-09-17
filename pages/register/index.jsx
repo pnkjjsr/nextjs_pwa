@@ -4,15 +4,20 @@ import Router from 'next/router'
 
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import user from "../../components/User/actions"
+import user from "components/User/actions"
 import registerActions from "./action"
-import notification from "../../components/Notification/actions"
+import notification from "components/Notification/actions"
 
-import { service } from '../../utils';
+import { service } from 'utils';
 
-import authSession from "../../components/utils/authSession"
-import authentication from "../../components/utils/authentication"
-import Button from "../../components/Button"
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+
+import authSession from "components/utils/authSession"
+import authentication from "components/utils/authentication"
+import Button from "components/Button"
+import Input from "components/Input"
+import bannerImg from "static/images/signup/banner.jpg"
 
 import "./style.scss";
 
@@ -22,8 +27,8 @@ class Register extends Component {
     this.state = {
       view: 0,
       email: "",
-      password: "",
-      confirmPassword: ""
+      mobile: "",
+      password: ""
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -32,7 +37,6 @@ class Register extends Component {
 
   handleChange(e) {
     let elem = e.target.name;
-
     this.setState({
       [elem]: e.target.value
     });
@@ -40,53 +44,48 @@ class Register extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { email, password, confirmPassword } = this.state;
+    const { email, mobile, password } = this.state;
     const { notification, user, homeActions } = this.props;
 
-    if (password !== confirmPassword) {
-      return notification.showNotification({
-        message: "Passwords must match"
+    const auth = new authentication;
+    auth.createUserWithEmailAndPassword(email, password)
+      .then(res => {
+        if (res.code) {
+          notification.showNotification(res)
+        }
+        else {
+          const session = new authSession;
+          let token = res.user.uid;
+          session.setToken(token);
+          user.updateUser({ token: token });
+
+          const data = {
+            uid: token,
+            userType: "normal",
+            email: email,
+            mobile: mobile,
+            password: password
+          }
+          service.post('/signup', data)
+            .then((result) => {
+              user.updateUser(result.data);
+              session.setProfile(result.data);
+              auth.sendEmailVerification()
+              Router.push("/account")
+            }).catch(async (error) => {
+              let data = error.response.data;
+              let msg = data[Object.keys(data)[0]]
+              let obj = { message: msg }
+
+              notification.showNotification(obj)
+            });
+        }
       })
-    }
-    else {
-      const auth = new authentication;
-      auth.createUserWithEmailAndPassword(email, password)
-        .then(res => {
-          if (res.code) {
-            notification.showNotification(res)
-          }
-          else {
-            const session = new authSession;
-            let token = res.user.uid;
-            session.setToken(token);
-            user.updateUser({ token: token });
+      .catch(error => {
+        notification.showNotification(error)
+      })
 
-            const data = {
-              uid: token,
-              userType: "normal",
-              email: email,
-              password: password,
-              confirmPassword: confirmPassword
-            }
-            service.post('/signup', data)
-              .then((result) => {
-                user.updateUser(result.data);
-                session.setProfile(result.data);
-                auth.sendEmailVerification()
-                Router.push("/account")
-              }).catch(async (error) => {
-                let data = error.response.data;
-                let msg = data[Object.keys(data)[0]]
-                let obj = { message: msg }
 
-                notification.showNotification(obj)
-              });
-          }
-        })
-        .catch(error => {
-          notification.showNotification(error)
-        })
-    }
 
 
   }
@@ -107,66 +106,91 @@ class Register extends Component {
 
   renderRegistration = () => {
     return (
-      <div className="w-full max-w-xs mx-auto pt-4">
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={this.handleSubmit}>
-          <h1 className="mb-4 text-lg font-bold">
-            User Registration
-            </h1>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm mb-2" htmlFor="username">
-              Email <span className="font-hairline text-xs"></span>
-            </label>
-            <input name="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="email" placeholder="ex: abc@cba.com" onChange={this.handleChange} />
-          </div>
+      <Fragment>
+        <Container fixed>
+          <Grid container spacing={3}>
+            <Grid item sm={6}>
+              <figure>
+                <img src={bannerImg} alt="Signup banner image" />
+              </figure>
+            </Grid>
+            <Grid item sm={6}>
+              <form autoComplete="on" onSubmit={this.handleSubmit}>
+                <h1>
+                  Create your account
+                </h1>
 
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm mb-2" htmlFor="password">
-              Password <span className="font-hairline text-xs"></span>
-            </label>
-            <input name="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="******" autoComplete="true" onChange={this.handleChange} />
-          </div>
+                <Input
+                  name="email"
+                  type="email"
+                  label="Email"
+                  htmlFor="email"
+                  onChange={this.handleChange}
+                />
 
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm mb-2" htmlFor="confirmPassword">
-              Confirm Password <span className="font-hairline text-xs"></span>
-            </label>
-            <input name="confirmPassword" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="******" autoComplete="true" onChange={this.handleChange} />
-          </div>
+                <Input
+                  name="mobile"
+                  type="text"
+                  label="Mobile"
+                  htmlFor="mobile"
+                  onChange={this.handleChange}
+                />
 
-          <div className="flex items-center justify-between">
-            <Button text="Create My Account" />
-          </div>
-          <div className="text-gray text-xs font-hairline mt-2">
-            Alrady registered, click here to <Link href="/login">
-              <a className="font-medium text-blue-600">login</a>
-            </Link>
-          </div>
-        </form>
-        <hr />
-        <p className="text-gray text-xs italic font-hairline">
-          By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'
-        </p>
-      </div>
+                <Input
+                  name="password"
+                  type="password"
+                  label="Password"
+                  htmlFor="password"
+                  autoComplete="off"
+                  onChange={this.handleChange}
+                />
+
+
+                <div>
+                  <Button text="Create My Account" />
+                </div>
+                <div>
+                  Alrady registered, click here to <Link href="/login">
+                    <a>login</a>
+                  </Link>
+                </div>
+              </form>
+              <hr />
+              <p>
+                By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'
+              </p>
+            </Grid>
+          </Grid>
+        </Container>
+
+
+        <div className="w-full max-w-xs mx-auto pt-4">
+
+        </div>
+      </Fragment>
+
     )
   }
 
   renderVerification = () => {
     return (
-      <div className="w-full max-w-xs mx-auto pt-4">
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={this.handleVerification}>
-          <h1 className="mb-4 text-lg font-bold">
-            Verification link sent on your email id.
+      <Fragment>
+        <div>
+          <form onSubmit={this.handleVerification}>
+            <h1>
+              Verification link sent on your email id.
           </h1>
 
-          <div className="flex items-center justify-between">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-              Send Verification link again
+            <div>
+              <button type="submit">
+                Send Verification link again
             </button>
-          </div>
-        </form>
-        <hr />
-        <p className="text-gray-500 text-xs italic font-hairline">By clicking on button, I'm agreed to send verification link on my email id.</p>
-      </div>
+            </div>
+          </form>
+          <hr />
+          <p>By clicking on button, I'm agreed to send verification link on my email id.</p>
+        </div>
+      </Fragment>
     )
   }
 
