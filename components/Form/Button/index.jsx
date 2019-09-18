@@ -2,21 +2,39 @@ import React, { Fragment, Component } from 'react'
 
 import { connect } from "react-redux";
 
-import NButton from '@material-ui/core/Button';
+import { styled } from '@material-ui/styles';
+import MButton from '@material-ui/core/Button';
+
+import "./style.scss";
+
+const MyButton = styled(MButton)({
+    textTransform: 'capitalize'
+});
 
 class Button extends Component {
     constructor(props) {
         super(props)
         this.state = {
             text: props.text,
+            variant: props.variant,
+            color: props.color,
+            action: props.action,
             loadIn: ""
         }
     }
 
-    handleClick = () => {
-        this.setState({
-            loadIn: "loading"
-        });
+    handleClick = (e) => {
+        if (!e) {
+            this.setState({
+                loadIn: "loading"
+            });
+        }
+        else {
+            this.setState({
+                loadIn: "loading"
+            }, () => e());
+        }
+
     }
 
     componentWillReceiveProps(prevProps) {
@@ -28,39 +46,14 @@ class Button extends Component {
     }
 
     render() {
-        const { text, loadIn } = this.state;
+        const { text, loadIn, variant, color, action } = this.state;
 
         return (
             <Fragment>
-                <NButton className={`${loadIn} `} variant="contained" color="primary" type="submit" onClick={this.handleClick}>
+                <MyButton className={`${loadIn}`} variant={variant} color={color} type="submit" onClick={e => this.handleClick(action)}>
                     {text}
-                </NButton>
-                <style jsx>{`
-                    .loading:after {
-                        content: ' .';
-                        animation: dots 1s steps(5, end) infinite;}
-                      
-                      @keyframes dots {
-                        0%, 20% {
-                          color: rgba(0,0,0,0);
-                          text-shadow:
-                            .25em 0 0 rgba(0,0,0,0),
-                            .5em 0 0 rgba(0,0,0,0);}
-                        40% {
-                          color: white;
-                          text-shadow:
-                            .25em 0 0 rgba(0,0,0,0),
-                            .5em 0 0 rgba(0,0,0,0);}
-                        60% {
-                          text-shadow:
-                            .25em 0 0 white,
-                            .5em 0 0 rgba(0,0,0,0);}
-                        80%, 100% {
-                          text-shadow:
-                            .25em 0 0 white,
-                            .5em 0 0 white;}
-                        }
-                `}</style>
+                </MyButton>
+                <style jsx>{``}</style>
             </Fragment>
         )
     }

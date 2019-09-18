@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import userAction from './actions'
 
-import Button from '@material-ui/core/Button';
+import Button from "components/Form/Button"
 
 import authSession from '../utils/authSession'
 import authentication from "../utils/authentication"
@@ -73,9 +73,7 @@ class User extends Component {
         {user.profile.uid || token ? (
           <Nav name={name} photo={photo} action={this.handleLogout} />
         ) : (
-            <Button variant="outlined" color="primary" onClick={this.handleLogin}>
-              Login
-            </Button>
+            <Button text="Login" variant="outlined" color="primary" action={this.handleLogin} />
           )
         }
       </div>

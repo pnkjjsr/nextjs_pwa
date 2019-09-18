@@ -18,7 +18,7 @@ export default class Layout extends Component {
               <Grid item xs={6}>
                 <div className="logo">
                   <Link prefetch href="/">
-                    <a>[Name]</a>
+                    <a>Name</a>
                   </Link>
                 </div>
               </Grid>

@@ -220,7 +220,7 @@ class Register extends Component {
 
 
                 <div>
-                  <Button text="Create My Account" />
+                  <Button text="Create My Account" variant="contained" color="primary" />
                 </div>
                 <div>
                   Alrady registered, click here to <Link href="/login">
