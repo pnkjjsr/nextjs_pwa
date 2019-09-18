@@ -10,7 +10,8 @@
     "next": "next",
     "build": "next build",
     "export": "npm run build && next export",
-    "start": "NODE_ENV=production node server.js",
+    "start-mac": "NODE_ENV=production node server.js",
+    "start": "node server.js",
     "deploy": "rimraf .next && yarn build && gcloud app deploy",
     "deploy-api": "firebase deploy --only functions"
   },

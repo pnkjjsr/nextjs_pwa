@@ -24,7 +24,6 @@ class Account extends Component {
     }
   }
 
-<<<<<<< HEAD
   renderDashboard = () => {
     const { user } = this.props
     return (
@@ -53,8 +52,6 @@ class Account extends Component {
 
   // static getDerivedStateFromProps(props, state) {}
 
-=======
->>>>>>> e713844f469485a314ac9b3f6934fb7776c28b32
   componentDidMount() {
     const { accountAction } = this.props;
     accountAction.prefetchData();
