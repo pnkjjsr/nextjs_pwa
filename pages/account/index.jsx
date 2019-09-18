@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import accountActions from "./actions"
 
 import userAuth from 'components/utils/userAuth'
-import PageLoader from 'components/loader/page'
+import PageLoader from 'components/Loader/page'
 
 import Location from './location'
 import Mobile from './mobile'

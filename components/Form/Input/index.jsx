@@ -24,12 +24,17 @@ const useStyles = makeStyles(theme => ({
 
 function TextBox(props) {
     const classes = useStyles();
-    return <TextField InputProps={{ classes, disableUnderline: true }} {...props} />;
+    return <TextField
+        InputProps={{ classes, disableUnderline: true }}
+        {...props}
+    />
 }
 
 export default function Input(props) {
     return (
         <TextBox
+            className={props.class}
+            error={props.error}
             name={props.name}
             type={props.type}
             label={props.label}
