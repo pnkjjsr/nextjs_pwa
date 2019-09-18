@@ -2,6 +2,9 @@ import React, { Component, Fragment } from "react";
 import Link from 'next/link';
 import Router from 'next/router'
 
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import user from "components/User/actions"
@@ -10,15 +13,12 @@ import notification from "components/Notification/actions"
 
 import { service } from 'utils';
 
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-
 import authSession from "components/utils/authSession"
 import authentication from "components/utils/authentication"
-import Button from "components/Button"
-import Input from "components/Input"
-import bannerImg from "static/images/signup/banner.jpg"
+import Button from "components/Form/Button"
+import Input from "components/Form/Input"
 
+import validation from "./validation"
 import "./style.scss";
 
 class Register extends Component {
@@ -28,7 +28,13 @@ class Register extends Component {
       view: 0,
       fullName: "",
       email: "",
-      password: ""
+      password: "",
+      msgName: "",
+      msgEmail: "",
+      msgPassword: "",
+      errName: "",
+      errEmail: "",
+      errPassword: "",
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -40,6 +46,23 @@ class Register extends Component {
     this.setState({
       [elem]: e.target.value
     });
+
+    if (elem == 'fullName') {
+      this.setState({
+        errName: "",
+        msgName: ""
+      });
+    } else if (elem == 'email') {
+      this.setState({
+        errEmail: "",
+        msgEmail: ""
+      });
+    } else if (elem == 'password') {
+      this.setState({
+        errPassword: "",
+        msgPassword: ""
+      });
+    }
   }
 
   handleSubmit(e) {
@@ -47,11 +70,58 @@ class Register extends Component {
     const { email, fullName, password } = this.state;
     const { notification, user, homeActions } = this.props;
 
+    const { valid, errors } = validation({ email, fullName, password });
+
+    if (!valid) {
+      if (errors.fullName) {
+        this.setState({
+          errName: "error",
+          msgName: errors.fullName
+        });
+      }
+      if (errors.email) {
+        this.setState({
+          errEmail: "error",
+          msgEmail: errors.email
+        });
+      }
+      if (errors.password) {
+        this.setState({
+          errPassword: "error",
+          msgPassword: errors.password
+        });
+      }
+
+      this.setState({
+        errorMsgs: errors
+      });
+      return
+    }
+    else {
+      this.setState({
+        errorMsgs: []
+      });
+    }
+
     const auth = new authentication;
     auth.createUserWithEmailAndPassword(email, password)
       .then(res => {
         if (res.code) {
           notification.showNotification(res)
+          console.log(res);
+
+          if (res.code == "auth/email-already-in-use") {
+            this.setState({
+              errEmail: "error",
+              msgEmail: res.message
+            });
+          } else if (res.code == "auth/weak-password") {
+            this.setState({
+              errPassword: "error",
+              msgPassword: res.message
+            });
+          }
+
         }
         else {
           const session = new authSession;
@@ -84,10 +154,6 @@ class Register extends Component {
       .catch(error => {
         notification.showNotification(error)
       })
-
-
-
-
   }
 
   handleVerification(e) {
@@ -105,14 +171,15 @@ class Register extends Component {
   }
 
   renderRegistration = () => {
+    const { msgName, msgEmail, msgPassword, errName, errEmail, errPassword } = this.state;
     return (
       <Fragment>
-        <Container fixed>
+        <Container fixed className="register">
           <Grid container spacing={3}>
             <Grid item sm={6}>
-              <figure>
-                <img src={bannerImg} alt="Signup banner image" />
-              </figure>
+              <div className="banner">
+                <figure></figure>
+              </div>
             </Grid>
             <Grid item sm={6}>
               <form autoComplete="on" onSubmit={this.handleSubmit}>
@@ -121,27 +188,33 @@ class Register extends Component {
                 </h1>
 
                 <Input
+                  class={`form-control ${errName}`}
                   name="fullName"
                   type="text"
                   label="Full name"
                   htmlFor="fullName"
+                  helperText={msgName}
                   onChange={this.handleChange}
                 />
 
                 <Input
+                  class={`form-control ${errEmail}`}
                   name="email"
-                  type="email"
+                  type="text"
                   label="Email"
                   htmlFor="email"
+                  helperText={msgEmail}
                   onChange={this.handleChange}
                 />
 
                 <Input
+                  class={`form-control ${errPassword}`}
                   name="password"
                   type="password"
                   label="Password"
                   htmlFor="password"
                   autoComplete="off"
+                  helperText={msgPassword}
                   onChange={this.handleChange}
                 />
 

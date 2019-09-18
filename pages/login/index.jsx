@@ -4,14 +4,14 @@ import Link from 'next/link';
 import Router from 'next/router';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
-import actionNotifications from "../../components/Notification/actions"
-import actionUser from "../../components/User/actions"
+import actionNotifications from "components/Notification/actions"
+import actionUser from "components/User/actions"
 
-import authSession from "../../components/utils/authSession"
-import authentication from "../../components/utils/authentication"
-import Button from "../../components/Button"
+import authSession from "components/utils/authSession"
+import authentication from "components/utils/authentication"
+import Button from "components/Form/Button"
 
-import { service } from '../../utils';
+import { service } from 'utils';
 
 import "./style.scss";
 

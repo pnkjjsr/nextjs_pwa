@@ -4,7 +4,7 @@ import Router from 'next/router';
 
 import authSession from './authSession'
 
-import PageLoader from '../loader/page'
+import PageLoader from '../Loader/page'
 
 export default function withAuth(AuthComponent) {
     const Auth = new authSession()

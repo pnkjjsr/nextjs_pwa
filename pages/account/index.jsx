@@ -5,7 +5,7 @@ import { bindActionCreators } from 'redux';
 import accountActions from "./actions"
 
 import userAuth from 'components/utils/userAuth'
-import PageLoader from 'components/loader/page'
+import PageLoader from 'components/Loader/page'
 
 import Location from './location'
 import Mobile from './mobile'
@@ -24,7 +24,6 @@ class Account extends Component {
     }
   }
 
-<<<<<<< HEAD
   renderDashboard = () => {
     const { user } = this.props
     return (
@@ -53,8 +52,6 @@ class Account extends Component {
 
   // static getDerivedStateFromProps(props, state) {}
 
-=======
->>>>>>> e713844f469485a314ac9b3f6934fb7776c28b32
   componentDidMount() {
     const { accountAction } = this.props;
     accountAction.prefetchData();
