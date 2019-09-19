@@ -1,0 +1,16 @@
+.login {
+
+    .form-control {
+        height: 100px;
+
+        &.error {
+            .MuiInputBase-root {
+                border-color: #ff6c6c;
+            }
+
+            .MuiFormHelperText-root {
+                color: #ff6c6c;
+            }
+        }
+    }
+}

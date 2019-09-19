@@ -19,6 +19,7 @@ class Button extends Component {
             variant: props.variant,
             color: props.color,
             action: props.action,
+            size: props.size,
             loadIn: ""
         }
     }
@@ -46,11 +47,11 @@ class Button extends Component {
 
 
     render() {
-        const { text, loadIn, variant, color, action } = this.state;
+        const { text, loadIn, variant, color, size, action } = this.state;
 
         return (
             <Fragment>
-                <MyButton className={`${loadIn}`} variant={variant} color={color} type="submit" onClick={e => this.handleClick(action)}>
+                <MyButton className={`${loadIn}`} size={size} variant={variant} color={color} type="submit" onClick={e => this.handleClick(action)}>
                     {text}
                 </MyButton>
                 <style jsx>{``}</style>

@@ -194,7 +194,7 @@ class Register extends Component {
 
 
                 <div>
-                  <Button text="Create My Account" variant="contained" color="primary" />
+                  <Button text="Create My Account" variant="contained" color="primary" size="large" />
                 </div>
                 <div>
                   Alrady registered, click here to <Link href="/login">

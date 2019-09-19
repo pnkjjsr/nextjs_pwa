@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from "react";
 import Link from 'next/link';
 
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+
 import Router from 'next/router';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
@@ -10,9 +13,11 @@ import actionUser from "components/User/actions"
 import authSession from "components/utils/authSession"
 import authentication from "components/utils/authentication"
 import Button from "components/Form/Button"
+import Input from "components/Form/Input"
 
 import { service } from 'utils';
 
+import validation from "./validation"
 import "./style.scss";
 
 class Login extends Component {
@@ -21,7 +26,11 @@ class Login extends Component {
     this.state = {
       uid: "",
       email: "",
-      password: ""
+      password: "",
+      emailErr: "",
+      passwordErr: "",
+      emailMsg: "",
+      passwordMsg: ""
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -35,26 +44,62 @@ class Login extends Component {
     const session = new authSession;
     const auth = new authentication;
 
+    const { valid, errors } = validation({ email, password });
+    if (!valid) {
+      actionNotification.showNotification({
+        code: "",
+        message: "Please enter the details.",
+        type: "error"
+      });
+      Object.keys(errors).map(e => {
+        var err = e + "Err"
+        var msg = e + "Msg"
+        this.setState({
+          [err]: "error",
+          [msg]: errors[e]
+        });
+      });
+      return
+    }
+
     auth.signInWithEmail(email, password)
       .then(res => {
-        let token = res.user.uid;
-        let data = {
-          uid: token
+        if (res.code) {
+          console.log(res);
+          actionNotification.showNotification(res)
+
+          if (res.code == "auth/user-not-found") {
+            this.setState({
+              emailErr: "error",
+              emailMsg: res.message
+            });
+          } else if (res.code == "auth/wrong-password") {
+            this.setState({
+              passwordErr: "error",
+              passwordMsg: res.message
+            });
+          }
+
+        } else {
+          let token = res.user.uid;
+          let data = {
+            uid: token
+          }
+          session.setToken(token);
+          service.post('/login', data)
+            .then(result => {
+              user.updateUser(result.data);
+              session.setProfile(result.data);
+              Router.push('/account')
+            })
+            .catch(error => {
+              actionNotification.showNotification(error);
+              let data = error.response.data;
+              let msg = data[Object.keys(data)[0]]
+              let obj = { message: msg }
+              actionNotification.showNotification(obj)
+            })
         }
-        session.setToken(token);
-        service.post('/login', data)
-          .then(result => {
-            user.updateUser(result.data);
-            session.setProfile(result.data);
-            Router.push('/account')
-          })
-          .catch(error => {
-            actionNotification.showNotification(error);
-            let data = error.response.data;
-            let msg = data[Object.keys(data)[0]]
-            let obj = { message: msg }
-            actionNotification.showNotification(obj)
-          })
       })
       .catch(error => {
         actionNotification.showNotification(error)
@@ -63,10 +108,14 @@ class Login extends Component {
 
   handleChange(e) {
     let elem = e.target.name;
+    let err = elem + "Err"
+    let msg = elem + "Msg"
 
     this.setState({
-      [elem]: e.target.value
-    });
+      [elem]: e.target.value,
+      [err]: "",
+      [msg]: ""
+    }, () => this.state);
   }
 
   componentDidMount() {
@@ -79,39 +128,54 @@ class Login extends Component {
   }
 
   render() {
+    const { email, password, emailErr, passwordErr, emailMsg, passwordMsg } = this.state;
     return (
       <Fragment>
-        <div className="w-full max-w-xs mx-auto pt-4">
-          <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={this.handleSubmit}>
-            <h1 className="mb-4 text-lg font-bold">
-              Login
+        <Container className="login" fixed>
+          <Grid container justify="center" spacing={3} >
+            <Grid item sm={4}>
+              <h1>
+                Login
             </h1>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm mb-2" htmlFor="email">
-                Email <span className="font-hairline text-xs"></span>
-              </label>
-              <input name="email" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="email" placeholder="ex: abc@cba.com" onChange={this.handleChange} />
-            </div>
 
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm mb-2" htmlFor="password">
-                Password <span className="font-hairline text-xs"></span>
-              </label>
-              <input name="password" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" placeholder="******" autoComplete="true" onChange={this.handleChange} />
-            </div>
+              <form onSubmit={this.handleSubmit} autoComplete="on">
 
-            <div className="flex items-center justify-between">
-              <Button text="Login" />
-            </div>
-            <div className="text-gray text-xs font-hairline mt-2">
-              Create you account, click here to <Link href="/">
-                <a className="font-medium text-blue-600">Registration</a>
-              </Link>
-            </div>
-          </form>
-          <hr />
-          <p className="text-gray text-xs italic font-hairline">By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'</p>
-        </div>
+                <Input
+                  class={`form-control ${emailErr}`}
+                  name="email"
+                  type="text"
+                  label="Email"
+                  htmlFor="email"
+                  helperText={emailMsg}
+                  onChange={this.handleChange}
+                />
+
+                <Input
+                  class={`form-control ${passwordErr}`}
+                  name="password"
+                  type="password"
+                  label="Password"
+                  htmlFor="password"
+                  helperText={passwordMsg}
+                  onChange={this.handleChange}
+                  autoComplete="off"
+                />
+
+                <Button text="Login" variant="contained" color="primary" size="large" />
+
+                <div className="text-gray text-xs font-hairline mt-2">
+                  Create you account, click here to <Link href="/">
+                    <a className="font-medium text-blue-600">Registration</a>
+                  </Link>
+                </div>
+              </form>
+              <hr />
+              <p className="text-gray text-xs italic font-hairline">By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'</p>
+            </Grid>
+          </Grid>
+        </Container>
+
+
         <style jsx>{``}</style>
       </Fragment>
     )
