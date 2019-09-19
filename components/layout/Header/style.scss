@@ -1,10 +1,11 @@
-.header {
+.header[role="main"] {
     position: fixed;
     z-index: 1;
     top: 0;
     left: 0;
     width: 100%;
-    margin-bottom: 10px;
+    padding-bottom: 10px;
+    padding-top: 40px;
     background-color: #fff;
 }
 
@@ -20,4 +21,16 @@
     }
 }
 
+@media only screen and (max-width: 1600px) {}
+
+@media only screen and (max-width: 1400px) {
+    .header[role="main"] {
+        padding-top: 0;
+    }
+}
+
+@media only screen and (max-width: 1280px) {}
+
 @media only screen and (max-width: 960px) {}
+
+@media only screen and (max-width: 600px) {}

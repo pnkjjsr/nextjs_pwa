@@ -12,7 +12,7 @@ export default class Layout extends Component {
   render() {
     return (
       <Fragment>
-        <div className="header">
+        <div className="header" role="main">
           <Container fixed>
             <Grid container spacing={0}>
               <Grid item xs={6}>

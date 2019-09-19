@@ -8,7 +8,9 @@ import MButton from '@material-ui/core/Button';
 import "./style.scss";
 
 const MyButton = styled(MButton)({
-    textTransform: 'capitalize'
+    textTransform: 'capitalize',
+    fontFamily: "Lato",
+    fontWeight: "bold"
 });
 
 class Button extends Component {

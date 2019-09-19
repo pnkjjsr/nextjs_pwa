@@ -8,7 +8,7 @@ export default class Footer extends Component {
   render() {
     return (
       <Fragment>
-        <div className="footer">
+        <div className="footer" role="main">
           <Container fixed>
             <ul className="links">
               <li>

@@ -73,7 +73,7 @@ class User extends Component {
         {user.profile.uid || token ? (
           <Nav name={name} photo={photo} action={this.handleLogout} />
         ) : (
-            <Button text="Login" variant="outlined" color="primary" action={this.handleLogin} />
+            <Button text="Login" size="large" variant="outlined" color="primary" action={this.handleLogin} />
           )
         }
       </div>

@@ -13,7 +13,8 @@
     "start-mac": "NODE_ENV=production node server.js",
     "start": "node server.js",
     "deploy": "rimraf .next && yarn build && gcloud app deploy",
-    "deploy-api": "firebase deploy --only functions"
+    "deploy-api": "firebase deploy --only functions",
+    "clean": "rimraf .next"
   },
   "dependencies": {
     "@material-ui/core": "^4.4.2",

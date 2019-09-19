@@ -19,6 +19,7 @@ import Button from "components/Form/Button"
 import Input from "components/Form/Input"
 
 import validation from "./validation"
+import banner from "static/images/signup/banner.jpg"
 import "./style.scss";
 
 class Register extends Component {
@@ -149,71 +150,81 @@ class Register extends Component {
     return (
       <Fragment>
         <Container fixed className="register">
-          <Grid container spacing={3}>
-            <Grid item sm={6}>
+          <Grid container spacing={0}>
+            <Grid item sm={7}>
               <div className="banner">
-                <figure></figure>
+                <h2 className="title">
+                  Lets build our
+                  <br />
+                  India together !!
+                </h2>
+
+                <figure>
+                  <img src={banner} alt="banner of the website" />
+                </figure>
               </div>
             </Grid>
-            <Grid item sm={6}>
+            <Grid item sm={5}>
               <form autoComplete="on" onSubmit={this.handleSubmit}>
-                <h1>
-                  Create your account
-                </h1>
+                <div className="form">
+                  <div className="header">
+                    <h1 className="heading">
+                      Create your account
+                    </h1>
+                    <div className="sub">
+                      One free step for nation
+                    </div>
+                  </div>
 
-                <Input
-                  class={`form-control ${fullNameErr}`}
-                  name="fullName"
-                  type="text"
-                  label="Full name"
-                  htmlFor="fullName"
-                  helperText={fullNameMsg}
-                  onChange={this.handleChange}
-                />
+                  <div>
+                    <Input
+                      class={`form-control ${fullNameErr}`}
+                      name="fullName"
+                      type="text"
+                      label="Full name"
+                      htmlFor="fullName"
+                      helperText={fullNameMsg}
+                      onChange={this.handleChange}
+                    />
 
-                <Input
-                  class={`form-control ${emailErr}`}
-                  name="email"
-                  type="text"
-                  label="Email"
-                  htmlFor="email"
-                  helperText={emailMsg}
-                  onChange={this.handleChange}
-                />
+                    <Input
+                      class={`form-control ${emailErr}`}
+                      name="email"
+                      type="text"
+                      label="Email"
+                      htmlFor="email"
+                      helperText={emailMsg}
+                      onChange={this.handleChange}
+                    />
 
-                <Input
-                  class={`form-control ${passwordErr}`}
-                  name="password"
-                  type="password"
-                  label="Password"
-                  htmlFor="password"
-                  autoComplete="off"
-                  helperText={passwordMsg}
-                  onChange={this.handleChange}
-                />
+                    <Input
+                      class={`form-control last ${passwordErr}`}
+                      name="password"
+                      type="password"
+                      label="Password"
+                      htmlFor="password"
+                      autoComplete="off"
+                      helperText={passwordMsg}
+                      onChange={this.handleChange}
+                    />
 
+                    <div className="note">
+                      By clicking Sign Up, you agree to our Terms, Data Policy and Cookie Policy. You may receive SMS notifications from us and can opt out at any time.
+                    </div>
 
-                <div>
-                  <Button text="Create My Account" variant="contained" color="primary" size="large" />
+                    <div className="action">
+                      <Button text="Create My Account" variant="contained" color="secondary" size="large" />
+                    </div>
+                  </div>
                 </div>
-                <div>
-                  Alrady registered, click here to <Link href="/login">
-                    <a>login</a>
-                  </Link>
+
+                <div className="link">
+                  Already a member? <Link href="/login"><a>Login</a></Link>
                 </div>
               </form>
-              <hr />
-              <p>
-                By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'
-              </p>
             </Grid>
           </Grid>
         </Container>
-
-
-        <div className="w-full max-w-xs mx-auto pt-4">
-
-        </div>
       </Fragment>
 
     )

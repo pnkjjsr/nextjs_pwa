@@ -2,9 +2,11 @@ import React from 'react';
 import { makeStyles } from '@material-ui/core/styles';
 import TextField from '@material-ui/core/TextField';
 
+import "./style.scss"
+
 const useStyles = makeStyles(theme => ({
     root: {
-        border: '1px solid #e2e2e1',
+        border: '1px solid rgb(158, 170, 176)',
         overflow: 'hidden',
         borderRadius: 4,
         backgroundColor: '#fff',
@@ -33,7 +35,7 @@ function TextBox(props) {
 export default function Input(props) {
     return (
         <TextBox
-            className={props.class}
+            className={`${props.class} textbox`}
             error={props.error}
             name={props.name}
             type={props.type}
