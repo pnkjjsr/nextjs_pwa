@@ -29,12 +29,12 @@ class Register extends Component {
       fullName: "",
       email: "",
       password: "",
-      msgName: "",
-      msgEmail: "",
-      msgPassword: "",
-      errName: "",
-      errEmail: "",
-      errPassword: "",
+      fullNameMsg: "",
+      emailMsg: "",
+      passwordMsg: "",
+      fullNameErr: "",
+      emailErr: "",
+      passwordErr: ""
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -43,64 +43,35 @@ class Register extends Component {
 
   handleChange(e) {
     let elem = e.target.name;
-    this.setState({
-      [elem]: e.target.value
-    });
+    let err = elem + "Err"
+    let msg = elem + "Msg"
 
-    if (elem == 'fullName') {
-      this.setState({
-        errName: "",
-        msgName: ""
-      });
-    } else if (elem == 'email') {
-      this.setState({
-        errEmail: "",
-        msgEmail: ""
-      });
-    } else if (elem == 'password') {
-      this.setState({
-        errPassword: "",
-        msgPassword: ""
-      });
-    }
+    this.setState({
+      [elem]: e.target.value,
+      [err]: "",
+      [msg]: ""
+    }, () => this.state);
+
+
+
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const { email, fullName, password } = this.state;
     const { notification, user, homeActions } = this.props;
-
     const { valid, errors } = validation({ email, fullName, password });
 
     if (!valid) {
-      if (errors.fullName) {
+      Object.keys(errors).map(e => {
+        var err = e + "Err"
+        var msg = e + "Msg"
         this.setState({
-          errName: "error",
-          msgName: errors.fullName
+          [err]: "error",
+          [msg]: errors[e]
         });
-      }
-      if (errors.email) {
-        this.setState({
-          errEmail: "error",
-          msgEmail: errors.email
-        });
-      }
-      if (errors.password) {
-        this.setState({
-          errPassword: "error",
-          msgPassword: errors.password
-        });
-      }
-
-      this.setState({
-        errorMsgs: errors
       });
       return
-    }
-    else {
-      this.setState({
-        errorMsgs: []
-      });
     }
 
     const auth = new authentication;
@@ -112,13 +83,13 @@ class Register extends Component {
 
           if (res.code == "auth/email-already-in-use") {
             this.setState({
-              errEmail: "error",
-              msgEmail: res.message
+              emailErr: "error",
+              emailMsg: res.message
             });
           } else if (res.code == "auth/weak-password") {
             this.setState({
-              errPassword: "error",
-              msgPassword: res.message
+              passwordErr: "error",
+              passwordMsg: res.message
             });
           }
 
@@ -171,7 +142,9 @@ class Register extends Component {
   }
 
   renderRegistration = () => {
-    const { msgName, msgEmail, msgPassword, errName, errEmail, errPassword } = this.state;
+    const { fullNameMsg, emailMsg, passwordMsg, fullNameErr, emailErr, passwordErr } = this.state;
+    console.log();
+
     return (
       <Fragment>
         <Container fixed className="register">
@@ -188,33 +161,33 @@ class Register extends Component {
                 </h1>
 
                 <Input
-                  class={`form-control ${errName}`}
+                  class={`form-control ${fullNameErr}`}
                   name="fullName"
                   type="text"
                   label="Full name"
                   htmlFor="fullName"
-                  helperText={msgName}
+                  helperText={fullNameMsg}
                   onChange={this.handleChange}
                 />
 
                 <Input
-                  class={`form-control ${errEmail}`}
+                  class={`form-control ${emailErr}`}
                   name="email"
                   type="text"
                   label="Email"
                   htmlFor="email"
-                  helperText={msgEmail}
+                  helperText={emailMsg}
                   onChange={this.handleChange}
                 />
 
                 <Input
-                  class={`form-control ${errPassword}`}
+                  class={`form-control ${passwordErr}`}
                   name="password"
                   type="password"
                   label="Password"
                   htmlFor="password"
                   autoComplete="off"
-                  helperText={msgPassword}
+                  helperText={passwordMsg}
                   onChange={this.handleChange}
                 />
 
