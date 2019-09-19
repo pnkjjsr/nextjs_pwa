@@ -28,22 +28,22 @@ class Button extends Component {
             this.setState({
                 loadIn: "loading"
             });
+        } else {
+            e()
         }
-        else {
-            this.setState({
-                loadIn: "loading"
-            }, () => e());
-        }
-
     }
 
-    componentWillReceiveProps(prevProps) {
-        if (prevProps.notification.show == "show") {
+    componentDidUpdate(prevProps, prevStats) {
+        const { notification } = prevProps;
+        const { open } = this.props.notification;
+
+        if (notification.open != open) {
             this.setState({
                 loadIn: ""
             });
         }
     }
+
 
     render() {
         const { text, loadIn, variant, color, action } = this.state;
@@ -58,6 +58,5 @@ class Button extends Component {
         )
     }
 }
-
 
 export default connect(state => state)(Button)

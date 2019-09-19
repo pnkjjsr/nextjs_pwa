@@ -51,9 +51,6 @@ class Register extends Component {
       [err]: "",
       [msg]: ""
     }, () => this.state);
-
-
-
   }
 
   handleSubmit(e) {
@@ -63,6 +60,10 @@ class Register extends Component {
     const { valid, errors } = validation({ email, fullName, password });
 
     if (!valid) {
+      notification.showNotification({
+        code: "",
+        message: "Please enter the details."
+      });
       Object.keys(errors).map(e => {
         var err = e + "Err"
         var msg = e + "Msg"
@@ -79,7 +80,6 @@ class Register extends Component {
       .then(res => {
         if (res.code) {
           notification.showNotification(res)
-          console.log(res);
 
           if (res.code == "auth/email-already-in-use") {
             this.setState({
