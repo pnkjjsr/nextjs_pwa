@@ -4,7 +4,8 @@ import {
 
 const initialState = {
     open: false,
-    message: ""
+    message: "",
+    type: "error"
 };
 
 const notification = (state = initialState, action) => {
@@ -12,12 +13,14 @@ const notification = (state = initialState, action) => {
         case SHOW:
             return Object.assign({}, state, {
                 open: true,
-                message: action.payload.message
+                message: action.payload.message,
+                type: action.payload.type
             });
         case HIDE:
             return Object.assign({}, state, {
                 open: false,
-                message: ""
+                message: "",
+                type: ""
             });
         default:
             return state;

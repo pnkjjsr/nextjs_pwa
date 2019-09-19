@@ -62,7 +62,8 @@ class Register extends Component {
     if (!valid) {
       notification.showNotification({
         code: "",
-        message: "Please enter the details."
+        message: "Please enter the details.",
+        type: "error"
       });
       Object.keys(errors).map(e => {
         var err = e + "Err"
