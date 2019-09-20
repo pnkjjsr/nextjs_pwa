@@ -45,7 +45,7 @@ export default class Footer extends Component {
             </ul>
 
             <div className="copyright">
-              © 2019 Neta .Ltd
+              © 2019 Name .Ltd
             </div>
           </Container>
         </div>

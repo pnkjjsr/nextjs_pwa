@@ -1,4 +1,7 @@
 import React, { Fragment, Component } from "react";
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import layoutActions from './actions'
 
 import Head from "./head";
 import Header from "./Header";
@@ -6,14 +9,17 @@ import Footer from "./Footer";
 
 import "./style.scss";
 
-export default class Layout extends Component {
+class Layout extends Component {
   constructor(props) {
     super(props)
     this.state = {
       authtoken: props.authtoken
     }
   }
+
   render() {
+
+
     return (
       <Fragment>
         <Head title={this.props.pageTitle} />
@@ -26,3 +32,9 @@ export default class Layout extends Component {
     );
   }
 }
+
+const mapDispatchToProps = dispatch => ({
+  layoutAction: bindActionCreators(layoutActions, dispatch)
+})
+
+export default connect(state => state, mapDispatchToProps)(Layout);

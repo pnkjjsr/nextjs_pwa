@@ -9,6 +9,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import actionNotifications from "components/Notification/actions"
 import actionUser from "components/User/actions"
+import layoutActions from "components/Layout/actions"
 
 import authSession from "components/utils/authSession"
 import authentication from "components/utils/authentication"
@@ -35,7 +36,10 @@ class Login extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
   }
-
+  static async getInitialProps({ pathname }) {
+    const path = pathname
+    return { path }
+  }
 
   handleSubmit(e) {
     e.preventDefault();
@@ -119,6 +123,8 @@ class Login extends Component {
   }
 
   componentDidMount() {
+    const { path, layoutAction } = this.props;
+    layoutAction.update_path(path);
     const session = new authSession;
     let token = session.getToken();
 
@@ -128,7 +134,7 @@ class Login extends Component {
   }
 
   render() {
-    const { email, password, emailErr, passwordErr, emailMsg, passwordMsg } = this.state;
+    const { emailErr, passwordErr, emailMsg, passwordMsg } = this.state;
     return (
       <Fragment>
         <Container className="login" fixed>
@@ -184,7 +190,8 @@ class Login extends Component {
 
 const mapDispatchToProps = dispatch => ({
   user: bindActionCreators(actionUser, dispatch),
-  actionNotification: bindActionCreators(actionNotifications, dispatch)
+  actionNotification: bindActionCreators(actionNotifications, dispatch),
+  layoutAction: bindActionCreators(layoutActions, dispatch)
 })
 
 export default connect(state => state, mapDispatchToProps)(Login);

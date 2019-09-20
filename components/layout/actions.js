@@ -1,5 +1,6 @@
 import {
-    UPDATE
+    UPDATE,
+    UPDATE_PATH
 } from './constant'
 
 const update = () => {
@@ -7,7 +8,14 @@ const update = () => {
         type: UPDATE
     };
 };
+const update_path = (e) => {
+    return {
+        type: UPDATE_PATH,
+        payload: e
+    };
+}
 
 export default {
-    update
+    update,
+    update_path
 };

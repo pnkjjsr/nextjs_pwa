@@ -33,6 +33,9 @@ class User extends Component {
   handleLogin() {
     Router.push('/login')
   }
+  handleSignup() {
+    Router.push('/register')
+  }
 
   handleLogout(e) {
     e.preventDefault();
@@ -56,28 +59,30 @@ class User extends Component {
     Router.push('/login');
   }
 
+  render() {
+    const { token, name, photo } = this.state;
+    const { user, layout } = this.props;
+    return (
+      <div className="auth">
+        {user.profile.uid || token ? (
+          <Nav name={name} photo={photo} action={this.handleLogout} />
+        ) : (
+            layout.path == '/login'
+              ?
+              <Button text="Signup" size="large" variant="outlined" color="primary" action={this.handleSignup} />
+              :
+              <Button text="Login" size="large" variant="outlined" color="primary" action={this.handleLogin} />
+          )
+        }
+      </div>
+    );
+  }
   componentDidMount() {
     let session = new authSession();
     let token = session.getToken();
     this.setState({
       token: token
     });
-  }
-
-  render() {
-    const { token, name, photo } = this.state;
-    const { user } = this.props;
-
-    return (
-      <div className="auth">
-        {user.profile.uid || token ? (
-          <Nav name={name} photo={photo} action={this.handleLogout} />
-        ) : (
-            <Button text="Login" size="large" variant="outlined" color="primary" action={this.handleLogin} />
-          )
-        }
-      </div>
-    );
   }
 
 }
@@ -87,7 +92,8 @@ const mapDispatchToProps = dispatch => ({
 
 const mapStateToProps = state => ({
   auth: state.auth,
-  user: state.user
+  user: state.user,
+  layout: state.layout
 })
 
 export default connect(mapStateToProps, mapDispatchToProps)(User);

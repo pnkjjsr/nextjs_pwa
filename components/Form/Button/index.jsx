@@ -17,11 +17,6 @@ class Button extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            text: props.text,
-            variant: props.variant,
-            color: props.color,
-            action: props.action,
-            size: props.size,
             loadIn: ""
         }
     }
@@ -47,10 +42,9 @@ class Button extends Component {
         }
     }
 
-
     render() {
-        const { text, loadIn, variant, color, size, action } = this.state;
-
+        const { loadIn } = this.state;
+        const { text, variant, color, size, action } = this.props
         return (
             <Fragment>
                 <MyButton className={`${loadIn}`} size={size} variant={variant} color={color} type="submit" onClick={e => this.handleClick(action)}>

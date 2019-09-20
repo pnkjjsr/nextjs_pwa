@@ -10,6 +10,7 @@ import { bindActionCreators } from 'redux';
 import user from "components/User/actions"
 import registerActions from "./action"
 import notification from "components/Notification/actions"
+import layoutActions from "components/Layout/actions"
 
 import { service } from 'utils';
 
@@ -40,6 +41,10 @@ class Register extends Component {
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleVerification = this.handleVerification.bind(this);
+  }
+  static async getInitialProps({ pathname }) {
+    const path = pathname
+    return { path }
   }
 
   handleChange(e) {
@@ -153,14 +158,14 @@ class Register extends Component {
           <Grid container spacing={0}>
             <Grid item sm={7}>
               <div className="banner">
-                <h2 className="title">
+                {/* <h2 className="title">
                   Lets build our
                   <br />
                   India together !!
-                </h2>
+                </h2> */}
 
                 <figure>
-                  <img src={banner} alt="banner of the website" />
+                  {/* <img src={banner} alt="banner of the website" /> */}
                 </figure>
               </div>
             </Grid>
@@ -266,6 +271,8 @@ class Register extends Component {
 
   componentDidMount() {
     const { registerAction } = this.props;
+    const { path, layoutAction } = this.props;
+    layoutAction.update_path(path);
     registerAction.check_login();
   }
 
@@ -277,7 +284,8 @@ class Register extends Component {
 const mapDispatchToProps = dispatch => ({
   registerAction: bindActionCreators(registerActions, dispatch),
   user: bindActionCreators(user, dispatch),
-  notification: bindActionCreators(notification, dispatch)
+  notification: bindActionCreators(notification, dispatch),
+  layoutAction: bindActionCreators(layoutActions, dispatch)
 })
 
 export default connect(state => state, mapDispatchToProps)(Register);
