@@ -55,23 +55,23 @@ class Location extends Component {
     const { address, state, pincode, country } = this.state;
     const { notificationAction } = this.props;
 
-    // const { valid, errors } = validation({ address, state, pincode, country });
-    // if (!valid) {
-    //   notificationAction.showNotification({
-    //     code: "",
-    //     message: "Please enter the details.",
-    //     type: "error"
-    //   });
-    //   Object.keys(errors).map(e => {
-    //     var err = e + "Err"
-    //     var msg = e + "Msg"
-    //     this.setState({
-    //       [err]: "error",
-    //       [msg]: errors[e]
-    //     });
-    //   });
-    //   return
-    // }
+    const { valid, errors } = validation({ address, state, pincode, country });
+    if (!valid) {
+      notificationAction.showNotification({
+        code: "",
+        message: "Please enter the details.",
+        type: "error"
+      });
+      Object.keys(errors).map(e => {
+        var err = e + "Err"
+        var msg = e + "Msg"
+        this.setState({
+          [err]: "error",
+          [msg]: errors[e]
+        });
+      });
+      return
+    }
 
     const session = new authSession();
     const token = session.getToken();
