@@ -45,8 +45,6 @@ class Login extends Component {
     e.preventDefault();
     const { email, password } = this.state;
     const { user, actionNotification } = this.props;
-    const session = new authSession;
-    const auth = new authentication;
 
     const { valid, errors } = validation({ email, password });
     if (!valid) {
@@ -66,6 +64,8 @@ class Login extends Component {
       return
     }
 
+    const session = new authSession;
+    const auth = new authentication;
     auth.signInWithEmail(email, password)
       .then(res => {
         if (res.code) {
@@ -140,43 +140,52 @@ class Login extends Component {
         <Container className="login" fixed>
           <Grid container justify="center" spacing={3} >
             <Grid item sm={4}>
-              <h1>
-                Login
-            </h1>
-
               <form onSubmit={this.handleSubmit} autoComplete="on">
 
-                <Input
-                  class={`form-control ${emailErr}`}
-                  name="email"
-                  type="text"
-                  label="Email"
-                  htmlFor="email"
-                  helperText={emailMsg}
-                  onChange={this.handleChange}
-                />
+                <div className="form">
+                  <div className="header">
+                    <h1 className="heading">
+                      Login
+                    </h1>
+                    {/* <div className="sub">
+                      One free step for nation
+                    </div> */}
+                  </div>
 
-                <Input
-                  class={`form-control ${passwordErr}`}
-                  name="password"
-                  type="password"
-                  label="Password"
-                  htmlFor="password"
-                  helperText={passwordMsg}
-                  onChange={this.handleChange}
-                  autoComplete="off"
-                />
+                  <div>
+                    <Input
+                      class={`form-control ${emailErr}`}
+                      name="email"
+                      type="text"
+                      label="Email"
+                      htmlFor="email"
+                      helperText={emailMsg}
+                      onChange={this.handleChange}
+                    />
 
-                <Button text="Login" variant="contained" color="primary" size="large" />
+                    <Input
+                      class={`form-control ${passwordErr}`}
+                      name="password"
+                      type="password"
+                      label="Password"
+                      htmlFor="password"
+                      helperText={passwordMsg}
+                      onChange={this.handleChange}
+                      autoComplete="off"
+                    />
+                  </div>
 
-                <div className="text-gray text-xs font-hairline mt-2">
+                  <div className="action">
+                    <Button text="Login" variant="contained" color="primary" size="large" />
+                  </div>
+                </div>
+
+                <div className="link">
                   Create you account, click here to <Link href="/">
-                    <a className="font-medium text-blue-600">Registration</a>
+                    <a>Registration</a>
                   </Link>
                 </div>
               </form>
-              <hr />
-              <p className="text-gray text-xs italic font-hairline">By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'</p>
             </Grid>
           </Grid>
         </Container>

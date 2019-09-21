@@ -1,0 +1,232 @@
+.form {
+  text-align: left;
+
+  .form-group {
+    margin-bottom: $base-gap;
+    margin-top: 0;
+    position: relative;
+
+    label {
+      color: #4a4a4a;
+      font-size: $base-font-size-rem - 0.25;
+      font-weight: $base-font-weight-xbold;
+      margin-bottom: $base-gap - 5;
+
+      &.lg {
+        color: #4a4a4a;
+        font-family: $base-font-family;
+        font-size: $base-font-size;
+        font-weight: $base-font-weight-sbold;
+      }
+    }
+
+    .form-control {
+      @extend %form-control;
+
+      input {
+        border: 0 none;
+        font-family: $base-font-family;
+        font-size: $base-font-size-rem;
+        height: 38px;
+      }
+
+      &.textarea {
+        height: 120px;
+      }
+    }
+
+    >div {
+      width: 100%;
+
+      .form-control {
+        @extend %form-control;
+      }
+    }
+
+    // Material
+    &.material {
+      label {
+        font-size: $base-font-size;
+      }
+
+      label+div {
+        @extend %form-control;
+        margin-top: $base-gap * 2;
+      }
+    }
+
+    // Prefix/Suffix
+    .input-group {
+      align-items: stretch;
+      background-color: #fff;
+      border: 1px solid #a8a5b3;
+      border-radius: $base-border-radius;
+      display: flex;
+      font-family: $base-font-family;
+      font-size: $base-font-size-rem;
+      height: 50px;
+      width: 100%;
+
+      >span {
+        @extend %input-group-padding;
+        align-items: center;
+        border-bottom-left-radius: $base-border-radius;
+        border-top-left-radius: $base-border-radius;
+        color: #4a4a4a;
+        display: flex;
+        font-family: $base-font-family;
+        font-size: $base-font-size - 0.1;
+        justify-content: center;
+
+        &.wht {
+          color: $color-white;
+        }
+      }
+
+      >div {
+        width: 100%;
+
+        .form-control {
+          @extend %input-group-padding;
+          background: none;
+          border: 0;
+          margin: 0;
+        }
+      }
+    }
+  }
+
+  .checkbox {
+    span {
+      font-family: $base-font-family;
+    }
+  }
+
+  // Selection Field checkbox/radio
+  label {
+    &.form-group {
+      span+span {
+        color: $base-color-light;
+        font-family: $base-font-family;
+        font-size: $base-font-size + 0.15;
+      }
+    }
+  }
+
+  .select-box {
+    border: 0 none;
+    border-bottom: 1px dashed $base-color;
+    font-family: $base-font-family;
+    font-size: $base-font-size-rem;
+    font-weight: $base-font-weight-sbold;
+
+    &::before {
+      border-bottom: 1px dashed $base-color;
+    }
+  }
+
+  // AutoComplete DropDown
+  .dropdown {
+    background-color: #fff;
+    box-shadow: $base-box-shadow;
+    list-style-type: none;
+    margin: 0;
+    max-height: 400px;
+    overflow: hidden;
+    overflow-y: auto;
+    padding: 0;
+    position: absolute;
+    width: 100%;
+    z-index: 1;
+
+    li {
+      padding: $base-gap * 2;
+    }
+  }
+
+  .link {
+    font-size: $base-font-size;
+    margin-top: 10px;
+
+    a {
+      color: #858292;
+      font-size: $base-font-size + 0.15;
+      font-weight: $base-font-weight-bold;
+      text-decoration: none;
+    }
+  }
+
+  .actions {
+    margin-top: $base-gap;
+    text-align: left;
+
+    &.align-center {
+      text-align: center;
+    }
+
+    button {
+      vertical-align: top;
+
+      +button {
+        margin-left: $base-gap;
+      }
+    }
+
+    .resend {
+      color: #4a4a4a;
+      font-weight: $base-font-weight-bold;
+
+      .timer {
+        margin-bottom: $base-gap;
+      }
+
+      .action {
+        margin-bottom: $base-gap * 3;
+      }
+    }
+
+    .primary {
+      @extend %btn-primary;
+      margin-bottom: $base-gap;
+      padding: ($base-gap + 5) ($base-gap * 3);
+      text-transform: uppercase;
+    }
+
+    .secondary {
+      @extend %btn;
+      color: $color-secondary;
+      font-weight: $base-font-weight-bold;
+      padding: ($base-gap + 5) $base-gap;
+
+      &:hover {
+        background-color: rgba(235, 80, 144, 0.1);
+        text-decoration: none;
+      }
+
+      &.hide {
+        display: none;
+      }
+
+      &.show {
+        display: inline-block;
+      }
+    }
+
+    .link {
+      color: #4a4a4a;
+      font-weight: $base-font-weight-bold;
+      text-align: center;
+
+      small {
+        color: $base-color-light;
+        font-size: $base-font-size - 0.35;
+      }
+
+      a {
+        color: $color-primary;
+        font-weight: $base-font-weight-sbold;
+        text-decoration: none;
+      }
+    }
+  }
+}

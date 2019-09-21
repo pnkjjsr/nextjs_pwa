@@ -1,15 +1,20 @@
 import React, { Component, Fragment } from "react";
+
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import actions from "./actions";
+import notificationActions from "../../components/Notification/actions"
 
-import authSession from "../../components/utils/authSession"
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
 
 import { service } from '../../utils';
-import notification from "../../components/Notification/actions"
 
+import authSession from "../../components/utils/authSession"
+import Button from "components/Form/Button"
+import Input from "components/Form/Input"
 
-
+import validation from "./validation"
 import "./style.scss";
 
 class Location extends Component {
@@ -20,7 +25,13 @@ class Location extends Component {
       address: "",
       state: "",
       pincode: "",
-      country: "India"
+      country: "India",
+      addressErr: "",
+      stateErr: "",
+      pincodeErr: "",
+      addressMsg: "",
+      stateMsg: "",
+      pincodeMsg: ""
     }
 
     this.handleChange = this.handleChange.bind(this);
@@ -29,15 +40,39 @@ class Location extends Component {
 
   handleChange(e) {
     let elem = e.target.name;
+    let err = elem + "Err"
+    let msg = elem + "Msg"
 
     this.setState({
-      [elem]: e.target.value
-    });
+      [elem]: e.target.value,
+      [err]: "",
+      [msg]: ""
+    }, () => this.state);
   }
 
   handleSubmit(e) {
     e.preventDefault();
     const { address, state, pincode, country } = this.state;
+    const { notificationAction } = this.props;
+
+    // const { valid, errors } = validation({ address, state, pincode, country });
+    // if (!valid) {
+    //   notificationAction.showNotification({
+    //     code: "",
+    //     message: "Please enter the details.",
+    //     type: "error"
+    //   });
+    //   Object.keys(errors).map(e => {
+    //     var err = e + "Err"
+    //     var msg = e + "Msg"
+    //     this.setState({
+    //       [err]: "error",
+    //       [msg]: errors[e]
+    //     });
+    //   });
+    //   return
+    // }
+
     const session = new authSession();
     const token = session.getToken();
     const data = {
@@ -48,70 +83,92 @@ class Location extends Component {
       country: country
     }
 
-    service.post('/location', data).then((res) => {
-      const { action } = this.props;
-      action.mobile();
-    }).catch(async (error) => {
-      let data = error.response.data;
-      let msg = data[Object.keys(data)[0]]
-      let obj = { message: msg }
+    service.post('/location', data)
+      .then((res) => {
+        const { action } = this.props;
+        action.mobile();
+      }).catch(async (error) => {
+        let data = error.response.data;
+        let msg = data[Object.keys(data)[0]]
+        let key = Object.keys(data)[0];
+        let message = msg.message;
 
-      notificationAction.showNotification(obj);
-    });
+        notificationAction.showNotification(msg);
+        if (key) {
+          let err = key + "Err"
+          let msg = key + "Msg"
+          this.setState({
+            [err]: "error",
+            [msg]: message
+          });
+        }
+      });
   }
 
   render() {
+    const { addressErr, addressMsg, stateErr, stateMsg, pincodeErr, pincodeMsg } = this.state;
     return (
       <Fragment>
-        <div className="w-full max-w-xs mx-auto pt-4">
-          <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={this.handleSubmit}>
-            <h1 className="mb-4 text-lg font-bold">
-              Select Your Area
-            </h1>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm mb-2" htmlFor="address">
-                Address <span className="font-hairline text-xs">[area, street name]</span>
-              </label>
-              <input name="address" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="house, floor, street" onChange={this.handleChange} />
-            </div>
-            <div className="mb-6">
-              <label className="block text-gray-700 text-sm mb-2" htmlFor="state">
-                State
-              </label>
-              <div className="relative">
-                <select name="state" className="shadow appearance-none w-full bg-white border border-gray-200 text-gray-700 py-3 px-4 pr-8 rounded leading-tight focus:outline-none focus:bg-white focus:border-gray-500" onChange={this.handleChange}>
-                  <option>Select</option>
-                  <option>New Delhi</option>
-                </select>
-                <div className="pointer-events-none absolute inset-y-0 right-0 flex items-center px-2 text-gray-700">
-                  <svg className="fill-current h-4 w-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20"><path d="M9.293 12.95l.707.707L15.657 8l-1.414-1.414L10 10.828 5.757 6.586 4.343 8z" /></svg>
+        <Container className="account" fixed>
+          <Grid container justify="center" spacing={3} >
+            <Grid item sm={4}>
+              <div className="form">
+                <div className="header">
+                  <h1 className="heading">Select Your Area</h1>
+                </div>
+                <div>
+                  <form onSubmit={this.handleSubmit}>
+
+                    <Input
+                      class={`form-control ${addressErr}`}
+                      name="address"
+                      type="text"
+                      label="Address"
+                      htmlFor="address"
+                      helperText={addressMsg}
+                      onChange={this.handleChange}
+                    />
+
+                    <Input
+                      class={`form-control ${stateErr}`}
+                      name="state"
+                      type="text"
+                      label="State"
+                      htmlFor="state"
+                      helperText={stateMsg}
+                      onChange={this.handleChange}
+                    />
+
+                    <Input
+                      class={`form-control ${pincodeErr}`}
+                      name="pincode"
+                      type="text"
+                      label="Pincode"
+                      htmlFor="pincode"
+                      helperText={pincodeMsg}
+                      onChange={this.handleChange}
+                    />
+
+                    <Input
+                      disabled={true}
+                      value="India"
+                      class={`form-control`}
+                      name="country"
+                      type="text"
+                      label="Country"
+                      htmlFor="country"
+                      onChange={this.handleChange}
+                    />
+
+                    <div className="action">
+                      <Button text="Proceed" variant="contained" color="primary" size="large" />
+                    </div>
+                  </form>
                 </div>
               </div>
-            </div>
-
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm mb-2" htmlFor="pincode">
-                Pincode
-                </label>
-              <input name="pincode" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="ex: 110064" onChange={this.handleChange} />
-            </div>
-            <div className="mb-4">
-              <label className="block text-gray-700 text-sm mb-2" htmlFor="country">
-                Country <span className="font-hairline text-xs">[pre-defined]</span>
-              </label>
-              <input name="country" className="shadow appearance-none border rounded bg-gray-200 w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="text" placeholder="India" disabled="disabled" value="India" onChange={this.handleChange} />
-            </div>
-
-            <div className="flex items-center justify-between">
-              <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-                Proceed
-              </button>
-            </div>
-          </form>
-          <hr />
-          <p className="text-gray text-xs italic font-hairline">By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'</p>
-        </div>
-
+            </Grid>
+          </Grid>
+        </Container>
         <style jsx>{``}</style>
       </Fragment>
     )
@@ -119,7 +176,7 @@ class Location extends Component {
 }
 const mapDispatchToProps = dispatch => ({
   action: bindActionCreators(actions, dispatch),
-  notificationAction: bindActionCreators(notification, dispatch)
+  notificationAction: bindActionCreators(notificationActions, dispatch)
 })
 
 export default connect(state => state, mapDispatchToProps)(Location);

@@ -8,8 +8,8 @@ import { initStore } from "../redux/store";
 import { MuiThemeProvider } from '@material-ui/core/styles';
 import theme from "components/Layout/_theme"
 
-import Layout from "../components/Layout";
-import Notification from "../components/Notification"
+import Layout from "components/Layout";
+import Notification from "components/Notification"
 
 class MyApp extends App {
   static async getInitialProps({ Component, ctx, router }) {

@@ -36,9 +36,7 @@ class MyDocument extends Document {
       <Html lang="en">
         <Head>
           <meta name="theme-color" content={theme.palette.primary.main} />
-
           <style>{`body { margin: 0 } /* custom! */`}</style>
-          <link href="https://fonts.googleapis.com/css?family=Lato:100,300,400,700,900&display=swap" rel="stylesheet" />
         </Head>
         <body className="custom_class">
           <Main />

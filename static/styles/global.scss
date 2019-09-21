@@ -1,0 +1,38 @@
+/*Global Component*/
+@import './fonts.scss';
+@import './base/variables';
+@import './base/mixins';
+@import './base/breakpoints';
+
+
+.btn {
+  padding: $base-gap + 5;
+
+  .icon {
+    margin-left: $base-gap * 2;
+    margin-top: -3px;
+  }
+
+  &.btn-primary {
+    @extend %btn-primary;
+  }
+
+  &.btn-link {
+    @extend %btn;
+    color: $color-secondary;
+    font-weight: $base-font-weight;
+  }
+}
+
+.input-group {
+  .form-control {
+    border: 2px solid #808592;
+    // border: 2px solid #d1d6e2;
+    height: 54px;
+  }
+}
+
+.form-control {
+  @extend %form-control;
+  border: 1px solid #a8a5b3;
+}

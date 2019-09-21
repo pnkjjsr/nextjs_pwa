@@ -1,3 +1,5 @@
+@import "~common/styles/base/_breakpoints";
+
 .header[role="main"] {
     position: fixed;
     z-index: 1;
@@ -23,7 +25,9 @@
 
 @media only screen and (max-width: 1600px) {}
 
-@media only screen and (max-width: 1400px) {
+@media only screen and (max-width: 1400px) {}
+
+@include media-breakpoint-down(ss) {
     .header[role="main"] {
         padding-top: 0;
     }

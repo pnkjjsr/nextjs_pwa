@@ -1,0 +1,39 @@
+//Base Variable of Project
+$base-gap: 10px;
+
+$base-color: #000;
+$base-color-light: rgb(164, 164, 164);
+$base-color-link: #0073b0;
+$base-color-invert: lighten($base-color, 100%);
+
+// YumBag Color
+$color-primary: #0073b0;
+$color-secondary: #00a400;
+$color-gray: #4a4a4a;
+$color-blue: #251e40;
+$color-white: #fff;
+$color-error: #c00;
+$color-warning: #f80;
+$color-success: #007e33;
+$color-info: #09c;
+
+// Font Styling
+$base-font-family: 'Lato';
+$base-font-size: 16px;
+$base-font-weight-thin: 100;
+$base-font-weight-light: 300;
+$base-font-weight: 400;
+$base-font-weight-bold: 700;
+$base-font-weight-black: 900;
+
+$base-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+$base-border-radius: 4px;
+$base-background-color: #fff;
+
+
+// z-index Defination
+$notification: 9999;
+$loader: 100;
+$modal: 90;
+$header: 10;
+$footer: 10;

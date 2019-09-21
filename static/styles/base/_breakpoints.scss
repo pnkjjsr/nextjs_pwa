@@ -1,0 +1,97 @@
+// Resolution BreakPoint
+$ls: 1920px;
+$ms: 1660px;
+$ss: 1410px;
+$xl: 1200px;
+$lg: 992px;
+$md: 768px;
+$sm: 568px;
+$xs: 0;
+
+// BreakPoint Resolution with mobile first approach.
+
+// Above
+@mixin media-breakpoint-up($breakpoint) {
+  @if $breakpoint=='sm' {
+    @media (min-width: $sm) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='md' {
+    @media (min-width: $md) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='lg' {
+    @media (min-width: $lg) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='xl' {
+    @media (min-width: $xl) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='ss' {
+    @media (min-width: $ss) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='ms' {
+    @media (min-width: $ms) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='ls' {
+    @media (min-width: $ls) {
+      @content;
+    }
+  }
+}
+
+// Down
+@mixin media-breakpoint-down($breakpoint) {
+  @if $breakpoint=='ms' {
+    @media (max-width: $ms) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='ss' {
+    @media (max-width: $ss) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='xl' {
+    @media (max-width: $xl) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='lg' {
+    @media (max-width: $lg) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='md' {
+    @media (max-width: $md) {
+      @content;
+    }
+  }
+
+
+
+  @else if $breakpoint=='sm' {
+    @media (max-width: $sm) {
+      @content;
+    }
+  }
+}

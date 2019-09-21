@@ -1,18 +1,8 @@
+@import "~common/styles/components/form";
+
 .login {
     margin-top: 50px;
     padding-top: 100px;
 
-    .form-control {
-        height: 100px;
-
-        &.error {
-            .MuiInputBase-root {
-                border-color: #ff6c6c;
-            }
-
-            .MuiFormHelperText-root {
-                color: #ff6c6c;
-            }
-        }
-    }
+    @include form;
 }

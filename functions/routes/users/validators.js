@@ -25,19 +25,34 @@ exports.validateLocationData = (data) => {
   let errors = {};
 
   if (isEmpty(data.token)) {
-    errors.token = 'Token must not be empty';
+    errors.token = {
+      code: "token/empty",
+      message: 'Token must not be empty'
+    }
   }
   if (isEmpty(data.address)) {
-    errors.address = 'Address must not be empty';
+    errors.address = {
+      code: "address/empty",
+      message: 'Address must not be empty'
+    }
   }
   if (isEmpty(data.state)) {
-    errors.state = 'State must not be empty';
+    errors.state = {
+      code: "state/empty",
+      message: 'State must not be empty'
+    };
   }
   if (isEmpty(data.pincode)) {
-    errors.pincode = 'Pincode must not be empty';
+    errors.pincode = {
+      code: "pincode/empty",
+      message: 'Pincode must not be empty'
+    };
   }
   if (isEmpty(data.country)) {
-    errors.country = 'Country must not be empty';
+    errors.country = {
+      code: "country/empty",
+      message: 'Country must not be empty'
+    };
   }
 
   return {

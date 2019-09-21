@@ -158,14 +158,14 @@ class Register extends Component {
           <Grid container spacing={0}>
             <Grid item sm={7}>
               <div className="banner">
-                {/* <h2 className="title">
+                <h2 className="title">
                   Lets build our
                   <br />
                   India together !!
-                </h2> */}
+                </h2>
 
                 <figure>
-                  {/* <img src={banner} alt="banner of the website" /> */}
+                  <img src={banner} alt="banner of the website" />
                 </figure>
               </div>
             </Grid>

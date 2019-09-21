@@ -1,0 +1,8 @@
+@import "~common/styles/components/form";
+
+.account {
+    margin-top: 50px;
+    padding-top: 50px;
+
+    @include form;
+}

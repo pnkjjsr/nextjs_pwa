@@ -36,6 +36,8 @@ export default function Input(props) {
     return (
         <TextBox
             className={`${props.class} textbox`}
+            value={props.value}
+            disabled={props.disabled}
             error={props.error}
             name={props.name}
             type={props.type}

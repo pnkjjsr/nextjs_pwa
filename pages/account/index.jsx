@@ -13,7 +13,6 @@ import Main from './account'
 
 import userImg from '../../static/images/pj.gif'
 
-
 import "./style.scss";
 
 class Account extends Component {
@@ -28,9 +27,15 @@ class Account extends Component {
     const { user } = this.props
     return (
       <Fragment>
-        <h1 className="text-teal-500 text-2xl leading-normal">
-          Account
-        </h1>
+        <div className="form">
+          <div className="header">
+            <h1 className="heading">
+              Account
+            </h1>
+          </div>
+
+        </div>
+
         <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white m-auto">
 
           <img className="w-full" src={userImg} alt="Sunset in the mountains" />
