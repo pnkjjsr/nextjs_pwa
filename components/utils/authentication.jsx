@@ -100,8 +100,8 @@ export default class Authentication {
         await firebase.auth().currentUser.linkWithPhoneNumber(phoneNumber, appVerifier)
             .then(function (confirmationResult) {
                 confirm = confirmationResult
-            }, function (error) {
-                console.log(error);
+            }, function (err) {
+                confirm = err
             });
         return confirm
     }

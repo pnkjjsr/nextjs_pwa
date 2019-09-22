@@ -5,11 +5,15 @@ import { bindActionCreators } from 'redux';
 import accountActions from "./actions";
 import notifictionActions from "../../components/Notification/actions"
 
-import {
-  service
-} from "../../utils"
-import authSession from "../../components/utils/authSession"
-import authentication from "../../components/utils/authentication"
+import Container from '@material-ui/core/Container';
+import Grid from '@material-ui/core/Grid';
+
+import { service } from "../../utils"
+import authSession from "components/utils/authSession"
+import authentication from "components/utils/authentication"
+
+import Button from "components/Form/Button"
+import Input from "components/Form/Input"
 
 import "./style.scss";
 
@@ -20,7 +24,11 @@ class Location extends Component {
       view: 0,
       country_code: "+91",
       mobile: "",
+      mobileErr: "",
+      mobileMsg: "",
       otp: "",
+      otpErr: "",
+      otpMsg: "",
       verifier: "",
       confirmationResult: ""
     }
@@ -32,25 +40,54 @@ class Location extends Component {
 
   handleChange(e) {
     let elem = e.target.name;
+    let err = elem + "Err"
+    let msg = elem + "Msg"
 
     this.setState({
-      [elem]: e.target.value
-    });
+      [elem]: e.target.value,
+      [err]: "",
+      [msg]: ""
+    }, () => this.state);
   }
 
   async handleSubmit(e) {
     e.preventDefault();
     const { country_code, mobile, verifier } = this.state;
-    const { notificationAction } = this.props;
+    const { notificationAction, accountAction } = this.props;
+
+    if (!mobile) {
+      notificationAction.showNotification({
+        code: "",
+        message: "Please enter the details.",
+        type: "error"
+      });
+      this.setState({
+        mobileErr: "error",
+        mobileMsg: "Mobile must not be empty"
+      });
+      return
+    }
+
     const session = new authSession();
     const auth = new authentication;
     const token = session.getToken();
 
     let phoneNumber = `${country_code} ${mobile}`
     let appVerifier = verifier;
-    let confirmationResult = await auth.linkWithPhoneNumber(phoneNumber, appVerifier)
+    let confirmationResult = await auth.linkWithPhoneNumber(phoneNumber, appVerifier);
+    console.log(confirmationResult);
 
-    if (confirmationResult) {
+    if (confirmationResult.code == "auth/invalid-phone-number") {
+      notificationAction.showNotification(confirmationResult);
+      this.setState({
+        mobileErr: "error",
+        mobileMsg: "Enter a valid mobile number"
+      });
+    }
+    else if (confirmationResult.code == "auth/provider-already-linked") {
+      accountAction.account();
+    }
+    else if (confirmationResult) {
       const data = {
         token: token,
         country_code: country_code,
@@ -73,6 +110,20 @@ class Location extends Component {
     e.preventDefault();
     const { otp, confirmationResult } = this.state;
     const { notificationAction, accountAction } = this.props;
+
+    if (!otp) {
+      notificationAction.showNotification({
+        code: "",
+        message: "Please enter the OTP.",
+        type: "error"
+      });
+      this.setState({
+        otpErr: "error",
+        otpMsg: "OTP must not be empty"
+      });
+      return
+    }
+    let _this = this;
     let auth = new authentication;
     let session = new authSession();
     let uid = session.getToken();
@@ -92,62 +143,79 @@ class Location extends Component {
         })
 
     }).catch(function (error) {
-      notificationAction.showNotification(error);
+      if (error.code == "auth/invalid-verification-code") {
+        let msg = "Invalid OTP"
+        _this.setState({
+          otpErr: "error",
+          otpMsg: "Please enter correct OTP"
+        });
+        notificationAction.showNotification({ message: msg });
+      }
     });
 
 
   }
 
   renderMobile = () => {
+    const { mobileErr, mobileMsg } = this.state;
     return (
-      <div className="w-full max-w-xs mx-auto pt-4">
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" onSubmit={this.handleSubmit}>
-          <h1 className="mb-4 text-lg font-bold">
-            Please enter your contact number
-            </h1>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm mb-2" htmlFor="address">
-              Mobile <span className="font-hairline text-xs"></span>
-            </label>
-            <input name="mobile" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="Mobile" placeholder="ex: 9210 XXXX60" onChange={this.handleChange} />
+      <Fragment>
+        <div className="form">
+          <div className="header">
+            <h1 className="heading">Enter contact number</h1>
           </div>
-          <div className="flex items-center justify-between">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-              Proceed
-              </button>
+          <div>
+            <form onSubmit={this.handleSubmit}>
+              <Input
+                class={`form-control ${mobileErr}`}
+                name="mobile"
+                type="text"
+                label="Mobile number"
+                htmlFor="mobile"
+                helperText={mobileMsg}
+                onChange={this.handleChange}
+              />
+              <div className="action">
+                <Button text="Proceed" variant="contained" color="primary" size="large" />
+              </div>
+            </form>
           </div>
-        </form>
-        <hr />
-        <p className="text-gray-500 text-xs italic font-hairline">By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'</p>
-      </div>
+        </div>
+      </Fragment>
+
     )
   }
 
   renderVerification = () => {
+    const { otpErr, otpMsg } = this.state;
     return (
-      <div className="w-full max-w-xs mx-auto pt-4">
-        <form className="bg-white shadow-md rounded px-8 pt-6 pb-8 mb-4" autoComplete="off" onSubmit={this.handleVerification}>
-          <h1 className="mb-4 text-lg font-bold">
-            Please enter verification code
-            </h1>
-          <div className="mb-4">
-            <label className="block text-gray-700 text-sm mb-2" htmlFor="otp">
-              OTP <span className="font-hairline text-xs">one-time password</span>
-            </label>
-            <input name="otp" className="shadow appearance-none border rounded w-full py-2 px-3 text-gray-700 leading-tight focus:outline-none focus:shadow-outline" type="password" pattern="[0-9]*" inputMode="numeric" placeholder="ex: 123456" autoComplete="off" onChange={this.handleChange} />
+      <Fragment>
+        <div className="form">
+          <div className="header">
+            <h1 className="heading">Verification code</h1>
           </div>
-          <div className="flex items-center justify-between">
-            <button className="bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded focus:outline-none focus:shadow-outline" type="submit">
-              Proceed
-              </button>
+          <div>
+            <form autoComplete="off" onSubmit={this.handleVerification}>
+              <Input
+                class={`form-control ${otpErr}`}
+                name="otp"
+                type="text"
+                label="OTP"
+                htmlFor="otp"
+                helperText={otpMsg}
+                autoComplete="off"
+                onChange={this.handleChange}
+              />
+              <div className="action">
+                <Button text="Proceed" variant="contained" color="primary" size="large" />
+              </div>
+            </form>
           </div>
-          <div className="text-gray text-xs font-hairline mt-2">
-            Click here to <span className="font-medium text-blue-600 cursor-pointer" onClick={this.handleSubmit}>resend</span>
-          </div>
-        </form>
-        <hr />
-        <p className="text-gray-500 text-xs italic font-hairline">By proceeding, I'm agreed 'Terms & Conditions' and 'Privary Policy'</p>
-      </div>
+        </div>
+        <div className="links">
+          Click here to <span onClick={this.handleSubmit}>resend</span>
+        </div>
+      </Fragment>
     )
   }
 
@@ -163,7 +231,13 @@ class Location extends Component {
     const { view } = this.state;
     return (
       <Fragment>
-        {view === 0 ? this.renderMobile() : this.renderVerification()}
+        <Container className="account" fixed>
+          <Grid container justify="center" spacing={3} >
+            <Grid item sm={4}>
+              {view === 0 ? this.renderMobile() : this.renderVerification()}
+            </Grid>
+          </Grid>
+        </Container>
 
         <div ref={(ref) => this.recaptcha = ref}></div>
 

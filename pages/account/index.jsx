@@ -23,39 +23,6 @@ class Account extends Component {
     }
   }
 
-  renderDashboard = () => {
-    const { user } = this.props
-    return (
-      <Fragment>
-        <div className="form">
-          <div className="header">
-            <h1 className="heading">
-              Account
-            </h1>
-          </div>
-
-        </div>
-
-        <div className="max-w-sm rounded overflow-hidden shadow-lg bg-white m-auto">
-
-          <img className="w-full" src={userImg} alt="Sunset in the mountains" />
-          <div className="px-6 py-4">
-            <div className="font-bold text-xl mb-2">Pankaj Jasoria</div>
-            <p className="text-gray-700 text-base">
-              MLA
-              </p>
-          </div>
-          <div className="px-6 py-4">
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#photography</span>
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700 mr-2">#travel</span>
-            <span className="inline-block bg-gray-200 rounded-full px-3 py-1 text-sm font-semibold text-gray-700">#winter</span>
-          </div>
-        </div>
-      </Fragment>
-    )
-  }
-
-  // static getDerivedStateFromProps(props, state) {}
 
   componentDidMount() {
     const { accountAction } = this.props;

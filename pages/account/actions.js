@@ -20,17 +20,9 @@ const prefetchData = () => {
                 e = res.data;
                 if (!e.pincode) {
                     dispatch(location())
-                } else if (!e.pincode && e.phoneNumber) {
-                    let data = {
-                        location: 0,
-                        mobile: 1
-                    };
+                } else if (!e.phoneNumber) {
                     dispatch(mobile())
                 } else if (e.pincode && e.phoneNumber) {
-                    let data = {
-                        location: 1,
-                        mobile: 1
-                    };
                     dispatch(account())
                 }
 
