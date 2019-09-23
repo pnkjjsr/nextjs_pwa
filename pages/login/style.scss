@@ -1,8 +1,29 @@
+@import "~common/styles/base/_breakpoints";
 @import "~common/styles/components/form";
 
 .login {
-    margin-top: 50px;
+    margin-top: 60px;
     padding-top: 100px;
 
     @include form;
+}
+
+@include media-breakpoint-down(ss) {
+    .login {
+        margin-top: 60px;
+        padding-top: 50px;
+    }
+}
+
+@include media-breakpoint-down(lg) {
+    .login {
+        margin-top: 50px;
+    }
+}
+
+@include media-breakpoint-down(xs) {
+    .login {
+        padding-top: 20px;
+        padding-bottom: 90px;
+    }
 }

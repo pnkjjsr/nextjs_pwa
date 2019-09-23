@@ -6,7 +6,7 @@ $xl: 1200px;
 $lg: 992px;
 $md: 768px;
 $sm: 568px;
-$xs: 0;
+$xs: 320px;
 
 // BreakPoint Resolution with mobile first approach.
 
@@ -57,7 +57,13 @@ $xs: 0;
 
 // Down
 @mixin media-breakpoint-down($breakpoint) {
-  @if $breakpoint=='ms' {
+  @if $breakpoint=='ls' {
+    @media (max-width: $ls) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='ms' {
     @media (max-width: $ms) {
       @content;
     }
@@ -87,10 +93,14 @@ $xs: 0;
     }
   }
 
-
-
   @else if $breakpoint=='sm' {
     @media (max-width: $sm) {
+      @content;
+    }
+  }
+
+  @else if $breakpoint=='xs' {
+    @media (max-width: $xs) {
       @content;
     }
   }

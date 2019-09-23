@@ -139,7 +139,8 @@ class Login extends Component {
       <Fragment>
         <Container className="login" fixed>
           <Grid container justify="center" spacing={3} >
-            <Grid item sm={4}>
+            <Grid item lg={4} md={5
+            } sm={4}>
               <form onSubmit={this.handleSubmit} autoComplete="on">
 
                 <div className="form">

@@ -23,18 +23,18 @@
     }
 }
 
-@media only screen and (max-width: 1600px) {}
-
-@media only screen and (max-width: 1400px) {}
-
 @include media-breakpoint-down(ss) {
     .header[role="main"] {
         padding-top: 0;
     }
 }
 
-@media only screen and (max-width: 1280px) {}
+@include media-breakpoint-down(xs) {
+    .header[role="main"] {
+        padding-top: 0;
+    }
 
-@media only screen and (max-width: 960px) {}
-
-@media only screen and (max-width: 600px) {}
+    .logo {
+        font-size: 30px;
+    }
+}
