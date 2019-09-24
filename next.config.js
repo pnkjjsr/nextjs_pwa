@@ -8,7 +8,7 @@ const path = require('path')
 const nextConfig = {
   env: {
     apiKey: process.env.apiKey,
-    authDomain: process.env.authDomain
+    secretKey: process.env.SECRET_KEY
   },
   serverRuntimeConfig: {
     // Will only be available on the server side

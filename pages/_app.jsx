@@ -10,8 +10,15 @@ import theme from "components/Layout/_theme"
 
 import Layout from "components/Layout";
 import Notification from "components/Notification"
+import authSession from "components/utils/authSession"
 
 class MyApp extends App {
+  constructor(props) {
+    super(props)
+    this.state = {
+      key: false
+    }
+  }
   static async getInitialProps({ Component, ctx, router }) {
     let pageProps = {};
     if (Component.getInitialProps) {
@@ -20,20 +27,36 @@ class MyApp extends App {
     return { pageProps };
   }
   render() {
-    const { Component, pageProps, store } = this.props;
+    const { key } = this.state;
+    const { Component, ctx, router, pageProps, store } = this.props;
 
-    return (
-      <Container>
-        <Provider store={store}>
-          <MuiThemeProvider theme={theme}>
-            <Layout pageTitle="">
-              <Notification />
-              <Component {...pageProps} />
-            </Layout>
-          </MuiThemeProvider>
-        </Provider>
-      </Container>
-    );
+    if (router.query.key == process.env.secretKey || key == true) {
+      return (
+        <Container>
+          <Provider store={store}>
+            <MuiThemeProvider theme={theme}>
+              <Layout pageTitle="">
+                <Notification />
+                <Component {...pageProps} />
+              </Layout>
+            </MuiThemeProvider>
+          </Provider>
+        </Container>
+      );
+    }
+    else {
+      return false
+    }
+  }
+  componentDidMount() {
+    const { router } = this.props;
+    const session = new authSession()
+    if (router.query.key == process.env.secretKey) {
+      session.setSecretKey(true)
+      this.setState({
+        key: true
+      });
+    }
   }
 }
 

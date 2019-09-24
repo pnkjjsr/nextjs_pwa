@@ -158,7 +158,7 @@ class Register extends Component {
           <Grid container spacing={0}>
             <Grid item sm={7}>
               <div className="banner">
-                <h2 className="title">
+                {/* <h2 className="title">
                   Lets build our
                   <br />
                   India together !!
@@ -166,7 +166,7 @@ class Register extends Component {
 
                 <figure>
                   <img src={banner} alt="banner of the website" />
-                </figure>
+                </figure> */}
               </div>
             </Grid>
             <Grid item sm={5}>
