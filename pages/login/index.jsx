@@ -148,9 +148,9 @@ class Login extends Component {
                     <h1 className="heading">
                       Login
                     </h1>
-                    {/* <div className="sub">
+                    <div className="sub">
                       One free step for nation
-                    </div> */}
+                    </div>
                   </div>
 
                   <div>

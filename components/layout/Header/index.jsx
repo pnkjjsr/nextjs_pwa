@@ -1,9 +1,6 @@
 import React, { Fragment, Component } from "react";
 import Link from 'next/link'
 
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-
 import User from "components/User";
 
 import "./style.scss";
@@ -13,20 +10,20 @@ export default class Layout extends Component {
     return (
       <Fragment>
         <div className="header" role="main">
-          <Container fixed>
-            <Grid container spacing={0}>
-              <Grid item xs={6}>
+          <div className="container">
+            <div className="row">
+              <div className="col-6">
                 <div className="logo">
                   <Link prefetch href="/">
                     <a>Name</a>
                   </Link>
                 </div>
-              </Grid>
-              <Grid item xs={6} align="right">
+              </div>
+              <div className="col-6">
                 <User />
-              </Grid>
-            </Grid>
-          </Container>
+              </div>
+            </div>
+          </div>
         </div>
       </Fragment>
     );
