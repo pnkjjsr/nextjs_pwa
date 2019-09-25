@@ -19,7 +19,7 @@ export default class Layout extends Component {
                   </Link>
                 </div>
               </div>
-              <div className="col-6">
+              <div className="col-6 text-right">
                 <User />
               </div>
             </div>

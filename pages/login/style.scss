@@ -1,7 +1,10 @@
 @import "~common/styles/base/_breakpoints";
-@import "~common/styles/components/form";
+@import "~components/Form/form";
 
-.login {}
+.login {
+
+    @include form;
+}
 
 @include media-breakpoint-up(ss) {
     .login {

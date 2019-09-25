@@ -1,12 +1,13 @@
 /*Global Component*/
 @import './fonts.scss';
-@import './base/variables';
-@import './base/mixins';
-@import './base/breakpoints';
+@import './base/_variables';
+@import './base/_mixins';
+@import './base/_breakpoints';
 
 
 .btn {
   padding: $base-gap + 5;
+  font-family: $base-font-family;
 
   .icon {
     margin-left: $base-gap * 2;

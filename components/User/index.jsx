@@ -69,9 +69,9 @@ class User extends Component {
         ) : (
             layout.path == '/login'
               ?
-              <Button text="Signup" size="large" variant="outlined" color="primary" action={this.handleSignup} />
+              <Button text="Signup" size="btn-sm" variant="btn-outline-primary" action={this.handleSignup} />
               :
-              <Button text="Login" size="large" variant="outlined" color="primary" action={this.handleLogin} />
+              <Button text="Login" size="btn-sm" variant="btn-outline-primary" action={this.handleLogin} />
           )
         }
       </div>

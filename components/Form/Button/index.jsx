@@ -1,17 +1,7 @@
 import React, { Fragment, Component } from 'react'
-
 import { connect } from "react-redux";
 
-import { styled } from '@material-ui/styles';
-import MButton from '@material-ui/core/Button';
-
 import "./style.scss";
-
-const MyButton = styled(MButton)({
-    textTransform: 'capitalize',
-    fontFamily: "Lato",
-    fontWeight: "bold"
-});
 
 class Button extends Component {
     constructor(props) {
@@ -44,12 +34,12 @@ class Button extends Component {
 
     render() {
         const { loadIn } = this.state;
-        const { text, variant, color, size, action } = this.props
+        const { text, variant, size, action } = this.props
         return (
             <Fragment>
-                <MyButton className={`${loadIn}`} size={size} variant={variant} color={color} type="submit" onClick={e => this.handleClick(action)}>
+                <button className={`btn ${loadIn} ${variant} ${size}`} onClick={e => this.handleClick(action)} type="button">
                     {text}
-                </MyButton>
+                </button>
                 <style jsx>{``}</style>
             </Fragment>
         )

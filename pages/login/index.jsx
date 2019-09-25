@@ -137,61 +137,75 @@ class Login extends Component {
     const { emailErr, passwordErr, emailMsg, passwordMsg } = this.state;
     return (
       <Fragment>
-        <Container className="login" fixed>
-          <Grid container justify="center" spacing={3} >
-            <Grid item lg={4} md={5
-            } sm={4}>
-              <form onSubmit={this.handleSubmit} autoComplete="on">
+        <div className="login">
+          <div className="container">
+            <div className="row">
+              <div className="col-12">
+                <form onSubmit={this.handleSubmit} autoComplete="on">
+                  <div className="form">
+                    <div className="header">
+                      <h1 className="heading">
+                        Login
+                      </h1>
+                      <div className="sub">
+                        One quick step for change !!
+                      </div>
+                    </div>
 
-                <div className="form">
-                  <div className="header">
-                    <h1 className="heading">
-                      Login
-                    </h1>
-                    <div className="sub">
-                      One free step for nation
+                    <div className="form-group">
+                      <label for="email">Email address</label>
+                      <input className="form-control" name="email" type="text" aria-describedby="emailHelp" placeholder="Email address" />
+                      <small className="form-text text-muted">
+                        We'll never share your email with anyone else.
+                      </small>
+                    </div>
+
+                    <div className="form-group">
+                      <label for="password">Password</label>
+                      <input className="form-control" name="password" type="text" aria-describedby="passwordHelp" placeholder="*******" />
+                      <small className="form-text text-muted">
+                        Error
+                      </small>
+                    </div>
+
+                    <div>
+                      <Input
+                        class={`form-control ${emailErr}`}
+                        name="email"
+                        type="text"
+                        label="Email"
+                        htmlFor="email"
+                        helperText={emailMsg}
+                        onChange={this.handleChange}
+                      />
+
+                      <Input
+                        class={`form-control ${passwordErr}`}
+                        name="password"
+                        type="password"
+                        label="Password"
+                        htmlFor="password"
+                        helperText={passwordMsg}
+                        onChange={this.handleChange}
+                        autoComplete="off"
+                      />
+                    </div>
+
+                    <div className="action">
+                      <Button text="Login" variant="contained" color="primary" size="large" />
                     </div>
                   </div>
 
-                  <div>
-                    <Input
-                      class={`form-control ${emailErr}`}
-                      name="email"
-                      type="text"
-                      label="Email"
-                      htmlFor="email"
-                      helperText={emailMsg}
-                      onChange={this.handleChange}
-                    />
-
-                    <Input
-                      class={`form-control ${passwordErr}`}
-                      name="password"
-                      type="password"
-                      label="Password"
-                      htmlFor="password"
-                      helperText={passwordMsg}
-                      onChange={this.handleChange}
-                      autoComplete="off"
-                    />
+                  <div className="link">
+                    Create you account, click here to <Link href="/">
+                      <a>Registration</a>
+                    </Link>
                   </div>
-
-                  <div className="action">
-                    <Button text="Login" variant="contained" color="primary" size="large" />
-                  </div>
-                </div>
-
-                <div className="link">
-                  Create you account, click here to <Link href="/">
-                    <a>Registration</a>
-                  </Link>
-                </div>
-              </form>
-            </Grid>
-          </Grid>
-        </Container>
-
-
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
         <style jsx>{``}</style>
       </Fragment>
     )

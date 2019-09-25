@@ -1,9 +1,12 @@
+@import "~common/styles/global.scss";
 @import "~bootstrap/scss/bootstrap.scss";
 
 
+
 body {
+    margin-top: 60px;
     color: #000;
-    font-family: 'Lato', Tahoma, Geneva, Verdana, sans-serif;
+    font-family: $base-font-family;
     font-size: 1rem;
 }
 
