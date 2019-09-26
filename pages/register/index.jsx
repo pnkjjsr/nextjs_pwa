@@ -161,16 +161,16 @@ class Register extends Component {
           <div className="container">
             <div className="row">
               <div className="col-12 col-md-6">
-                <div className="banner">
-                  {/* <h2 className="title">
-                  Lets build our
+                <div className="banner d-none d-sm-block">
+                  <h2 className="title">
+                    Lets build our
                   <br />
-                  India together !!
+                    India together !!
                 </h2>
 
-                <figure>
-                  <img src={banner} alt="banner of the website" />
-                </figure> */}
+                  <figure>
+                    <img src={banner} alt="banner of the website" />
+                  </figure>
                 </div>
               </div>
               <div className="col-12 col-md-6">
@@ -217,17 +217,19 @@ class Register extends Component {
                       </small>
                     </div>
 
-                    <div className="note">
-                      By clicking Sign Up, you agree to our Terms, Data Policy and Cookie Policy. You may receive SMS notifications from us and can opt out at any time.
+                    <div className="form-action mb-2">
+                      <Button text="Create My Account" variant="btn-success" size="btn-lg" />
                     </div>
 
-                    <div className="action">
-                      <Button text="Create My Account" variant="btn-success" size="btn-lg" />
+                    <div className="form-note">
+                      By clicking Sign Up, you agree to our Terms, Data Policy and Cookie Policy. You may receive SMS notifications from us and can opt out at any time.
                     </div>
                   </div>
 
-                  <div className="link">
-                    Already a member? <Link href="/login"><a>Login</a></Link>
+                  <div className="form-link">
+                    Already a member? <Link href="/login">
+                      <button type="button" className="btn btn-sm btn-outline-primary">Login</button>
+                    </Link>
                   </div>
                 </form>
               </div>
