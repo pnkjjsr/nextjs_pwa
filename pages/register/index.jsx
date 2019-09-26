@@ -157,7 +157,7 @@ class Register extends Component {
 
     return (
       <Fragment>
-        <div className="register">
+        <div className="signup">
           <div className="container">
             <div className="row">
               <div className="col-12 col-md-6">
