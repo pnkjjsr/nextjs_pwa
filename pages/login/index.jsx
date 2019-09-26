@@ -136,8 +136,8 @@ class Login extends Component {
       <Fragment>
         <div className="login">
           <div className="container">
-            <div className="row">
-              <div className="col-12">
+            <div className="row justify-content-center">
+              <div className="col-12 col-sm-8 col-md-6 col-lg-4">
                 <form onSubmit={this.handleSubmit} autoComplete="on">
                   <div className="form">
                     <div className="header">

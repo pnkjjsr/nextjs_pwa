@@ -160,8 +160,8 @@ class Register extends Component {
         <div className="signup">
           <div className="container">
             <div className="row">
-              <div className="col-12 col-md-6">
-                <div className="banner d-none d-sm-block">
+              <div className="col-12 col-md-6 col-lg-7">
+                <div className="banner d-none d-md-block">
                   <h2 className="title">
                     Lets build our
                   <br />
@@ -173,7 +173,7 @@ class Register extends Component {
                   </figure>
                 </div>
               </div>
-              <div className="col-12 col-md-6">
+              <div className="col-12 col-md-6 col-lg-5">
                 <form autoComplete="on" onSubmit={this.handleSubmit}>
                   <div className="form">
                     <div className="header">
