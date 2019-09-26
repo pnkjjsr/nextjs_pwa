@@ -4,6 +4,11 @@
 .login {
 
     @include form;
+
+    .link-forgot {
+        color: rgb(0, 115, 176);
+        font-size: 12px;
+    }
 }
 
 @include media-breakpoint-up(ss) {

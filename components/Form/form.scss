@@ -28,7 +28,6 @@
 
       .form-control {
         height: 50px;
-        border-radius: 2px;
       }
 
       .form-text {
@@ -46,7 +45,18 @@
       }
     }
 
-    .action {}
+    .action {
+      .btn {
+        width: 100%;
+        text-shadow: 1.4px 1.4px 0 rgba(0, 0, 0, 0.2);
+      }
+    }
+  }
+
+  .form-link {
+    color: #000;
+    font-size: 18px;
+    text-align: center;
   }
 
 

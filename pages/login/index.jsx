@@ -11,7 +11,6 @@ import layoutActions from "components/Layout/actions"
 import authSession from "components/utils/authSession"
 import authentication from "components/utils/authentication"
 import Button from "components/Form/Button"
-import Input from "components/Form/Input"
 
 import { service } from 'utils';
 
@@ -159,7 +158,13 @@ class Login extends Component {
                     </div>
 
                     <div className={`form-group ${passwordErr}`}>
-                      <label htmlFor="password">Password</label>
+                      <div>
+                        <label htmlFor="password">Password</label>
+                        <span className="link-forgot float-right">
+                          Forgot Password?
+                        </span>
+                      </div>
+
                       <input className="form-control" name="password" type="password" aria-describedby="passwordHelp" placeholder="*******" autoComplete="off" onChange={this.handleChange} />
                       <small className="form-text">
                         {passwordMsg}
@@ -171,9 +176,9 @@ class Login extends Component {
                     </div>
                   </div>
 
-                  <div className="link">
-                    Create you account, click here to <Link href="/">
-                      <a>Registration</a>
+                  <div className="form-link">
+                    New to Name <Link href="/">
+                      <button type="button" className="btn btn-sm btn-outline-primary">Join Now</button>
                     </Link>
                   </div>
                 </form>
