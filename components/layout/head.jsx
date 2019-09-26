@@ -34,7 +34,6 @@ const Header = props => (
       <meta property="og:image:width" content="1200" />
       <meta property="og:image:height" content="630" />
       <meta name="theme-color" content="#000" />
-      <link href="./style.scss" rel="stylesheet" />
     </NextHead>
 
     <noscript>

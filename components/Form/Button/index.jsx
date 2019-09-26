@@ -37,7 +37,7 @@ class Button extends Component {
         const { text, variant, size, action } = this.props
         return (
             <Fragment>
-                <button className={`btn ${loadIn} ${variant} ${size}`} onClick={e => this.handleClick(action)} type="button">
+                <button className={`btn ${loadIn} ${variant} ${size}`} onClick={e => this.handleClick(action)} type="submit">
                     {text}
                 </button>
                 <style jsx>{``}</style>

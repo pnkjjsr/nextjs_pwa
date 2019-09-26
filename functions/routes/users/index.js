@@ -23,7 +23,8 @@ exports.signup = (req, res) => {
     uid: req.body.uid,
     userType: req.body.userType,
     email: req.body.email,
-    displayName: req.body.fullName,
+    mobile: req.body.mobile,
+    pincode: req.body.pincode,
     password: req.body.password
   };
 
@@ -53,10 +54,12 @@ exports.signup = (req, res) => {
           email: newUser.email,
           emailVerified: false,
           password: newUser.password,
-          phoneNumber: '',
+          countryCode: "+91",
+          phoneNumber: newUser.mobile,
           phoneVerified: false,
-          displayName: newUser.displayName,
-          photoURL: ''
+          displayName: '',
+          photoURL: '',
+          pincode: newUser.pincode
         };
         db.doc(`/users/${userId}`)
           .get()

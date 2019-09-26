@@ -28,15 +28,18 @@ class Register extends Component {
     super(props)
     this.state = {
       view: 0,
-      fullName: "",
+      pincode: "",
       email: "",
       password: "",
-      fullNameMsg: "",
+      mobile: "",
+      pincodeMsg: "",
       emailMsg: "",
+      mobileMsg: "",
       passwordMsg: "",
-      fullNameErr: "",
+      pincodeErr: "",
       emailErr: "",
-      passwordErr: ""
+      passwordErr: "",
+      mobileErr: ""
     }
     this.handleChange = this.handleChange.bind(this);
     this.handleSubmit = this.handleSubmit.bind(this);
@@ -61,9 +64,9 @@ class Register extends Component {
 
   handleSubmit(e) {
     e.preventDefault();
-    const { email, fullName, password } = this.state;
-    const { notification, user, homeActions } = this.props;
-    const { valid, errors } = validation({ email, fullName, password });
+    const { email, pincode, password, mobile } = this.state;
+    const { notification, user } = this.props;
+    const { valid, errors } = validation({ email, mobile, pincode, password });
 
     if (!valid) {
       notification.showNotification({
@@ -111,7 +114,8 @@ class Register extends Component {
             uid: token,
             userType: "normal",
             email: email,
-            fullName: fullName,
+            mobile: mobile,
+            pincode: pincode,
             password: password
           }
           service.post('/signup', data)
@@ -149,16 +153,16 @@ class Register extends Component {
   }
 
   renderRegistration = () => {
-    const { fullNameMsg, emailMsg, passwordMsg, fullNameErr, emailErr, passwordErr } = this.state;
-    console.log();
+    const { pincodeMsg, emailMsg, mobileMsg, passwordMsg, pincodeErr, emailErr, passwordErr, mobileErr } = this.state;
 
     return (
       <Fragment>
-        <Container fixed className="register">
-          <Grid container spacing={0}>
-            <Grid item sm={7}>
-              <div className="banner">
-                {/* <h2 className="title">
+        <div className="register">
+          <div className="container">
+            <div className="row">
+              <div className="col-12 col-md-6">
+                <div className="banner">
+                  {/* <h2 className="title">
                   Lets build our
                   <br />
                   India together !!
@@ -167,69 +171,69 @@ class Register extends Component {
                 <figure>
                   <img src={banner} alt="banner of the website" />
                 </figure> */}
+                </div>
               </div>
-            </Grid>
-            <Grid item sm={5}>
-              <form autoComplete="on" onSubmit={this.handleSubmit}>
-                <div className="form">
-                  <div className="header">
-                    <h1 className="heading">
-                      Create your account
+              <div className="col-12 col-md-6">
+                <form autoComplete="on" onSubmit={this.handleSubmit}>
+                  <div className="form">
+                    <div className="header">
+                      <h1 className="heading">
+                        Create your account
                     </h1>
-                    <div className="sub">
-                      One free step for nation
+                      <div className="sub">
+                        One quick step for change !!
+                      </div>
                     </div>
-                  </div>
 
-                  <div>
-                    <Input
-                      class={`form-control ${fullNameErr}`}
-                      name="fullName"
-                      type="text"
-                      label="Full name"
-                      htmlFor="fullName"
-                      helperText={fullNameMsg}
-                      onChange={this.handleChange}
-                    />
+                    <div className={`form-group ${mobileErr}`}>
+                      <label htmlFor="mobile">Mobile</label>
+                      <input className="form-control" name="mobile" type="text" aria-describedby="mobileHelp" placeholder="9210xxxx60" onChange={this.handleChange} />
+                      <small className="form-text">
+                        {mobileMsg}
+                      </small>
+                    </div>
 
-                    <Input
-                      class={`form-control ${emailErr}`}
-                      name="email"
-                      type="text"
-                      label="Email"
-                      htmlFor="email"
-                      helperText={emailMsg}
-                      onChange={this.handleChange}
-                    />
+                    <div className={`form-group ${emailErr}`}>
+                      <label htmlFor="email">Email</label>
+                      <input className="form-control" name="email" type="text" aria-describedby="emailHelp" placeholder="abc@gmail.com" onChange={this.handleChange} />
+                      <small className="form-text">
+                        {emailMsg}
+                      </small>
+                    </div>
 
-                    <Input
-                      class={`form-control last ${passwordErr}`}
-                      name="password"
-                      type="password"
-                      label="Password"
-                      htmlFor="password"
-                      autoComplete="off"
-                      helperText={passwordMsg}
-                      onChange={this.handleChange}
-                    />
+                    <div className={`form-group ${pincodeErr}`}>
+                      <label htmlFor="pincode">Pincode</label>
+                      <input className="form-control" name="pincode" type="text" aria-describedby="pincodeHelp" placeholder="110064" onChange={this.handleChange} />
+                      <small className="form-text">
+                        {pincodeMsg}
+                      </small>
+                    </div>
+
+                    <div className={`form-group ${passwordErr}`}>
+                      <label htmlFor="password">Password</label>
+                      <input className="form-control" name="password" type="text" aria-describedby="passwordHelp" placeholder="******" onChange={this.handleChange} />
+                      <small className="form-text">
+                        {passwordMsg}
+                      </small>
+                    </div>
 
                     <div className="note">
                       By clicking Sign Up, you agree to our Terms, Data Policy and Cookie Policy. You may receive SMS notifications from us and can opt out at any time.
                     </div>
 
                     <div className="action">
-                      <Button text="Create My Account" variant="contained" color="secondary" size="large" />
+                      <Button text="Create My Account" variant="btn-success" size="btn-lg" />
                     </div>
                   </div>
-                </div>
 
-                <div className="link">
-                  Already a member? <Link href="/login"><a>Login</a></Link>
-                </div>
-              </form>
-            </Grid>
-          </Grid>
-        </Container>
+                  <div className="link">
+                    Already a member? <Link href="/login"><a>Login</a></Link>
+                  </div>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
       </Fragment>
 
     )

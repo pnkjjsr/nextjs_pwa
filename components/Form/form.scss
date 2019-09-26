@@ -3,6 +3,7 @@
 @mixin form {
 
   .form {
+    margin-bottom: 20px;
 
     .header {
       margin-bottom: 20px;
@@ -18,12 +19,11 @@
     }
 
     .form-group {
-      height: 102px;
+      min-height: 102px;
       margin-bottom: 10px;
 
       label {
         margin-bottom: 5px;
-        font-size: 14px;
       }
 
       .form-control {
@@ -33,9 +33,19 @@
       .form-text {
         font-size: 12px;
       }
+
+      &.error {
+        .form-control {
+          border-color: red;
+        }
+
+        .form-text {
+          color: red;
+        }
+      }
     }
 
-
+    .action {}
   }
 
 

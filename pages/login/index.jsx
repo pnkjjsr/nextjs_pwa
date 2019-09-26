@@ -1,9 +1,6 @@
 import React, { Component, Fragment } from "react";
 import Link from 'next/link';
 
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-
 import Router from 'next/router';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
@@ -45,6 +42,7 @@ class Login extends Component {
     e.preventDefault();
     const { email, password } = this.state;
     const { user, actionNotification } = this.props;
+
 
     const { valid, errors } = validation({ email, password });
     if (!valid) {
@@ -152,47 +150,24 @@ class Login extends Component {
                       </div>
                     </div>
 
-                    <div className="form-group">
-                      <label for="email">Email address</label>
-                      <input className="form-control" name="email" type="text" aria-describedby="emailHelp" placeholder="Email address" />
-                      <small className="form-text text-muted">
-                        We'll never share your email with anyone else.
+                    <div className={`form-group ${emailErr}`}>
+                      <label htmlFor="email">Email address</label>
+                      <input className="form-control" name="email" type="text" aria-describedby="emailHelp" placeholder="Email address" onChange={this.handleChange} />
+                      <small className="form-text">
+                        {emailMsg}
                       </small>
                     </div>
 
-                    <div className="form-group">
-                      <label for="password">Password</label>
-                      <input className="form-control" name="password" type="text" aria-describedby="passwordHelp" placeholder="*******" />
-                      <small className="form-text text-muted">
-                        Error
+                    <div className={`form-group ${passwordErr}`}>
+                      <label htmlFor="password">Password</label>
+                      <input className="form-control" name="password" type="password" aria-describedby="passwordHelp" placeholder="*******" autoComplete="off" onChange={this.handleChange} />
+                      <small className="form-text">
+                        {passwordMsg}
                       </small>
-                    </div>
-
-                    <div>
-                      <Input
-                        class={`form-control ${emailErr}`}
-                        name="email"
-                        type="text"
-                        label="Email"
-                        htmlFor="email"
-                        helperText={emailMsg}
-                        onChange={this.handleChange}
-                      />
-
-                      <Input
-                        class={`form-control ${passwordErr}`}
-                        name="password"
-                        type="password"
-                        label="Password"
-                        htmlFor="password"
-                        helperText={passwordMsg}
-                        onChange={this.handleChange}
-                        autoComplete="off"
-                      />
                     </div>
 
                     <div className="action">
-                      <Button text="Login" variant="contained" color="primary" size="large" />
+                      <Button text="Login" variant="btn-primary" size="btn-lg" />
                     </div>
                   </div>
 
