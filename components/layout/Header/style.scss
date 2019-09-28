@@ -6,8 +6,7 @@
     top: 0;
     left: 0;
     width: 100%;
-    padding-top: 10px;
-    padding-bottom: 10px;
+    padding: 10px 0;
     background-color: #fff;
 
     .logo {
@@ -15,6 +14,7 @@
         font-size: 24px;
         font-weight: 800;
         letter-spacing: 0;
+        line-height: 30px;
 
         a {
             text-decoration: none;
@@ -24,46 +24,12 @@
 }
 
 
-
-@include media-breakpoint-up(ss) {
+@include media-breakpoint-up(md) {
     .header[role="main"] {
-        padding-top: 0;
-    }
-}
-
-@include media-breakpoint-up(xs) {
-    .header[role="main"] {
-        padding-top: 0;
-
         .logo {
-            font-size: 30px;
-        }
-    }
-
-
-}
-
-@include media-breakpoint-up(ls) {
-    .header[role="main"] {
-        position: fixed;
-        z-index: 1;
-        top: 0;
-        left: 0;
-        width: 100%;
-        padding-bottom: 10px;
-        padding-top: 40px;
-        background-color: #fff;
-
-        .logo {
-            color: #0073b0;
             font-size: 50px;
-            font-weight: 800;
-            letter-spacing: 0;
-
-            a {
-                text-decoration: none;
-                color: #0073b0;
-            }
         }
     }
 }
+
+@include media-breakpoint-up(ls) {}

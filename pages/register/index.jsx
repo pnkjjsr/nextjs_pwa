@@ -211,7 +211,7 @@ class Register extends Component {
 
                     <div className={`form-group ${passwordErr}`}>
                       <label htmlFor="password">Password</label>
-                      <input className="form-control" name="password" type="text" aria-describedby="passwordHelp" placeholder="******" onChange={this.handleChange} />
+                      <input className="form-control" name="password" type="password" aria-describedby="passwordHelp" placeholder="******" onChange={this.handleChange} />
                       <small className="form-text">
                         {passwordMsg}
                       </small>
