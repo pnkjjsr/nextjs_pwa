@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import 'firebase/auth'
 import clientCredentials from "./client";
-import { service } from "../../utils"
+import { service } from "utils"
 
 export default class Authentication {
     constructor(props) {
@@ -9,7 +9,6 @@ export default class Authentication {
     }
 
     initialize() {
-
         if (!firebase.apps.length) {
             firebase.initializeApp(clientCredentials);
             firebase.auth().onAuthStateChanged(user => {
@@ -20,7 +19,6 @@ export default class Authentication {
                 }
             })
         }
-
     }
 
     createUserWithEmailAndPassword(email, password) {

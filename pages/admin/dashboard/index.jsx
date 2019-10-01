@@ -1,5 +1,5 @@
 import React, { Component, Fragment } from 'react'
-import adminAuth from '../../../components/utils/adminAuth'
+import adminAuth from 'components/utils/adminAuth'
 
 class Dashboard extends Component {
     render() {
