@@ -1,6 +1,5 @@
 import React, { Fragment, Component } from "react";
 import Link from 'next/link'
-import Container from '@material-ui/core/Container';
 
 import "./style.scss";
 
@@ -9,7 +8,7 @@ export default class Footer extends Component {
     return (
       <Fragment>
         <div className="footer" role="main">
-          <Container fixed>
+          <div className="container">
             <ul className="links">
               <li>
                 <Link href="/about">
@@ -47,7 +46,7 @@ export default class Footer extends Component {
             <div className="copyright">
               © 2019 Name .Ltd
             </div>
-          </Container>
+          </div>
         </div>
       </Fragment>
     );

@@ -2,9 +2,6 @@ import React, { Component, Fragment } from "react";
 import Link from 'next/link';
 import Router from 'next/router'
 
-import Container from '@material-ui/core/Container';
-import Grid from '@material-ui/core/Grid';
-
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import user from "components/User/actions"
@@ -17,7 +14,6 @@ import { service } from 'utils';
 import authSession from "components/utils/authSession"
 import authentication from "components/utils/authentication"
 import Button from "components/Form/Button"
-import Input from "components/Form/Input"
 
 import validation from "./validation"
 import banner from "static/images/signup/banner.jpg"
@@ -211,7 +207,7 @@ class Register extends Component {
 
                     <div className={`form-group ${passwordErr}`}>
                       <label htmlFor="password">Password</label>
-                      <input className="form-control" name="password" type="text" aria-describedby="passwordHelp" placeholder="******" onChange={this.handleChange} />
+                      <input className="form-control" name="password" type="password" aria-describedby="passwordHelp" placeholder="******" autoComplete="off" onChange={this.handleChange} />
                       <small className="form-text">
                         {passwordMsg}
                       </small>

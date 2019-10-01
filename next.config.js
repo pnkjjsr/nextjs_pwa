@@ -4,6 +4,10 @@ const withSass = require('@zeit/next-sass')
 const withPlugins = require("next-compose-plugins");
 const withImages = require('next-images');
 const path = require('path')
+const nextEnv = require('next-env');
+const dotenvLoad = require('dotenv-load');
+dotenvLoad();
+const withNextEnv = nextEnv();
 
 const nextConfig = {
   env: {
@@ -13,11 +17,12 @@ const nextConfig = {
   serverRuntimeConfig: {
     // Will only be available on the server side
     mySecret: 'secret',
-    secondSecret: process.env.SECOND_SECRET, // Pass through env variables
+    secretKey: process.env.SECRET_KEY
   },
   publicRuntimeConfig: {
     // Will be available on both server and client
     staticFolder: '/static',
+    secretKey: process.env.SECRET_KEY
   },
   dontAutoRegisterSw: true, // since we want runtime registration,
   webpack(config, {
@@ -41,5 +46,6 @@ module.exports = withPlugins([
   withCSS,
   withSass,
   withOffline,
-  withImages
+  withImages,
+  withNextEnv
 ], nextConfig)

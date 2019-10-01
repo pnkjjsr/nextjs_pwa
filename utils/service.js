@@ -50,7 +50,6 @@ export default class Service {
     else if (ENV['REQUEST_BASEURL_LOCAL'].trim()) {
       return `${ENV['REQUEST_BASEURL_LOCAL']}${api}`;
     }
-
     // or return as it is
     return api;
   }
