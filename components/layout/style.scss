@@ -1,4 +1,4 @@
-@import "~common/styles/global.scss";
+@import "common/styles/global.scss";
 @import "~bootstrap/scss/bootstrap.scss";
 
 
@@ -12,3 +12,25 @@ body {
 }
 
 .main {}
+
+.btn {
+    
+    &.btn-primary {
+        background-color: rgb(0, 115, 176);
+
+        &:hover {
+            background-color: rgb(0, 91, 140);
+        }
+
+        &:active {
+            background-color: rgb(0, 75, 115);
+        }
+    }
+}
+
+@include media-breakpoint-up(md) {
+    body {
+        padding-top: 100px;
+        padding-bottom: 0;
+    }
+}

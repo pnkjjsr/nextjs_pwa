@@ -17,6 +17,7 @@ class User extends Component {
   constructor(props) {
     super(props);
     this.state = {
+      btnSize: "",
       token: "",
       uid: "",
       name: "",
@@ -59,8 +60,26 @@ class User extends Component {
     Router.push('/login');
   }
 
+  handleBtnSize = () => {
+    if (screen.width > 1410) {
+      this.setState({
+        btnSize: "btn-lg"
+      });
+    }
+    else if (screen.width < 992) {
+      this.setState({
+        btnSize: "btn-sm"
+      });
+    }
+    else {
+      this.setState({
+        btnSize: ""
+      });
+    }
+  }
+
   render() {
-    const { token, name, photo } = this.state;
+    const { btnSize, token, name, photo } = this.state;
     const { user, layout } = this.props;
     return (
       <div className="auth">
@@ -69,9 +88,9 @@ class User extends Component {
         ) : (
             layout.path == '/login'
               ?
-              <Button text="Signup" size="btn-sm" variant="btn-outline-primary" action={this.handleSignup} />
+              <Button text="Create new account" size={btnSize} variant="btn-outline-primary" action={this.handleSignup} />
               :
-              <Button text="Login" size="btn-sm" variant="btn-outline-primary" action={this.handleLogin} />
+              <Button text="Login" size={btnSize} variant="btn-outline-primary" action={this.handleLogin} />
           )
         }
       </div>
@@ -80,6 +99,9 @@ class User extends Component {
   componentDidMount() {
     let session = new authSession();
     let token = session.getToken();
+
+    this.handleBtnSize();
+
     this.setState({
       token: token
     });

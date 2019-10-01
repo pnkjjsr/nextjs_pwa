@@ -2,13 +2,11 @@
 
 .auth {
     float: right;
-    margin-top: 5px;
 }
 
 @include media-breakpoint-up(ls) {
 
     .auth {
-        margin-top: 12px;
 
         >a {
             color: #fff;

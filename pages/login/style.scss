@@ -1,4 +1,4 @@
-@import "~common/styles/base/_breakpoints";
+@import "common/styles/base/_breakpoints";
 @import "components/Form/form";
 
 .login {
@@ -11,31 +11,11 @@
     }
 }
 
-@include media-breakpoint-up(ss) {
-    .login {
-        margin-top: 60px;
-        padding-top: 50px;
-    }
-}
+@include media-breakpoint-up(md) {}
 
-@include media-breakpoint-up(lg) {
-    .login {
-        margin-top: 50px;
-    }
-}
 
-@include media-breakpoint-up(xs) {
+@include media-breakpoint-up(ms) {
     .login {
-        padding-top: 20px;
-        padding-bottom: 90px;
-    }
-}
-
-@include media-breakpoint-up(ls) {
-    .login {
-        margin-top: 60px;
-        padding-top: 100px;
-
-        @include form;
+        padding: 100px 0;
     }
 }

@@ -1,4 +1,4 @@
-@import "~common/styles/base/_breakpoints";
+@import "common/styles/base/_breakpoints";
 
 @mixin form {
 
@@ -64,7 +64,7 @@
   }
 
 
-  @include media-breakpoint-up(ls) {
+  @include media-breakpoint-up(md) {
     .form {
       padding: 30px;
       margin-bottom: 25px;
@@ -139,6 +139,4 @@
       }
     }
   }
-
-  @include media-breakpoint-up(ms) {}
 }
