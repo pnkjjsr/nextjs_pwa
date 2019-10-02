@@ -18,8 +18,6 @@ class Layout extends Component {
   }
 
   render() {
-
-
     return (
       <Fragment>
         <Head title={this.props.pageTitle} />

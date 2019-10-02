@@ -9,13 +9,14 @@
         figure,
         figcaption {
             display: inline-block;
+            margin: 0;
+            padding: 0;
             vertical-align: top;
         }
 
         figure {
             width: 24px;
             height: 24px;
-            margin-left: 5px;
             border-radius: 50px;
             overflow: hidden;
         }

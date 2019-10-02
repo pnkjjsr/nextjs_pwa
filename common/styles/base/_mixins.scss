@@ -3,8 +3,8 @@
   border-radius: 2px;
   // text-shadow: 1.4px 1.4px 0 rgba(0, 0, 0, 0.2);
   box-shadow: none;
-  font-family: $base-font-family;
-  font-weight: $base-font-weight;
+  font-family: $font-family;
+  font-weight: $font-weight;
 
   &:focus,
   &:active {
@@ -72,16 +72,16 @@
 
 %form-control {
   border: 1px solid #a8a5b3;
-  border-radius: $base-border-radius;
-  font-family: $base-font-family;
-  font-size: $base-font-size;
+  border-radius: $border-radius;
+  font-family: $font-family;
+  font-size: $font-size;
   height: 50px;
-  padding: ($base-gap - 2) ($base-gap + 2);
+  padding: ($gap - 2) ($gap + 2);
   width: 100%;
 
   &::placeholder {
     color: #9b9b9b;
-    font-weight: $base-font-weight;
+    font-weight: $font-weight;
   }
 
   &.textarea {
@@ -90,7 +90,7 @@
 }
 
 %input-group-padding {
-  padding: ($base-gap - 2) ($base-gap + 2);
+  padding: ($gap - 2) ($gap + 2);
 }
 
 @mixin transition($property) {

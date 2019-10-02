@@ -3,8 +3,6 @@ import NextHead from "next/head";
 import { string } from "prop-types";
 import { connect } from "react-redux";
 
-import { globalCss } from "common/styles/global.scss"
-
 const defaultDescription = "";
 const defaultOGURL = "";
 const defaultOGImage = "";

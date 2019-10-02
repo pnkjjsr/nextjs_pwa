@@ -1,4 +1,4 @@
-@import "~common/styles/base/_breakpoints";
+@import "common/styles/global";
 
 .header[role="main"] {
     position: fixed;
@@ -19,6 +19,19 @@
         a {
             text-decoration: none;
             color: #0073b0;
+        }
+    }
+
+    // After Login
+    &.bg {
+        padding: 5px 10px;
+        box-shadow: 2.1px 2.1px 10px 0 rgba(0, 0, 0, 0.2);
+        background-color: rgb(0, 115, 176);
+
+        .logo {
+            a {
+                color: $color-white;
+            }
         }
     }
 }

@@ -1,10 +1,10 @@
 //Base Variable of Project
-$base-gap: 10px;
+$gap: 10px;
 
 $base-color: #000;
-$base-color-light: rgb(164, 164, 164);
-$base-color-link: #0073b0;
-$base-color-invert: lighten($base-color, 100%);
+$color-light: rgb(164, 164, 164);
+$color-link: #0073b0;
+$color-invert: lighten($base-color, 100%);
 
 // YumBag Color
 $color-primary: #0073b0;
@@ -18,21 +18,21 @@ $color-success: rgb(0, 164, 0);
 $color-info: #09c;
 
 // Font Styling
-$base-font-family: 'Lato',
+$font-family: 'Lato',
 Tahoma,
 Geneva,
 Verdana,
 sans-serif;
-$base-font-size: 16px;
-$base-font-weight-thin: 100;
-$base-font-weight-light: 300;
-$base-font-weight: 400;
-$base-font-weight-bold: 700;
-$base-font-weight-black: 900;
+$font-size: 16px;
+$font-weight-thin: 100;
+$font-weight-light: 300;
+$font-weight: 400;
+$font-weight-bold: 700;
+$font-weight-black: 900;
 
-$base-box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
-$base-border-radius: 4px;
-$base-background-color: #fff;
+$box-shadow: 0px 3px 10px 0 rgba(0, 0, 0, 0.15);
+$border-radius: 4px;
+$background-color: #fff;
 
 
 // z-index Defination

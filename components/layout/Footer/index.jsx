@@ -8,7 +8,7 @@ export default class Footer extends Component {
     return (
       <Fragment>
         <div className="footer" role="main">
-          <div className="container">
+          <div className="container p-0">
             <ul className="links">
               <li>
                 <Link href="/about">

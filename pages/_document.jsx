@@ -4,7 +4,7 @@
 // ./pages/_document.js
 import Document, { Html, Head, Main, NextScript } from 'next/document';
 import { ServerStyleSheets } from '@material-ui/styles';
-import theme from "components/Layout/_theme"
+
 
 class MyDocument extends Document {
   static async getInitialProps(ctx) {
@@ -30,15 +30,12 @@ class MyDocument extends Document {
       ],
     };
   }
-
+  
   render() {
     return (
       <Html lang="en">
-        <Head>
-          <meta name="theme-color" content={theme.palette.primary.main} />
-          <style>{`body { margin: 0 } /* custom! */`}</style>
-        </Head>
-        <body className="custom_class">
+        <Head />
+        <body>
           <Main />
           <NextScript />
         </body>

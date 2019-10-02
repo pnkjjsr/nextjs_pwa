@@ -7,10 +7,10 @@
 
 .btn {
   @extend %btn;
-  font-family: $base-font-family;
+  font-family: $font-family;
 
   .icon {
-    margin-left: $base-gap * 2;
+    margin-left: $gap * 2;
     margin-top: -3px;
   }
 
@@ -29,7 +29,7 @@
   &.btn-link {
     @extend %btn;
     color: $color-secondary;
-    font-weight: $base-font-weight;
+    font-weight: $font-weight;
   }
 }
 

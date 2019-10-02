@@ -5,7 +5,7 @@ import { connect } from "react-redux";
 
 import authSession from '../utils/authSession'
 
-import userIcon from "../../static/icons/user-solid-circle.svg"
+import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import './style.scss'
 
 class Nav extends Component {
@@ -33,17 +33,14 @@ class Nav extends Component {
     });
   }
   renderUser(e) {
-    const { name, photo } = this.props;
-    let image = !photo ? userIcon : photo;
+    const { photo } = this.props;
+    let user = !photo ? (<AccountCircleIcon />) : photo;
 
     return (
       <div className={`user ${e}`} onClick={this.handleOpenNav}>
         <figure>
-          <img src={image} alt="" />
+          {user}
         </figure>
-        <figcaption>
-          {name}
-        </figcaption>
       </div>
     )
   }

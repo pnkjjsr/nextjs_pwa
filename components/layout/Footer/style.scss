@@ -1,9 +1,14 @@
+@import "common/styles/global";
+
 .footer[role="main"] {
-    margin-top: 50px;
-    padding: 25px 10px 20px;
+    position: fixed;
+    z-index: 1;
+    bottom: 0;
+    left: 0;
+    width: 100%;
+    padding: 0 10px 5px;
     background: #fff;
     border-top: 1px solid rgb(229, 241, 255);
-    font-size: 12px;
 
     ul,
     li {
@@ -14,15 +19,14 @@
     }
 
     ul.links {
-        margin-bottom: 30px;
 
         li {
-            padding-right: 50px;
+            padding-right: 10px;
 
             a {
                 color: rgb(0, 115, 176);
-                font-size: 14px;
-                font-weight: 300;
+                font-size: 10px;
+                font-weight: 500;
                 text-decoration: none;
 
                 &:hover {
@@ -34,26 +38,30 @@
 
     .copyright {
         color: rgb(128, 128, 128);
-        font-size: 14px;
+        font-size: 10px;
         font-weight: 300;
     }
 }
 
-@media only screen and (max-width: 960px) {
+@include media-breakpoint-up(md) {
     .footer[role="main"] {
-        position: fixed;
-        z-index: 1;
-        bottom: 0;
-        left: 0;
-        width: 100%;
-        padding: 10px;
+        position: static;
+        margin-top: 50px;
+        padding: 25px 10px 20px;
+        font-size: 12px;
 
         ul.links {
-            margin-bottom: 5px;
+            margin-bottom: 20px;
 
             li {
-                padding-right: 10px;
+                a {
+                    font-size: 14px;
+                }
             }
+        }
+
+        .copyright {
+            font-size: 14px;
         }
     }
 }
