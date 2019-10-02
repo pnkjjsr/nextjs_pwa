@@ -1,5 +1,5 @@
-@import "common/styles/global.scss";
 @import "~bootstrap/scss/bootstrap.scss";
+@import "common/styles/global.scss";
 
 
 
@@ -11,22 +11,6 @@ body {
     font-size: 1rem;
 }
 
-.main {}
-
-.btn {
-    
-    &.btn-primary {
-        background-color: rgb(0, 115, 176);
-
-        &:hover {
-            background-color: rgb(0, 91, 140);
-        }
-
-        &:active {
-            background-color: rgb(0, 75, 115);
-        }
-    }
-}
 
 @include media-breakpoint-up(md) {
     body {

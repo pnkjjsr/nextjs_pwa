@@ -7,7 +7,6 @@
 
 .btn {
   @extend %btn;
-  padding: $base-gap + 5;
   font-family: $base-font-family;
 
   .icon {
@@ -17,6 +16,14 @@
 
   &.btn-primary {
     @extend %btn-primary;
+  }
+
+  &.btn-success {
+    @extend %btn-success;
+  }
+
+  &.btn-outline-primary {
+    @extend %btn-outline-primary;
   }
 
   &.btn-link {
