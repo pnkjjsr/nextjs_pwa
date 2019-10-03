@@ -1,13 +1,15 @@
 import React, { Fragment, Component } from "react"
 import Link from 'next/link'
 
+import { connect } from "react-redux";
+
 import User from "components/User"
 import authSession from "components/utils/authSession"
 
 import "./style.scss";
 
 
-class Layout extends Component {
+class Header extends Component {
   constructor(props) {
     super(props)
 
@@ -17,10 +19,12 @@ class Layout extends Component {
   }
 
   componentDidMount() {
+    const {user} = this.props;
     const session = new authSession();
     let token = session.loggedIn();
+    console.log(user.profile.uid);
     
-    if (token) {
+    if (token || user.profile.uid ) {
       this.setState({
         bg: "bg"
       });
@@ -52,4 +56,4 @@ class Layout extends Component {
   }
 }
 
-export default Layout
+export default connect(state => state)(Header)
