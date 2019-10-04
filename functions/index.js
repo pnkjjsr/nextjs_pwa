@@ -14,6 +14,7 @@ const {
     login,
     sendEmailVerification,
     getUserDetails,
+    addUserDetails,
     updatePhone,
     verifyPhone
 } = require('./routes/users');
@@ -28,6 +29,7 @@ app.post('/location', updateLocation);
 app.post('/getLocation', getLocation);
 app.post('/login', login);
 app.post('/user', getUserDetails);
+app.post('/addUserDetails', addUserDetails);
 app.post('/email', sendEmailVerification);
 app.post('/phone', updatePhone);
 app.post('/verifyPhone', verifyPhone);

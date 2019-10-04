@@ -44,7 +44,7 @@ export default class Footer extends Component {
             </ul>
 
             <div className="copyright">
-              © 2019 Name .Ltd
+              © 2019 {process.env.domain} .Ltd
             </div>
           </div>
         </div>

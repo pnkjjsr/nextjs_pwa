@@ -57,7 +57,7 @@ class Header extends Component {
               <div className="col-3 col-sm-6 pl-0">
                 <div className="logo">
                   <Link prefetch href="/">
-                    <a>Name</a>
+                    <a>{process.env.domain}</a>
                   </Link>
                 </div>
               </div>

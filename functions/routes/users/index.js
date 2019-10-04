@@ -273,12 +273,24 @@ exports.sendEmailVerification = (req, res) => {
 
 // Add user details
 exports.addUserDetails = (req, res) => {
-  let userDetails = reduceUserDetails(req.body);
+  let data = {
+    uid: req.body.uid,
+    photoURL: req.body.photoURL,
+  }
+  console.log(data);
 
-  db.doc(`/users/${req.user.handle}`)
-    .update(userDetails)
+  const {
+    valid,
+    errors
+  } = reduceUserDetails(data);
+
+  if (!valid) return res.status(400).json(errors);
+
+  db.doc(`/users/${data.uid}`)
+    .update(data)
     .then(() => {
       return res.json({
+        status: "done",
         message: 'Details added successfully'
       });
     })

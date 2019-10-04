@@ -11,8 +11,6 @@ import Location from './location'
 import Mobile from './mobile'
 import Main from './account'
 
-import userImg from '../../static/images/pj.gif'
-
 import "./style.scss";
 
 class Account extends Component {
@@ -22,7 +20,6 @@ class Account extends Component {
       view: 0
     }
   }
-
 
   componentDidMount() {
     const { accountAction } = this.props;

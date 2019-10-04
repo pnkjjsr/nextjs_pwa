@@ -6,39 +6,52 @@ import { bindActionCreators } from 'redux';
 import accountActions from "./actions";
 import notifictionActions from "components/Notification/actions"
 
-import { service } from "utils"
-import authSession from "components/utils/authSession"
-import authentication from "components/utils/authentication"
+import UploadFile from "components/UploadFile"
 
 import "./style.scss";
 
 class Account extends Component {
   constructor(props) {
     super(props)
-    this.state = {}
+    this.state = {
+      isMobile: ""
+    }
+  }
+
+  handleIsMobile = () => {
+    if (screen.width < 768) {
+      this.setState({
+        isMobile: 'mobile'
+      });
+    }
   }
 
   componentDidMount() {
-    const auth = new authentication;
+    this.handleIsMobile();
   }
 
   render() {
+    const { isMobile } = this.state;
+
     return (
       <Fragment>
         <div className="container account">
 
           <div className="user">
-            <figure>
+            <figure className={`${isMobile}`}>
+              <div className="edit">
+                <UploadFile path="images/users" />
+              </div>
               <AccountCircleIcon />
             </figure>
             <h2 className="title">Welcome, Pankaj Jasoria</h2>
             <p>
-              Manage your info, privacy and security to make Neta work better for you
+              Manage your info, privacy and security to make {process.env.domain} work better for you
             </p>
           </div>
 
 
-          <h1 className="title">
+          {/* <h1 className="title">
             <span>Your Constituency,</span> Hari Nagar, New Delhi
           </h1>
 
@@ -56,7 +69,7 @@ class Account extends Component {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
         </div>
         <style jsx>{``}</style>

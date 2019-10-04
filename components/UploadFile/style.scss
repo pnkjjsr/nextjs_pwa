@@ -1,0 +1,25 @@
+@import "common/styles/global";
+
+.upload {
+    position: relative;
+    width: 25px;
+    height: 25px;
+    border-radius: 2px;
+    background-color: #fff;
+    cursor: pointer;
+    text-align: center;
+    overflow: hidden;
+
+    input {
+        position: absolute;
+        z-index: 1;
+        top: 0;
+        left: 0;
+        opacity: 0;
+    }
+
+    svg {
+        color: $color-primary;
+        font-size: 15px;
+    }
+}
