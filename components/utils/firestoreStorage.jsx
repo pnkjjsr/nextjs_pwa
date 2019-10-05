@@ -6,8 +6,13 @@ import authSession from "components/utils/authSession"
 
 export default class Storage {
     initialize() {
+        console.log(firebase.apps.length);
         if (!firebase.apps.length) {
             firebase.initializeApp(clientCredentials);
+            let storage = firebase.storage().ref();
+            return storage;
+        }
+        else {
             let storage = firebase.storage().ref();
             return storage;
         }
@@ -95,30 +100,33 @@ export default class Storage {
         let storageRef = this.initialize();
         const session = new authSession();
         let user = session.getProfile();
-        return
-        // let imageRef = storageRef.child();
-        // return console.log(imageRef);
 
-        imageRef.getDownloadURL().then(function (url) {
-            // `url` is the download URL for 'images/stars.jpg'
-            console.log(url);
+        switch (type) {
+            case "profile":
+                var imageRef = storageRef.child(`${path}/${user.uid}/profile.jpg`);
+                break;
+            case "gallery":
+                var imageRef = storageRef.child(`${path}/${user.uid}/profile.jpg`);
+                break;
+            default:
+                console.log("Error: path not match with any path");
+        }
 
-            // This can be downloaded directly:
-            var xhr = new XMLHttpRequest();
-            xhr.responseType = 'blob';
-            xhr.onload = function (event) {
-                var blob = xhr.response;
-            };
-            xhr.open('GET', url);
-            xhr.send();
+        return new Promise(function (resolve, reject) {
+            imageRef.getDownloadURL().then(function (url) {
+                resolve({
+                    "status": "done",
+                    "message": "upload successful",
+                    "src": url
+                })
+            }).catch(function (error) {
+                reject({
+                    "status": "error",
+                    "message": error,
+                })
+            });
 
-            // Or inserted into an <img> element:
-            var img = document.getElementById('myimg');
-            img.src = url;
-        }).catch(function (error) {
-            // Handle any errors
         });
-
     }
 
 }

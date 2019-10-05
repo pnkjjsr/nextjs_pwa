@@ -6,8 +6,8 @@ import { bindActionCreators } from 'redux';
 import accountActions from "./actions";
 import notifictionActions from "components/Notification/actions"
 
-import UploadFile from "components/UploadFile"
 import Storage from "components/utils/firestoreStorage"
+import UploadFile from "components/UploadFile"
 
 import "./style.scss";
 
@@ -15,7 +15,8 @@ class Account extends Component {
   constructor(props) {
     super(props)
     this.state = {
-      isMobile: ""
+      isMobile: "",
+      imgUsr: ""
     }
   }
 
@@ -26,28 +27,39 @@ class Account extends Component {
       });
     }
   }
+  static getDerivedStateFromProps(props, state) {
+    return null;
+  }
+
 
   componentDidMount() {
     this.handleIsMobile();
+    const storage = new Storage;
+    storage.getImage('images/users', 'profile')
+      .then(res => {
+        this.setState({
+          imgUsr: res.src
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
+
   }
 
   render() {
-    const { isMobile } = this.state;
-    const storage = new Storage;
-    storage.getImage('images/users', 'profile');
-    // console.log(userImg);
+    const { isMobile, imgUsr } = this.state;
 
     return (
       <Fragment>
         <div className="container account">
-
           <div className="user">
             <figure className={`${isMobile}`}>
               <div className="edit">
                 <UploadFile path="images/users" />
               </div>
               {/* <AccountCircleIcon /> */}
-              <img src="https://firebasestorage.googleapis.com/v0/b/neta-62fcb.appspot.com/o/images%2Fusers%2FNvDWTVt8hpZTnUkfslZ9afDy1wp1%2Fprofile.jpg?alt=media&token=2abba5be-6182-4052-ad39-aba4502400a9" alt="" />
+              <img src={imgUsr} alt="User Image" />
             </figure>
             <h2 className="title">Welcome, Pankaj Jasoria</h2>
             <p>
