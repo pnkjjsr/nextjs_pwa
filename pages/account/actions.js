@@ -1,5 +1,6 @@
 import {
-    VIEW
+    VIEW,
+    USER_IMAGE
 } from './constant'
 
 import {
@@ -51,10 +52,18 @@ const account = () => {
         payload: 3
     }
 }
+const getUserImage = (e) => {
+    return {
+        type: USER_IMAGE,
+        payload: e
+    }
+}
+
 
 export default {
     prefetchData,
     location,
     mobile,
-    account
+    account,
+    getUserImage
 };

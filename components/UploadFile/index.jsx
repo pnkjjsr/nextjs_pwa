@@ -1,6 +1,9 @@
 import React, { Component, Fragment } from "react";
 
 import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import accountActions from "pages/account/actions"
+
 
 import authSession from "components/utils/authSession"
 import Storage from "components/utils/firestoreStorage"
@@ -19,6 +22,8 @@ class UploadFile extends Component {
 
     handleUpload = (e) => {
         const { path } = this.state
+        const { accountAction } = this.props
+
         let file = e.target.files[0]
         const storage = new Storage;
         storage.uploadImage(path, file).then(res => {
@@ -30,7 +35,14 @@ class UploadFile extends Component {
                 "photoURL": path
             }
             service.post('/addUserDetails', data).then(res => {
-                console.log(res.data);
+                const storage = new Storage;
+                storage.getImage('images/users', 'profile')
+                    .then(res => {
+                        accountAction.getUserImage(res.src);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    });
             }).catch();
         }).catch(err => {
             console.log(err);
@@ -49,5 +61,8 @@ class UploadFile extends Component {
         )
     }
 }
+const mapDispatchToProps = dispatch => ({
+    accountAction: bindActionCreators(accountActions, dispatch),
+})
 
-export default connect(state => state)(UploadFile);
+export default connect(state => state, mapDispatchToProps)(UploadFile);

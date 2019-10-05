@@ -27,8 +27,13 @@ class Account extends Component {
       });
     }
   }
-  static getDerivedStateFromProps(props, state) {
-    return null;
+  static getDerivedStateFromProps(props) {
+    if (props.account.imgUser) {
+      return {
+        imgUsr: props.account.imgUser
+      }
+    }
+    return true;
   }
 
 
@@ -44,12 +49,10 @@ class Account extends Component {
       .catch(err => {
         console.log(err);
       });
-
   }
 
   render() {
     const { isMobile, imgUsr } = this.state;
-
     return (
       <Fragment>
         <div className="container account">
@@ -58,8 +61,7 @@ class Account extends Component {
               <div className="edit">
                 <UploadFile path="images/users" />
               </div>
-              {/* <AccountCircleIcon /> */}
-              <img src={imgUsr} alt="User Image" />
+              {!imgUsr ? <AccountCircleIcon /> : <img src={imgUsr} alt="User Image" />}
             </figure>
             <h2 className="title">Welcome, Pankaj Jasoria</h2>
             <p>

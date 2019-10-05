@@ -6,7 +6,6 @@ import authSession from "components/utils/authSession"
 
 export default class Storage {
     initialize() {
-        console.log(firebase.apps.length);
         if (!firebase.apps.length) {
             firebase.initializeApp(clientCredentials);
             let storage = firebase.storage().ref();

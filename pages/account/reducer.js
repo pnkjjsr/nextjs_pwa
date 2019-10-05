@@ -1,9 +1,11 @@
 import {
-    VIEW
+    VIEW,
+    USER_IMAGE
 } from './constant'
 
 const initialState = {
-    view: 0
+    view: 0,
+    imgUser: ""
 };
 
 const account = (state = initialState, action) => {
@@ -11,6 +13,10 @@ const account = (state = initialState, action) => {
         case VIEW:
             return Object.assign({}, state, {
                 view: action.payload
+            });
+        case USER_IMAGE:
+            return Object.assign({}, state, {
+                imgUser: action.payload
             });
         default:
             return state;

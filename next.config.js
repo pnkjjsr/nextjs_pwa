@@ -38,6 +38,7 @@ const nextConfig = {
     config.resolve.alias['utils'] = path.join(__dirname, 'utils')
     config.resolve.alias['static'] = path.join(__dirname, 'static')
     config.resolve.alias['functions'] = path.join(__dirname, 'functions')
+    config.resolve.alias['pages'] = path.join(__dirname, 'pages')
 
     return config
   }

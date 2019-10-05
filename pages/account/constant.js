@@ -1,6 +1,8 @@
 const VIEW = 'VIEW'
+const USER_IMAGE = 'USER_IMAGE'
 
 
 export {
-    VIEW
+    VIEW,
+    USER_IMAGE
 }
