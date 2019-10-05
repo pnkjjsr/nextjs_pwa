@@ -91,4 +91,34 @@ export default class Storage {
         });
     }
 
+    getImage(path, type) {
+        let storageRef = this.initialize();
+        const session = new authSession();
+        let user = session.getProfile();
+        return
+        // let imageRef = storageRef.child();
+        // return console.log(imageRef);
+
+        imageRef.getDownloadURL().then(function (url) {
+            // `url` is the download URL for 'images/stars.jpg'
+            console.log(url);
+
+            // This can be downloaded directly:
+            var xhr = new XMLHttpRequest();
+            xhr.responseType = 'blob';
+            xhr.onload = function (event) {
+                var blob = xhr.response;
+            };
+            xhr.open('GET', url);
+            xhr.send();
+
+            // Or inserted into an <img> element:
+            var img = document.getElementById('myimg');
+            img.src = url;
+        }).catch(function (error) {
+            // Handle any errors
+        });
+
+    }
+
 }

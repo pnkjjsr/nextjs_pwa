@@ -7,6 +7,7 @@ import accountActions from "./actions";
 import notifictionActions from "components/Notification/actions"
 
 import UploadFile from "components/UploadFile"
+import Storage from "components/utils/firestoreStorage"
 
 import "./style.scss";
 
@@ -32,6 +33,9 @@ class Account extends Component {
 
   render() {
     const { isMobile } = this.state;
+    const storage = new Storage;
+    storage.getImage('images/users', 'profile');
+    // console.log(userImg);
 
     return (
       <Fragment>
@@ -42,7 +46,8 @@ class Account extends Component {
               <div className="edit">
                 <UploadFile path="images/users" />
               </div>
-              <AccountCircleIcon />
+              {/* <AccountCircleIcon /> */}
+              <img src="https://firebasestorage.googleapis.com/v0/b/neta-62fcb.appspot.com/o/images%2Fusers%2FNvDWTVt8hpZTnUkfslZ9afDy1wp1%2Fprofile.jpg?alt=media&token=2abba5be-6182-4052-ad39-aba4502400a9" alt="" />
             </figure>
             <h2 className="title">Welcome, Pankaj Jasoria</h2>
             <p>
@@ -51,7 +56,7 @@ class Account extends Component {
           </div>
 
 
-          {/* <h1 className="title">
+          <h1 className="title">
             <span>Your Constituency,</span> Hari Nagar, New Delhi
           </h1>
 
@@ -69,7 +74,7 @@ class Account extends Component {
                 </div>
               </div>
             </div>
-          </div> */}
+          </div>
 
         </div>
         <style jsx>{``}</style>
