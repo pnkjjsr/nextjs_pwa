@@ -1,0 +1,28 @@
+@import "common/styles/global";
+
+.edit-text {
+    position: relative;
+    display: inline-block;
+    padding-right: 10px;
+    border-radius: $border-radius;
+    overflow: hidden;
+    vertical-align: top;
+
+    .edit {
+        position: absolute;
+        top: 0;
+        right: 0;
+        line-height: 0;
+        cursor: pointer;
+
+        svg {
+            color: $color-primary;
+            font-size: 12px;
+            text-align: center;
+            vertical-align: top;
+        }
+    }
+
+
+    &:hover {}
+}

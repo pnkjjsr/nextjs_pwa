@@ -8,6 +8,7 @@ import notifictionActions from "components/Notification/actions"
 
 import Storage from "components/utils/firestoreStorage"
 import UploadFile from "components/UploadFile"
+import EditText from 'components/EditText'
 
 import "./style.scss";
 
@@ -63,7 +64,7 @@ class Account extends Component {
               </div>
               {!imgUsr ? <AccountCircleIcon /> : <img src={imgUsr} alt="User Image" />}
             </figure>
-            <h2 className="title">Welcome, Pankaj Jasoria</h2>
+            <h2 className="title">Welcome, <EditText default="Your Name" /></h2>
             <p>
               Manage your info, privacy and security to make {process.env.domain} work better for you
             </p>

@@ -41,8 +41,15 @@
     .logo {
       font-size: 50px;
     }
+
+    // After Login
+    &.bg {
+      .logo {
+        font-size: 24px;
+        font-weight: $font-weight-black;
+      }
+    }
   }
 }
 
-@include media-breakpoint-up(ls) {
-}
+@include media-breakpoint-up(ls) {}

@@ -5,8 +5,8 @@ import {
 
 import {
     service
-} from "../../utils/service"
-import authSession from "../../components/utils/authSession"
+} from "utils"
+import authSession from "components/utils/authSession"
 
 const prefetchData = () => {
     return (dispatch) => {
