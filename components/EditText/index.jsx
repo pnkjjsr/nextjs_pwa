@@ -1,7 +1,4 @@
 import React, { Component, Fragment } from "react";
-import { connect } from "react-redux";
-import { bindActionCreators } from 'redux';
-import editTextActions from "./actions"
 import CreateIcon from '@material-ui/icons/Create';
 import authSession from "components/utils/authSession"
 import { service } from "utils"
@@ -78,7 +75,6 @@ class EditText extends Component {
     }
 
     render() {
-        const { editTextAction } = this.props;
         const { val, textDisplay, inputDisplay } = this.state;
         return (
             <Fragment>
@@ -104,8 +100,4 @@ class EditText extends Component {
     }
 }
 
-const mapDispatchToProps = dispatch => ({
-    editTextAction: bindActionCreators(editTextActions, dispatch)
-})
-
-export default connect(state => state, mapDispatchToProps)(EditText)
+export default (EditText)

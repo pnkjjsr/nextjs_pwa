@@ -79,12 +79,12 @@ class User extends Component {
   }
 
   render() {
-    const { btnSize, token, name, photo } = this.state;
+    const { btnSize, token } = this.state;
     const { user, layout } = this.props;
     return (
       <div className="auth">
         {user.profile.uid || token ? (
-          <Nav name={name} photo={photo} action={this.handleLogout} />
+          <Nav action={this.handleLogout} />
         ) : (
             layout.path == '/login'
               ?

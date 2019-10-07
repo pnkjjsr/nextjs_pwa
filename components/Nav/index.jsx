@@ -1,10 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import Link from 'next/link'
-
 import { connect } from "react-redux";
-
-import authSession from '../utils/authSession'
-
+import authSession from 'components/utils/authSession'
+import Storage from "components/utils/firestoreStorage"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import './style.scss'
 
@@ -15,7 +13,8 @@ class Nav extends Component {
     this.state = {
       admin: props.user.profile.userType,
       nav: "",
-      anime: ""
+      anime: "",
+      imgUsr: ""
     }
 
     this.handleOpenNav = this.handleOpenNav.bind(this);
@@ -33,8 +32,8 @@ class Nav extends Component {
     });
   }
   renderUser(e) {
-    const { photo } = this.props;
-    let user = !photo ? (<AccountCircleIcon />) : photo;
+    const { imgUsr } = this.state;
+    let user = !imgUsr ? (<AccountCircleIcon />) : (<img src={imgUsr} alt="user profile image" />);
 
     return (
       <div className={`user ${e}`} onClick={this.handleOpenNav}>
@@ -47,6 +46,16 @@ class Nav extends Component {
   async componentDidMount() {
     const auth = new authSession;
     const profile = await auth.getProfile()
+    const storage = new Storage;
+    storage.getImage('images/users', 'profile')
+      .then(res => {
+        this.setState({
+          imgUsr: res.src
+        });
+      })
+      .catch(err => {
+        console.log(err);
+      });
 
     if (profile.userType == "admin") {
       this.setState({

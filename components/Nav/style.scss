@@ -3,6 +3,7 @@
 
     div,
     .user {
+        margin-top: 3px;
         color: #fff;
         text-shadow: 1px 1px 1px #00000040;
 
@@ -19,6 +20,11 @@
             height: 24px;
             border-radius: 50px;
             overflow: hidden;
+
+            img {
+                height: 100%;
+                vertical-align: top;
+            }
         }
 
         figcaption {
