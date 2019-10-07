@@ -25,7 +25,9 @@ exports.signup = (req, res) => {
     email: req.body.email,
     mobile: req.body.mobile,
     pincode: req.body.pincode,
-    password: req.body.password
+    password: req.body.password,
+    state: req.body.state,
+    country: req.body.country
   };
 
   const {
@@ -59,7 +61,9 @@ exports.signup = (req, res) => {
           phoneVerified: false,
           displayName: '',
           photoURL: '',
-          pincode: newUser.pincode
+          pincode: newUser.pincode,
+          state: newUser.state,
+          country: newUser.country
         };
         db.doc(`/users/${userId}`)
           .get()

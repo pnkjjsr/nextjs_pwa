@@ -11,9 +11,11 @@ import layoutActions from "components/Layout/actions"
 
 import { service } from 'utils';
 
+import Button from "components/Form/Button"
 import authSession from "components/utils/authSession"
 import authentication from "components/utils/authentication"
-import Button from "components/Form/Button"
+import dataGov from "components/utils/dataGov"
+
 
 import validation from "./validation"
 import banner from "static/images/signup/banner.jpg"
@@ -58,11 +60,13 @@ class Register extends Component {
     }, () => this.state);
   }
 
-  handleSubmit(e) {
+  async handleSubmit(e) {
     e.preventDefault();
     const { email, pincode, password, mobile } = this.state;
     const { notification, user } = this.props;
     const { valid, errors } = validation({ email, mobile, pincode, password });
+    const data = new dataGov
+    const location = await data.getLocation(pincode)
 
     if (!valid) {
       notification.showNotification({
@@ -112,7 +116,9 @@ class Register extends Component {
             email: email,
             mobile: mobile,
             pincode: pincode,
-            password: password
+            password: password,
+            state: location[0].taluk,
+            country: "India"
           }
           service.post('/signup', data)
             .then((result) => {
@@ -274,6 +280,7 @@ class Register extends Component {
   componentDidMount() {
     const { registerAction } = this.props;
     const { path, layoutAction } = this.props;
+
     layoutAction.update_path(path);
     registerAction.check_login();
   }

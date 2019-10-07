@@ -13,7 +13,8 @@ const nextConfig = {
   env: {
     domain: process.env.domain,
     apiKey: process.env.apiKey,
-    secretKey: process.env.SECRET_KEY
+    secretKey: process.env.SECRET_KEY,
+    govKey: process.env.GOVKEY
   },
   serverRuntimeConfig: {
     // Will only be available on the server side

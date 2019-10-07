@@ -6,6 +6,7 @@ import { bindActionCreators } from 'redux';
 import accountActions from "./actions";
 import notifictionActions from "components/Notification/actions"
 
+import authSession from "components/utils/authSession"
 import Storage from "components/utils/firestoreStorage"
 import UploadFile from "components/UploadFile"
 import EditText from 'components/EditText'
@@ -40,7 +41,10 @@ class Account extends Component {
 
   componentDidMount() {
     this.handleIsMobile();
+    const session = new authSession;
+    const user = session.getProfile();
     const storage = new Storage;
+
     storage.getImage('images/users', 'profile')
       .then(res => {
         this.setState({
@@ -48,7 +52,7 @@ class Account extends Component {
         });
       })
       .catch(err => {
-        console.log(err);
+        // console.dir(err);
       });
   }
 
@@ -71,11 +75,11 @@ class Account extends Component {
           </div>
 
 
-          {/* <h1 className="title">
+          <h1 className="title">
             <span>Your Constituency,</span> Hari Nagar, New Delhi
           </h1>
 
-          <div className="panel">
+          {/* <div className="panel">
             <div className="row">
               <div className="col-3">
                 <figure className="photo">
