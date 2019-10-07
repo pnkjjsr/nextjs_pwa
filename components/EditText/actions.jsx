@@ -9,7 +9,7 @@ const prefetch = () => {
     return (dispatch) => {
         service.post('/user', { uid: token })
             .then(res => {
-                console.log(res);
+                return res
             })
             .catch(err => {
                 console.log(err);

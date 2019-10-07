@@ -273,11 +273,7 @@ exports.sendEmailVerification = (req, res) => {
 
 // Add user details
 exports.addUserDetails = (req, res) => {
-  let data = {
-    uid: req.body.uid,
-    photoURL: req.body.photoURL,
-  }
-  console.log(data);
+  let data = req.body
 
   const {
     valid,

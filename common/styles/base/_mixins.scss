@@ -79,6 +79,10 @@
   padding: ($gap - 2) ($gap + 2);
   width: 100%;
 
+  &:focus {
+    box-shadow: none;
+  }
+
   &::placeholder {
     color: #9b9b9b;
     font-weight: $font-weight;
@@ -86,6 +90,10 @@
 
   &.textarea {
     height: 120px;
+  }
+
+  &.form-control-sm {
+    height: 35px;
   }
 }
 

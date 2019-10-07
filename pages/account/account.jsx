@@ -64,14 +64,14 @@ class Account extends Component {
               </div>
               {!imgUsr ? <AccountCircleIcon /> : <img src={imgUsr} alt="User Image" />}
             </figure>
-            <h2 className="title">Welcome, <EditText default="Your Name" /></h2>
+            <h2 className="title">Welcome, <EditText default="Name" /></h2>
             <p>
               Manage your info, privacy and security to make {process.env.domain} work better for you
             </p>
           </div>
 
 
-          <h1 className="title">
+          {/* <h1 className="title">
             <span>Your Constituency,</span> Hari Nagar, New Delhi
           </h1>
 
@@ -89,7 +89,7 @@ class Account extends Component {
                 </div>
               </div>
             </div>
-          </div>
+          </div> */}
 
         </div>
         <style jsx>{``}</style>

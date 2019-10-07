@@ -79,7 +79,7 @@ exports.validateLoginData = (data) => {
 exports.reduceUserDetails = (data) => {
   let errors = {};
   if (isEmpty(data.uid)) errors.uid = "Uid is not define.";
-  if (isEmpty(data.photoURL)) errors.photoURL = "Photo url is not define.";
+  // if (isEmpty(data.photoURL)) errors.photoURL = "Photo url is not define.";
   // if (!isEmpty(data.bio.trim())) userDetails.bio = data.bio;
   // if (!isEmpty(data.website.trim())) {
   //   // https://website.com
