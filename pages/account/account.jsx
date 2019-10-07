@@ -18,7 +18,9 @@ class Account extends Component {
     super(props)
     this.state = {
       isMobile: "",
-      imgUsr: ""
+      imgUsr: "",
+      state: "",
+      pincode: ""
     }
   }
 
@@ -54,10 +56,15 @@ class Account extends Component {
       .catch(err => {
         // console.dir(err);
       });
+
+    this.setState({
+      state: user.state,
+      pincode: user.pincode
+    });
   }
 
   render() {
-    const { isMobile, imgUsr } = this.state;
+    const { isMobile, imgUsr, pincode, state } = this.state;
     return (
       <Fragment>
         <div className="container account">
@@ -76,7 +83,7 @@ class Account extends Component {
 
 
           <h1 className="title">
-            <span>Your Constituency,</span> Hari Nagar, New Delhi
+            <span>Your Constituency,</span> {pincode}, {state}
           </h1>
 
           {/* <div className="panel">
