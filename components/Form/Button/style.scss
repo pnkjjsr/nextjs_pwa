@@ -1,6 +1,6 @@
 .btn {
 
-    &.loading>span:first-child::after {
+    &.loading::after {
         content: ' .';
         animation: dots 1s steps(5, end) infinite;
     }

@@ -4,7 +4,7 @@ import Router from 'next/router';
 import authSession from './authSession'
 import { service } from '../../utils'
 
-import PageLoader from '../Loader/page'
+import PageLoader from 'components/Loader/page'
 
 export default function adminAuth(AuthComponent) {
 
