@@ -9,7 +9,24 @@
   padding: 10px 10px;
   background-color: #fff;
 
+  .menu,
   .logo {
+    display: inline-block;
+    vertical-align: top;
+  }
+
+  .menu {
+    color: $color-white;
+    cursor: pointer;
+
+    button {
+      padding: 3px 12px;
+      outline: none;
+    }
+  }
+
+  .logo {
+    margin-left: 10px;
     color: #0073b0;
     font-size: 24px;
     font-weight: 800;
@@ -52,4 +69,5 @@
   }
 }
 
-@include media-breakpoint-up(ls) {}
+@include media-breakpoint-up(ls) {
+}

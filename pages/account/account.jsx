@@ -10,6 +10,7 @@ import authSession from "components/utils/authSession"
 import Storage from "components/utils/firestoreStorage"
 import UploadFile from "components/UploadFile"
 import EditText from 'components/EditText'
+import AccountNav from 'components/Nav/Account/index'
 
 import "./style.scss";
 
@@ -68,37 +69,44 @@ class Account extends Component {
     return (
       <Fragment>
         <div className="container account">
-          <div className="user">
-            <figure className={`${isMobile}`}>
-              <div className="edit">
-                <UploadFile path="images/users" />
-              </div>
-              {!imgUsr ? <AccountCircleIcon /> : <img src={imgUsr} alt="User Image" />}
-            </figure>
-            <h2 className="title">Welcome, <EditText default="Name" /></h2>
-            <p>
-              Manage your info, privacy and security to make {process.env.domain} work better for you
-            </p>
-          </div>
-
-
-          <h1 className="title">
-            <span>Your Constituency,</span> {pincode}, {state}
-          </h1>
-
-          <div className="panel">
-            <div className="row">
-              <div className="col-3">
-                <figure className="photo">
-                  <AccountCircleIcon />
+          <div className="row">
+            <div className="col-lg-3 d-none d-lg-block">
+              <AccountNav />
+            </div>
+            <div className="col-lg-9">
+              <div className="user">
+                <figure className={`${isMobile}`}>
+                  <div className="edit">
+                    <UploadFile path="images/users" />
+                  </div>
+                  {!imgUsr ? <AccountCircleIcon /> : <img src={imgUsr} alt="User Image" />}
                 </figure>
+                <h2 className="title">Welcome, <EditText default="Name" /></h2>
+                <p>
+                  Manage your info, privacy and security to make {process.env.domain} work better for you
+            </p>
               </div>
-              <div className="col-9">
-                <div className="heading">
-                  <label htmlFor="ministerName">MCD Councillor</label>
-                  <h3 className="title" name="ministerName">Kiran Chopra</h3>
+
+              <h1 className="title">
+                <span>Your Constituency,</span> {pincode}, {state}
+              </h1>
+
+              <div className="panel">
+                <div className="row">
+                  <div className="col-3">
+                    <figure className="photo">
+                      <AccountCircleIcon />
+                    </figure>
+                  </div>
+                  <div className="col-9">
+                    <div className="heading">
+                      <label htmlFor="ministerName">MCD Councillor</label>
+                      <h3 className="title" name="ministerName">Kiran Chopra</h3>
+                    </div>
+                  </div>
                 </div>
               </div>
+
             </div>
           </div>
 
