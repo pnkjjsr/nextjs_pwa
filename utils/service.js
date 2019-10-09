@@ -1,7 +1,6 @@
 import axios from 'axios';
 import isPlainObject from 'is-plain-object';
 import {
-  ENV,
   NODE
 } from '../config';
 
@@ -9,6 +8,12 @@ let req = null;
 
 export default class Service {
   constructor(axiosConfig) {
+    this.requestTimeout = process.env.requestTimeout
+    this.apiVersion = process.env.apiVersion
+    this.apiProtocol = process.env.apiProtocol
+    this.requestBaseurl = process.env.requestBaseurl
+    this.requestBaseurlLocal = process.env.requestBaseurlLocal
+
     if (!isPlainObject(axiosConfig)) {
       throw new TypeError(
         'Invalid data type of axios config. It must be a plain object.'
@@ -19,7 +24,7 @@ export default class Service {
 
     this.defaultConfig = {
       baseURL: this.getBaseURL(),
-      timeout: ENV['REQUEST_TIMEOUT']
+      timeout: this.requestTimeout
     };
 
     this.axios = axios.create(
@@ -40,15 +45,15 @@ export default class Service {
   }
 
   getBaseURL() {
-    const api = `/api/${ENV['API_VERSION']}`;
+    const api = `/api/${this.apiVersion}`;
 
     // construct base URL when is on server side
     if (NODE) {
-      return `${ENV['PROTOCOL']}://${ENV['HOST']}${api}`;
+      return `${this.apiProtocol}://${this.requestBaseurl}${api}`;
     }
     // else, use it if request base URL is explicitly defined (eg: domain name)
-    else if (ENV['REQUEST_BASEURL_LOCAL'].trim()) {
-      return `${ENV['REQUEST_BASEURL_LOCAL']}${api}`;
+    else if (this.requestBaseurlLocal.trim()) {
+      return `${this.requestBaseurlLocal}${api}`;
     }
     // or return as it is
     return api;

@@ -33,3 +33,5 @@ app.post('/addUserDetails', addUserDetails);
 app.post('/email', sendEmailVerification);
 app.post('/phone', updatePhone);
 app.post('/verifyPhone', verifyPhone);
+
+// Mini Routes

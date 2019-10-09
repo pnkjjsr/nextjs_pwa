@@ -30,7 +30,7 @@ class MyApp extends App {
     const { key } = this.state;
     const { Component, ctx, router, pageProps, store } = this.props;
 
-    if (router.query.key == process.env.secretKey || key == true) {
+    if (router.query.key == process.env.secretKey || key == true || process.env.NODE_ENV == "development") {
       return (
         <Container>
           <Provider store={store}>
@@ -60,4 +60,4 @@ class MyApp extends App {
   }
 }
 
-export default withRedux(initStore, { debug: true })(MyApp);
+export default withRedux(initStore, { debug: false })(MyApp);

@@ -94,6 +94,8 @@ class Login extends Component {
               Router.push('/account')
             })
             .catch(error => {
+              console.log(error);
+
               actionNotification.showNotification(error);
               let data = error.response.data;
               let msg = data[Object.keys(data)[0]]

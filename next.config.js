@@ -14,7 +14,12 @@ const nextConfig = {
     domain: process.env.domain,
     apiKey: process.env.apiKey,
     secretKey: process.env.SECRET_KEY,
-    govKey: process.env.GOVKEY
+    govKey: process.env.GOV_KEY,
+    apiProtocol: process.env.API_PROTOCOL,
+    requestTimeout: process.env.REQUEST_TIMEOUT,
+    apiVersion: process.env.API_VERSION,
+    requestBaseurl: process.env.REQUEST_BASEURL,
+    requestBaseurlLocal: process.env.REQUEST_BASEURL_LOCAL
   },
   serverRuntimeConfig: {
     // Will only be available on the server side
@@ -40,6 +45,8 @@ const nextConfig = {
     config.resolve.alias['static'] = path.join(__dirname, 'static')
     config.resolve.alias['functions'] = path.join(__dirname, 'functions')
     config.resolve.alias['pages'] = path.join(__dirname, 'pages')
+
+    // console.log(dev, isServer)
 
     return config
   }
