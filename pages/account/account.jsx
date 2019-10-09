@@ -91,7 +91,7 @@ class Account extends Component {
                 <span>Your Constituency,</span> {pincode}, {state}
               </h1>
 
-              {/* <div className="panel">
+              <div className="panel">
                 <div className="row">
                   <div className="col-3">
                     <figure className="photo">
@@ -105,7 +105,7 @@ class Account extends Component {
                     </div>
                   </div>
                 </div>
-              </div> */}
+              </div>
 
             </div>
           </div>

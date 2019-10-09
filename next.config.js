@@ -11,7 +11,7 @@ const withNextEnv = nextEnv();
 
 const nextConfig = {
   env: {
-    domain: process.env.domain,
+    domain: process.env.DOMAIN,
     apiKey: process.env.apiKey,
     secretKey: process.env.SECRET_KEY,
     govKey: process.env.GOV_KEY,

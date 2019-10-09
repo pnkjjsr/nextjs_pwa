@@ -23,44 +23,44 @@ class AccountNav extends Component {
         <nav className="nav-account">
           <ul>
             <li>
-              <Link href="">
+              <Link href="/account">
                 <a>
                   <i>
                     <AccountCircleIcon />
                   </i>
-                  Account
-                  </a>
+                  <label htmlFor="Account">Account</label>
+                </a>
               </Link>
             </li>
             <li>
-              <Link href="">
+              <Link href="/constituency">
                 <a>
                   <i><PersonPinCircleIcon /></i>
-                  Constituency
+                  <label htmlFor="Constituency">Constituency</label>
                 </a>
               </Link>
             </li>
             <li>
-              <Link href="">
+              <Link href="/personal-info">
                 <a>
                   <i><InfoIcon /></i>
-                  Personal info
+                  <label htmlFor="Personal info">Personal info</label>
                 </a>
               </Link>
             </li>
             <li>
-              <Link href="">
+              <Link href="data-personalisation">
                 <a>
                   <i><SettingsApplicationsIcon /></i>
-                  Data &amp; personalisation
-                  </a>
+                  <label htmlFor="Data &amp; personalisation">Data &amp; personalisation</label>
+                </a>
               </Link>
             </li>
             <li>
               <Link href="">
                 <a>
                   <i><SecurityIcon /></i>
-                  Security
+                  <label htmlFor="Security">Security</label>
                 </a>
               </Link>
             </li>

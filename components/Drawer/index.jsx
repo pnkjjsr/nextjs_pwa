@@ -2,6 +2,8 @@ import React, { Fragment, Children } from 'react'
 import Drawer from '@material-ui/core/Drawer';
 import MenuIcon from '@material-ui/icons/Menu';
 
+import "./style.scss";
+
 export default function MDrawer(props) {
     const [state, setState] = React.useState({
         top: false,
@@ -20,7 +22,7 @@ export default function MDrawer(props) {
 
     const menu = side => (
         <div
-            className=""
+            className="drawer"
             onClick={toggleDrawer(side, false)}
             onKeyDown={toggleDrawer(side, false)}
         >
