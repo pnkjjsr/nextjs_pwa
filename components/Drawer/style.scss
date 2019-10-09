@@ -1,3 +1,8 @@
+@import "common/styles/global.scss";
+
 .drawer {
-    padding: 0 15px 0 10px;
+  padding: 30px 15px 0 10px;
+}
+
+@include media-breakpoint-up(lg) {
 }

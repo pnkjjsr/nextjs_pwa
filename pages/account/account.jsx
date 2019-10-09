@@ -12,6 +12,11 @@ import UploadFile from "components/UploadFile"
 import EditText from 'components/EditText'
 import AccountNav from 'components/Nav/Account/index'
 
+import FlagIcon from '@material-ui/icons/Flag';
+import MoneyIcon from '@material-ui/icons/Money';
+import MenuBookIcon from '@material-ui/icons/MenuBook';
+import HomeIcon from '@material-ui/icons/Home';
+
 import "./style.scss";
 
 class Account extends Component {
@@ -84,24 +89,58 @@ class Account extends Component {
                 <h2 className="title">Welcome, <EditText default="Name" /></h2>
                 <p>
                   Manage your info, privacy and security to make {process.env.domain} work better for you
-            </p>
+                </p>
               </div>
 
               <h1 className="title">
-                <span>Your Constituency,</span> {pincode}, {state}
+                <span>Your Constituency,</span> {pincode} - {state}
               </h1>
 
-              <div className="panel">
-                <div className="row">
-                  <div className="col-3">
-                    <figure className="photo">
-                      <AccountCircleIcon />
-                    </figure>
-                  </div>
-                  <div className="col-9">
-                    <div className="heading">
-                      <label htmlFor="ministerName">MCD Councillor</label>
-                      <h3 className="title" name="ministerName">Kiran Chopra</h3>
+
+              <div className="row">
+                <div className="col-12 col-lg-6 col-xl-4">
+                  <div className="panel">
+                    <div className="row">
+                      <div className="col-3 col-lg-12">
+                        <figure className="photo">
+                          <AccountCircleIcon />
+                        </figure>
+                      </div>
+                      <div className="col-9 col-lg-12">
+                        <div className="heading">
+                          <label htmlFor="ministerName">MCD Councillor</label>
+                          <h3 className="title" name="ministerName">Kiran Chopra</h3>
+                        </div>
+
+                        <div className="details">
+                          <ul>
+                            <li>
+                              <i>
+                                <FlagIcon />
+                              </i>
+                              <label htmlFor=""><b>Bharatiya Janata Party</b></label>
+                            </li>
+                            <li>
+                              <i>
+                                <MoneyIcon />
+                              </i>
+                              <label htmlFor="">Rs 1,97,93,701</label>
+                            </li>
+                            <li>
+                              <i>
+                                <MenuBookIcon />
+                              </i>
+                              <label htmlFor="">10th Pass</label>
+                            </li>
+                            <li>
+                              <i>
+                                <HomeIcon />
+                              </i>
+                              <label htmlFor="">B-133/1, Hari Nagar, New Delhi-110064</label>
+                            </li>
+                          </ul>
+                        </div>
+                      </div>
                     </div>
                   </div>
                 </div>
