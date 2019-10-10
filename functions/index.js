@@ -24,6 +24,7 @@ const {
 // mini routes
 const {
     councillor,
+    addCouncillor,
     mla,
     mp
 } = require("./routes/ministers");
@@ -45,5 +46,6 @@ app.post('/verifyPhone', verifyPhone);
 
 // Mini Routes
 app.post('/councillor', councillor);
+app.post('/addCouncillor', addCouncillor);
 app.post('/mla', mla);
 app.post('/mp', mp);
