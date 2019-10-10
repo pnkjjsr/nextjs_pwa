@@ -7,6 +7,8 @@ const FBAuth = require('./utils/fbAuth');
 const {
     db
 } = require('./utils/admin');
+
+// user routes
 const {
     signup,
     getLocation,
@@ -18,6 +20,13 @@ const {
     updatePhone,
     verifyPhone
 } = require('./routes/users');
+
+// mini routes
+const {
+    councillor,
+    mla,
+    mp
+} = require("./routes/ministers");
 
 main.use(cors());
 main.use('/v1', app)
@@ -35,3 +44,6 @@ app.post('/phone', updatePhone);
 app.post('/verifyPhone', verifyPhone);
 
 // Mini Routes
+app.post('/councillor', councillor);
+app.post('/mla', mla);
+app.post('/mp', mp);

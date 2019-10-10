@@ -96,8 +96,7 @@ class Account extends Component {
                 <span>Your Constituency,</span> {pincode} - {state}
               </h1>
 
-
-              <div className="row">
+              <div className="row d-none">
                 <div className="col-12 col-lg-6 col-xl-4">
                   <div className="panel">
                     <div className="row">
