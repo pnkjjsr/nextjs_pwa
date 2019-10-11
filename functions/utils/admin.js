@@ -3,11 +3,11 @@ const functions = require('firebase-functions');
 var serviceAccount = require("../../serviceAccountKey.json");
 
 
-// admin.initializeApp({
-//     credential: admin.credential.cert(serviceAccount),
-//     databaseURL: "https://neta-62fcb.firebaseio.com"
-// });
-admin.initializeApp(functions.config().firebase);
+admin.initializeApp({
+    credential: admin.credential.cert(serviceAccount),
+    databaseURL: "https://neta-62fcb.firebaseio.com"
+});
+// admin.initializeApp(functions.config().firebase);
 
 
 const db = admin.firestore();

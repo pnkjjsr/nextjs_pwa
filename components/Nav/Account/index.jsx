@@ -23,20 +23,20 @@ class AccountNav extends Component {
         <nav className="nav-account">
           <ul>
             <li>
+              <Link href="/constituency">
+                <a>
+                  <i><PersonPinCircleIcon /></i>
+                  <label htmlFor="Constituency">Constituency</label>
+                </a>
+              </Link>
+            </li>
+            <li>
               <Link href="/account">
                 <a>
                   <i>
                     <AccountCircleIcon />
                   </i>
                   <label htmlFor="Account">Account</label>
-                </a>
-              </Link>
-            </li>
-            <li>
-              <Link href="/constituency">
-                <a>
-                  <i><PersonPinCircleIcon /></i>
-                  <label htmlFor="Constituency">Constituency</label>
                 </a>
               </Link>
             </li>

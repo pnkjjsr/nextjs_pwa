@@ -16,6 +16,7 @@ const prefetchData = () => {
         let data = {
             uid: token
         }
+
         service.post("/getLocation", data)
             .then((res) => {
                 e = res.data;
@@ -26,7 +27,6 @@ const prefetchData = () => {
                 } else if (e.pincode && e.phoneNumber) {
                     dispatch(account())
                 }
-
             })
             .catch((error) => {
                 console.log(error);
@@ -59,11 +59,9 @@ const getUserImage = (e) => {
     }
 }
 
-
 export default {
     prefetchData,
     location,
     mobile,
-    account,
-    getUserImage
+    account
 };

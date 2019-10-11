@@ -74,82 +74,6 @@
       font-size: 16px;
     }
   }
-
-  .panel {
-    margin-bottom: 20px;
-    padding: 10px;
-    border-radius: 10px;
-    border: solid 1px rgb(207, 217, 230);
-    background-color: rgb(255, 255, 255);
-
-    .photo {
-      width: 60px;
-      height: 60px;
-      margin: 0;
-      border-radius: 60px;
-      border: solid 1px rgb(158, 170, 176);
-      overflow: hidden;
-      vertical-align: top;
-
-      svg,
-      img {
-        width: auto;
-        height: auto;
-        color: $color-gray;
-      }
-    }
-
-    .heading {
-      label {
-        margin: 0;
-        color: $color-gray;
-        font-size: 14px;
-        font-weight: $font-weight-bold;
-      }
-
-      h3.title {
-        margin: 0;
-        font-size: 20px;
-        font-weight: $font-weight-bold;
-        line-height: 15px;
-      }
-    }
-
-    .details {
-      display: none;
-      ul,
-      li {
-        margin: 0;
-        padding: 0;
-        list-style-type: none;
-      }
-      li {
-        padding-bottom: 10px;
-
-        &:last-child {
-          padding-bottom: 0;
-        }
-
-        i,
-        label {
-          display: inline-block;
-          vertical-align: top;
-        }
-        i {
-          margin-right: 10px;
-          svg {
-            font-size: 20px;
-          }
-        }
-        label {
-          width: calc(100% - 35px);
-          margin: 0;
-          margin-top: 3px;
-          font-size: 14px;
-        }
-      }
-    }
-  }
 }
 
 @include media-breakpoint-up(lg) {
@@ -182,38 +106,6 @@
         display: inline;
         color: $base-color;
         font-size: 20px;
-      }
-    }
-
-    .panel {
-      padding: 20px;
-      border-radius: 20px;
-
-      .photo {
-        width: 100px;
-        height: 100px;
-        margin: auto;
-        margin-bottom: 5px;
-        border-radius: 100%;
-      }
-
-      .heading {
-        margin-bottom: 15px;
-        text-align: center;
-        label {
-          margin: 0;
-          margin-bottom: 5px;
-          font-size: 16px;
-          font-weight: $font-weight;
-        }
-        h3.title {
-          font-size: 20px;
-          font-weight: $font-weight-bold;
-        }
-      }
-
-      .details {
-        display: block;
       }
     }
   }
