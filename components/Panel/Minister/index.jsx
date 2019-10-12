@@ -15,11 +15,15 @@ class PanelMinister extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            title: this.props.title,
+            type: this.props.type,
             data: ""
         }
     }
 
     static getDerivedStateFromProps(props) {
+        // console.log(props.minister);
+
         if (props.minister) {
             return {
                 data: props.minister
@@ -29,12 +33,14 @@ class PanelMinister extends Component {
     }
 
     componentDidMount() {
+        const { type } = this.state;
         const { ministerAction } = this.props;
-        ministerAction.prefetchData();
+        ministerAction.prefetchData(type);
     }
 
     render() {
-        const { data } = this.state;
+        const { type, title, data } = this.state;
+        let minister = data[type]
 
         return (
             <Fragment>
@@ -47,8 +53,8 @@ class PanelMinister extends Component {
                         </div>
                         <div className="col-9 col-lg-12">
                             <div className="heading">
-                                <label htmlFor="ministerName">MCD Councillor</label>
-                                <h3 className="title" name="ministerName">{data.councillor.name}</h3>
+                                <label htmlFor="ministerName">{title}</label>
+                                <h3 className="title" name="ministerName">{minister.name}</h3>
                             </div>
 
                             <div className="details">
@@ -57,25 +63,25 @@ class PanelMinister extends Component {
                                         <i>
                                             <FlagIcon />
                                         </i>
-                                        <label htmlFor="party"><b>{data.councillor.party}</b></label>
+                                        <label htmlFor="party"><b>{minister.party}</b></label>
                                     </li>
                                     <li>
                                         <i>
                                             <MoneyIcon />
                                         </i>
-                                        <label htmlFor="assets">Rs {data.councillor.assets}</label>
+                                        <label htmlFor="assets">Rs {minister.assets}</label>
                                     </li>
                                     <li>
                                         <i>
                                             <MenuBookIcon />
                                         </i>
-                                        <label htmlFor="education">{data.councillor.education}</label>
+                                        <label htmlFor="education">{minister.education} Pass</label>
                                     </li>
                                     <li>
                                         <i>
                                             <HomeIcon />
                                         </i>
-                                        <label htmlFor="address">{data.councillor.address}, {data.councillor.state}-{data.councillor.pincode}</label>
+                                        <label htmlFor="address">{minister.address}, {minister.state}-{minister.pincode}</label>
                                     </li>
                                 </ul>
                             </div>

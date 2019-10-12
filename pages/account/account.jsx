@@ -94,7 +94,19 @@ class Account extends Component {
 
               <div className="row">
                 <div className="col-12 col-lg-6 col-xl-4">
-                  <PanelMinister />
+                  <PanelMinister title="MCD Councillor" type="councillor" />
+                </div>
+                <div className="col-12 col-lg-6 col-xl-4">
+                  <PanelMinister title="MLA" type="mla" />
+                </div>
+                <div className="col-12 col-lg-6 col-xl-4">
+                  {/* <PanelMinister type="mp" /> */}
+                </div>
+                <div className="col-12 col-lg-6 col-xl-4">
+                  {/* <PanelMinister type="cm" /> */}
+                </div>
+                <div className="col-12 col-lg-6 col-xl-4">
+                  {/* <PanelMinister type="pm" /> */}
                 </div>
               </div>
 

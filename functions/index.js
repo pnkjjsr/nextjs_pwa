@@ -26,7 +26,9 @@ const {
     councillor,
     addCouncillor,
     mla,
-    mp
+    addMla,
+    mp,
+    addMp
 } = require("./routes/ministers");
 
 main.use(cors());
@@ -48,4 +50,6 @@ app.post('/verifyPhone', verifyPhone);
 app.post('/councillor', councillor);
 app.post('/addCouncillor', addCouncillor);
 app.post('/mla', mla);
+app.post('/addMla', addMla);
 app.post('/mp', mp);
+app.post('/addMp', addMp);
