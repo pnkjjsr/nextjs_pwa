@@ -11,6 +11,8 @@ function validation(data) {
 
     if (isEmpty(data.pincode)) errors.pincode = 'Pincode must not be empty';
 
+    if (isEmpty(data.area)) errors.area = 'Area must not be empty';
+
     if (isEmpty(data.password)) errors.password = 'Password must not be empty';
 
     if (isEmpty(data.mobile)) errors.mobile = 'Mobile must not be empty';

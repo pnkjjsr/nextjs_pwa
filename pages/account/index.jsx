@@ -4,7 +4,7 @@ import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import accountActions from "./actions"
 
-import userAuth from 'components/utils/userAuth'
+import userAuth from 'utils/userAuth'
 import PageLoader from 'components/Loader/page'
 
 import Location from './location'

@@ -8,11 +8,11 @@ import actionNotifications from "components/Notification/actions"
 import actionUser from "components/User/actions"
 import layoutActions from "components/Layout/actions"
 
-import authSession from "components/utils/authSession"
-import authentication from "components/utils/authentication"
+import authSession from "utils/authSession"
+import authentication from "utils/authentication"
 import Button from "components/Form/Button"
 
-import { service } from 'utils';
+import { service } from 'apiConnect';
 
 import validation from "./validation"
 import "./style.scss";

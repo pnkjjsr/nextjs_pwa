@@ -10,7 +10,7 @@ import theme from "components/Layout/_theme"
 
 import Layout from "components/Layout";
 import Notification from "components/Notification"
-import authSession from "components/utils/authSession"
+import authSession from "utils/authSession"
 
 class MyApp extends App {
   constructor(props) {

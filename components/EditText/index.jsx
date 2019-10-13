@@ -1,6 +1,6 @@
 import React, { Component, Fragment } from "react";
 import CreateIcon from '@material-ui/icons/Create';
-import authSession from "components/utils/authSession"
+import authSession from "utils/authSession"
 import { service } from "utils"
 
 import "./style.scss";

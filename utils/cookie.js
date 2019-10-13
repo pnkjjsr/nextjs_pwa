@@ -1,4 +1,4 @@
-import cookie from 'js-cookie';
+import cookie from 'utils/js-cookie';
 
 export const setCookie = (key, value) => {
     if (process.browser) {

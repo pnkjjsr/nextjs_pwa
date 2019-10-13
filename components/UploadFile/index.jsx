@@ -5,8 +5,8 @@ import { bindActionCreators } from 'redux';
 import accountActions from "pages/account/actions"
 
 
-import authSession from "components/utils/authSession"
-import Storage from "components/utils/firestoreStorage"
+import authSession from "utils/authSession"
+import Storage from "utils/firestoreStorage"
 import { service } from "utils";
 
 import CreateIcon from '@material-ui/icons/Create';

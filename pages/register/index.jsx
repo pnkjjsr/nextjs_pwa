@@ -9,13 +9,11 @@ import registerActions from "./action"
 import notification from "components/Notification/actions"
 import layoutActions from "components/Layout/actions"
 
-import { service } from 'utils';
+import { service } from 'apiConnect';
 
 import Button from "components/Form/Button"
-import authSession from "components/utils/authSession"
-import authentication from "components/utils/authentication"
-import dataGov from "components/utils/dataGov"
-
+import authSession from "utils/authSession"
+import authentication from "utils/authentication"
 
 import validation from "./validation"
 import banner from "static/images/signup/banner.jpg"
@@ -27,9 +25,12 @@ class Register extends Component {
     this.state = {
       view: 0,
       pincode: "",
+      area: [],
       email: "",
       password: "",
       mobile: "",
+      areaMsg: "",
+      areaErr: "",
       pincodeMsg: "",
       emailMsg: "",
       mobileMsg: "",
@@ -43,6 +44,7 @@ class Register extends Component {
     this.handleSubmit = this.handleSubmit.bind(this);
     this.handleVerification = this.handleVerification.bind(this);
   }
+
   static async getInitialProps({ pathname }) {
     const path = pathname
     return { path }
@@ -53,20 +55,22 @@ class Register extends Component {
     let err = elem + "Err"
     let msg = elem + "Msg"
 
+    if (e.target.name == "pincode" && e.target.value.length == 6) {
+      this.props.registerAction.get_area(e.target.value);
+    }
+
     this.setState({
       [elem]: e.target.value,
       [err]: "",
       [msg]: ""
-    }, () => this.state);
+    });
   }
 
   async handleSubmit(e) {
     e.preventDefault();
-    const { email, pincode, password, mobile } = this.state;
+    const { email, pincode, area, password, mobile } = this.state;
     const { notification, user } = this.props;
-    const { valid, errors } = validation({ email, mobile, pincode, password });
-    const data = new dataGov
-    const location = await data.getLocation(pincode)
+    const { valid, errors } = validation({ email, mobile, pincode, area, password });
 
     if (!valid) {
       notification.showNotification({
@@ -154,8 +158,11 @@ class Register extends Component {
     )
   }
 
-  renderRegistration = () => {
-    const { pincodeMsg, emailMsg, mobileMsg, passwordMsg, pincodeErr, emailErr, passwordErr, mobileErr } = this.state;
+  renderRegistration() {
+    const { areaMsg, areaErr, pincodeMsg, emailMsg, mobileMsg, passwordMsg, pincodeErr, emailErr, passwordErr, mobileErr } = this.state;
+    const { register } = this.props
+    let locations = register.area;
+    const selectOptions = locations.map((location, key) => <option key={key} value={location}>{location}</option>)
 
     return (
       <Fragment>
@@ -203,13 +210,30 @@ class Register extends Component {
                       </small>
                     </div>
 
-                    <div className={`form-group ${pincodeErr}`}>
-                      <label htmlFor="pincode">Pincode</label>
-                      <input className="form-control" name="pincode" type="text" aria-describedby="pincodeHelp" placeholder="110064" onChange={this.handleChange} />
-                      <small className="form-text">
-                        {pincodeMsg}
-                      </small>
+                    <div className="row">
+                      <div className="col-6">
+                        <div className={`form-group ${pincodeErr}`}>
+                          <label htmlFor="pincode">Pincode</label>
+                          <input className="form-control" name="pincode" type="text" aria-describedby="pincodeHelp" placeholder="110064" onChange={this.handleChange} />
+                          <small className="form-text">
+                            {pincodeMsg}
+                          </small>
+                        </div>
+                      </div>
+                      <div className="col-6">
+                        <div className={`form-group ${areaErr}`}>
+                          <label htmlFor="area">Area</label>
+                          <select className="form-control" name="area" onChange={this.handleChange}>
+                            <option value="">Select</option>
+                            {selectOptions}
+                          </select>
+                          <small className="form-text">
+                            {areaMsg}
+                          </small>
+                        </div>
+                      </div>
                     </div>
+
 
                     <div className={`form-group ${passwordErr}`}>
                       <label htmlFor="password">Password</label>
@@ -270,11 +294,8 @@ class Register extends Component {
 
     if (register.view === 1) {
       Router.push('/')
-      return null
     }
-    else {
-      return null
-    }
+    return null
   }
 
   componentDidMount() {

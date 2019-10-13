@@ -1,12 +1,13 @@
 import {
     COUNCILLOR,
-    MLA
+    MLA,
+    MP
 } from './constant'
 
 import {
     service
 } from "utils"
-import authSession from "components/utils/authSession"
+import authSession from "utils/authSession"
 
 const prefetchData = (e) => {
     return async (dispatch) => {
@@ -24,6 +25,9 @@ const prefetchData = (e) => {
                 else if (e == 'mla') {
                     dispatch(mla(res.data))
                 }
+                else if (e == 'mp') {
+                    dispatch(mp(res.data))
+                }
             })
             .catch(err => {
                 console.log(err);
@@ -40,6 +44,12 @@ const councillor = (e) => {
 const mla = (e) => {
     return {
         type: MLA,
+        payload: e
+    }
+}
+const mp = (e) => {
+    return {
+        type: MP,
         payload: e
     }
 }

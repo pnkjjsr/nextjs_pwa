@@ -1,10 +1,10 @@
-import React, { Component } from 'react'
-import Router from 'next/router';
+import React, { Component } from 'utils/react'
+import Router from 'utils/next/router';
 
 import authSession from './authSession'
 import { service } from '../../utils'
 
-import PageLoader from 'components/Loader/page'
+import PageLoader from 'utils/components/Loader/page'
 
 export default function adminAuth(AuthComponent) {
 

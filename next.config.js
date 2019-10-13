@@ -39,6 +39,7 @@ const nextConfig = {
     defaultLoaders
   }) {
     // Alias
+    config.resolve.alias['apiConnect'] = path.join(__dirname, 'apiConnect')
     config.resolve.alias['common'] = path.join(__dirname, 'common')
     config.resolve.alias['components'] = path.join(__dirname, 'components')
     config.resolve.alias['utils'] = path.join(__dirname, 'utils')

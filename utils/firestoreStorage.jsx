@@ -2,7 +2,7 @@ import firebase from "firebase/app";
 import 'firebase/storage';
 import clientCredentials from "./client";
 
-import authSession from "components/utils/authSession"
+import authSession from "./authSession"
 
 export default class Storage {
     initialize() {

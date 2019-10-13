@@ -7,8 +7,8 @@ import userAction from './actions'
 
 import Button from "components/Form/Button"
 
-import authSession from '../utils/authSession'
-import authentication from "../utils/authentication"
+import authSession from '../../utils/authSession'
+import authentication from "../../utils/authentication"
 
 import Nav from "../Nav"
 import './style.scss';

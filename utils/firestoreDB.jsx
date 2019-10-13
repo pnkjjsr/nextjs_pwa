@@ -1,5 +1,5 @@
-import firebase from "firebase/app";
-import "firebase/firestore";
+import firebase from "utils/firebase/app";
+import "utils/firebase/firestore";
 
 import clientCredentials from "./client";
 

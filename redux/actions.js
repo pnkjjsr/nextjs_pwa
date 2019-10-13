@@ -9,7 +9,7 @@ import {
 import {
     setCookie,
     removeCookie
-} from '../components/utils/cookie';
+} from '../utils/cookie';
 
 // register user
 const register = ({

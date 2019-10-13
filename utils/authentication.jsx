@@ -1,7 +1,7 @@
 import firebase from "firebase/app";
 import 'firebase/auth'
 import clientCredentials from "./client";
-import { service } from "utils"
+import { service } from "../apiConnect"
 
 export default class Authentication {
     constructor(props) {

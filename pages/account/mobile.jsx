@@ -9,8 +9,8 @@ import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
 import { service } from "../../utils"
-import authSession from "components/utils/authSession"
-import authentication from "components/utils/authentication"
+import authSession from "utils/authSession"
+import authentication from "utils/authentication"
 
 import Button from "components/Form/Button"
 import Input from "components/Form/Input"

@@ -1,7 +1,7 @@
 import React, { Component, Fragment } from 'react'
 
-import adminAuth from 'components/utils/adminAuth'
-import firebaseStorage from 'components/utils/firestoreStorage'
+import adminAuth from 'utils/adminAuth'
+import firebaseStorage from 'utils/firestoreStorage'
 
 class Minister extends Component {
     constructor(props) {

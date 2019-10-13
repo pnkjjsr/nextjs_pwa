@@ -6,8 +6,8 @@ import { bindActionCreators } from 'redux';
 import accountActions from "./actions";
 import notifictionActions from "components/Notification/actions"
 
-import authSession from "components/utils/authSession"
-import Storage from "components/utils/firestoreStorage"
+import authSession from "utils/authSession"
+import Storage from "utils/firestoreStorage"
 import UploadFile from "components/UploadFile"
 import EditText from 'components/EditText'
 import AccountNav from 'components/Nav/Account/index'
@@ -100,7 +100,7 @@ class Account extends Component {
                   <PanelMinister title="MLA" type="mla" />
                 </div>
                 <div className="col-12 col-lg-6 col-xl-4">
-                  {/* <PanelMinister type="mp" /> */}
+                  <PanelMinister title="MP" type="mp" />
                 </div>
                 <div className="col-12 col-lg-6 col-xl-4">
                   {/* <PanelMinister type="cm" /> */}

@@ -3,7 +3,7 @@ import Link from 'next/link'
 import { connect } from "react-redux";
 
 import User from "components/User"
-import authSession from "components/utils/authSession"
+import authSession from "utils/authSession"
 import MDrawer from "components/Drawer"
 import AccountNav from "components/Nav/Account"
 

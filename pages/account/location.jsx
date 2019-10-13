@@ -10,7 +10,7 @@ import Grid from '@material-ui/core/Grid';
 
 import { service } from '../../utils';
 
-import authSession from "../../components/utils/authSession"
+import authSession from "../../utils/authSession"
 import Button from "components/Form/Button"
 import Input from "components/Form/Input"
 

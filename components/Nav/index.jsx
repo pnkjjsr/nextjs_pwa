@@ -1,8 +1,8 @@
 import React, { Component, Fragment } from 'react'
 import Link from 'next/link'
 import { connect } from "react-redux";
-import authSession from 'components/utils/authSession'
-import Storage from "components/utils/firestoreStorage"
+import authSession from 'utils/authSession'
+import Storage from "utils/firestoreStorage"
 import AccountCircleIcon from '@material-ui/icons/AccountCircle';
 import './style.scss'
 
