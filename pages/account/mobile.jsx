@@ -3,12 +3,12 @@ import React, { Component, Fragment } from "react";
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import accountActions from "./actions";
-import notifictionActions from "../../components/Notification/actions"
+import notifictionActions from "components/Notification/actions"
 
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
-import { service } from "../../utils"
+import { service } from "apiConnect"
 import authSession from "utils/authSession"
 import authentication from "utils/authentication"
 

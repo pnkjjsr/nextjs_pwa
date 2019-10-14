@@ -25,11 +25,9 @@ const get_area = function (pincode) {
         const data = new dataGov
         const location = await data.getLocation(pincode)
         const updatedArea = await string.removeWord(location, 'S.O')
-
         if (!updatedArea) {
             console.log("no area for this pincode");
-        }
-        else {
+        } else {
             dispatch({
                 type: GET_AREA,
                 payload: updatedArea

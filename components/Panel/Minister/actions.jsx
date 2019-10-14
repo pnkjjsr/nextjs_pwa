@@ -4,9 +4,7 @@ import {
     MP
 } from './constant'
 
-import {
-    service
-} from "utils"
+import { service } from "apiConnect"
 import authSession from "utils/authSession"
 
 const prefetchData = (e) => {

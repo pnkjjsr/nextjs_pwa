@@ -6,8 +6,16 @@ class stringModifier {
         e.map(i => {
             let nameBefore = i.officename;
             let index = nameBefore.search(word)
-            let nameAfter = nameBefore.slice(0, index)
-            arr.push(nameAfter.trim())
+            let name = nameBefore.slice(0, index)
+            let state = i.taluk
+            let district = i.districtname
+            let division = i.divisionname
+            arr.push({
+                area: name.trim(),
+                division: division,
+                district: district,
+                state: state
+            })
         });
         return arr;
     }

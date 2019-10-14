@@ -7,7 +7,7 @@ import accountActions from "pages/account/actions"
 
 import authSession from "utils/authSession"
 import Storage from "utils/firestoreStorage"
-import { service } from "utils";
+import { service } from "apiConnect";
 
 import CreateIcon from '@material-ui/icons/Create';
 import "./style.scss";

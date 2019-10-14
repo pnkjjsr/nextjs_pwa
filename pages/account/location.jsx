@@ -1,16 +1,17 @@
 import React, { Component, Fragment } from "react";
 
-import { connect } from "react-redux";
-import { bindActionCreators } from 'redux';
-import actions from "./actions";
-import notificationActions from "../../components/Notification/actions"
-
 import Container from '@material-ui/core/Container';
 import Grid from '@material-ui/core/Grid';
 
-import { service } from '../../utils';
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import actions from "./actions";
+import notificationActions from "components/Notification/actions"
 
-import authSession from "../../utils/authSession"
+
+import { service } from 'apiConnect';
+import authSession from "utils/authSession"
+
 import Button from "components/Form/Button"
 import Input from "components/Form/Input"
 

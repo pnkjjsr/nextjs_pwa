@@ -5,7 +5,8 @@ import {
 
 import {
     service
-} from "utils"
+}
+from "apiConnect"
 import authSession from "utils/authSession"
 
 const prefetchData = () => {

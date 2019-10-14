@@ -25,7 +25,7 @@ class Register extends Component {
     this.state = {
       view: 0,
       pincode: "",
-      area: [],
+      area: "",
       email: "",
       password: "",
       mobile: "",
@@ -68,7 +68,7 @@ class Register extends Component {
 
   async handleSubmit(e) {
     e.preventDefault();
-    const { email, pincode, area, password, mobile } = this.state;
+    const { mobile, email, pincode, area, password } = this.state;
     const { notification, user } = this.props;
     const { valid, errors } = validation({ email, mobile, pincode, area, password });
 
@@ -109,6 +109,8 @@ class Register extends Component {
 
         }
         else {
+          const { register } = this.props
+          let locations = register.area;
           const session = new authSession;
           let token = res.user.uid;
           session.setToken(token);
@@ -119,11 +121,16 @@ class Register extends Component {
             userType: "normal",
             email: email,
             mobile: mobile,
-            pincode: pincode,
             password: password,
-            state: location[0].taluk,
+            area: area,
+            district: locations[0].district,
+            division: locations[0].division,
+            state: locations[0].state,
+            pincode: pincode,
             country: "India"
           }
+          console.log(data);
+
           service.post('/signup', data)
             .then((result) => {
               user.updateUser(result.data);
@@ -162,7 +169,11 @@ class Register extends Component {
     const { areaMsg, areaErr, pincodeMsg, emailMsg, mobileMsg, passwordMsg, pincodeErr, emailErr, passwordErr, mobileErr } = this.state;
     const { register } = this.props
     let locations = register.area;
-    const selectOptions = locations.map((location, key) => <option key={key} value={location}>{location}</option>)
+
+    let selectOptions
+    if (locations.length > 0) {
+      selectOptions = locations.map((location, key) => <option key={key} value={location.area}>{location.area}</option>)
+    }
 
     return (
       <Fragment>
@@ -211,7 +222,7 @@ class Register extends Component {
                     </div>
 
                     <div className="row">
-                      <div className="col-6">
+                      <div className="col-12 col-sm-6">
                         <div className={`form-group ${pincodeErr}`}>
                           <label htmlFor="pincode">Pincode</label>
                           <input className="form-control" name="pincode" type="text" aria-describedby="pincodeHelp" placeholder="110064" onChange={this.handleChange} />
@@ -220,7 +231,7 @@ class Register extends Component {
                           </small>
                         </div>
                       </div>
-                      <div className="col-6">
+                      <div className="col-12 col-sm-6">
                         <div className={`form-group ${areaErr}`}>
                           <label htmlFor="area">Area</label>
                           <select className="form-control" name="area" onChange={this.handleChange}>
