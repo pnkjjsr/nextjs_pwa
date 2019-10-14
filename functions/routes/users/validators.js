@@ -5,6 +5,7 @@ const {
 } = require('../../utils/validation');
 
 exports.validateSignupData = (data) => {
+
   let errors = {};
 
   if (isEmpty(data.email)) {
@@ -15,9 +16,11 @@ exports.validateSignupData = (data) => {
 
   if (isEmpty(data.password)) errors.password = 'Password must not be empty';
 
-  if (isEmpty(data.mobile)) errors.mobile = 'Mobile must not be empty';
+  if (isEmpty(data.phoneNumber)) errors.phoneNumber = 'Mobile must not be empty';
 
   if (isEmpty(data.pincode)) errors.pincode = 'Pincode must not be empty';
+
+  if (isEmpty(data.area)) errors.area = 'Area must not be empty';
 
   return {
     errors,

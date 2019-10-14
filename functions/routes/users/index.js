@@ -20,13 +20,22 @@ const {
 // Sign users up
 exports.signup = (req, res) => {
   const newUser = {
+    createdAt: new Date().toISOString(),
     uid: req.body.uid,
     userType: req.body.userType,
     email: req.body.email,
-    mobile: req.body.mobile,
-    pincode: req.body.pincode,
+    emailVerified: false,
+    countryCode: "+91",
+    phoneNumber: req.body.mobile,
+    phoneVerified: false,
+    displayName: '',
+    photoURL: '',
     password: req.body.password,
+    area: req.body.area,
+    district: req.body.district,
+    division: req.body.division,
     state: req.body.state,
+    pincode: req.body.pincode,
     country: req.body.country
   };
 
@@ -49,22 +58,6 @@ exports.signup = (req, res) => {
           message: 'Email already sign up with us.'
         });
       } else {
-        const userCredentials = {
-          createdAt: new Date().toISOString(),
-          uid: newUser.uid,
-          userType: newUser.userType,
-          email: newUser.email,
-          emailVerified: false,
-          password: newUser.password,
-          countryCode: "+91",
-          phoneNumber: newUser.mobile,
-          phoneVerified: false,
-          displayName: '',
-          photoURL: '',
-          pincode: newUser.pincode,
-          state: newUser.state,
-          country: newUser.country
-        };
         db.doc(`/users/${userId}`)
           .get()
           .then((doc) => {
@@ -73,11 +66,11 @@ exports.signup = (req, res) => {
                 handle: 'this DOC is already taken'
               });
             } else {
-              return db.doc(`/users/${userId}`).set(userCredentials);
+              db.doc(`/users/${userId}`).set(newUser)
             }
           })
           .then(() => {
-            return res.status(201).json(userCredentials);
+            return res.status(201).json(newUser);
           })
           .catch((err) => {
             if (err.code === 'auth/email-already-in-use') {
