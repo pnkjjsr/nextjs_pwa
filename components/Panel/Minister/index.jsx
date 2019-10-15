@@ -42,55 +42,61 @@ class PanelMinister extends Component {
         const { type, title, data } = this.state;
         let minister = data[type]
 
-        return (
-            <Fragment>
-                <div className="panel-minister">
-                    <div className="row">
-                        <div className="col-3 col-lg-12">
-                            <figure className="photo">
-                                <AccountCircleIcon />
-                            </figure>
-                        </div>
-                        <div className="col-9 col-lg-12">
-                            <div className="heading">
-                                <label htmlFor="ministerName">{title}</label>
-                                <h3 className="title" name="ministerName">{minister.name}</h3>
+        if (!minister) {
+            return (
+                <div>Loading</div>
+            )
+        }
+        else {
+            return (
+                <Fragment>
+                    <div className="panel-minister">
+                        <div className="row">
+                            <div className="col-3 col-lg-12">
+                                <figure className="photo">
+                                    <AccountCircleIcon />
+                                </figure>
                             </div>
+                            <div className="col-9 col-lg-12">
+                                <div className="heading">
+                                    <label htmlFor="ministerName">{title}</label>
+                                    <h3 className="title" name="ministerName">{minister.name}</h3>
+                                </div>
 
-                            <div className="details">
-                                <ul>
-                                    <li>
-                                        <i>
-                                            <FlagIcon />
-                                        </i>
-                                        <label htmlFor="party"><b>{minister.party}</b></label>
-                                    </li>
-                                    <li>
-                                        <i>
-                                            <MoneyIcon />
-                                        </i>
-                                        <label htmlFor="assets">Rs {minister.assets}</label>
-                                    </li>
-                                    <li>
-                                        <i>
-                                            <MenuBookIcon />
-                                        </i>
-                                        <label htmlFor="education">{minister.education} Pass</label>
-                                    </li>
-                                    <li>
-                                        <i>
-                                            <HomeIcon />
-                                        </i>
-                                        <label htmlFor="address">{minister.address}, {minister.state}-{minister.pincode}</label>
-                                    </li>
-                                </ul>
+                                <div className="details">
+                                    <ul>
+                                        <li>
+                                            <i>
+                                                <FlagIcon />
+                                            </i>
+                                            <label htmlFor="party"><b>{minister.party}</b></label>
+                                        </li>
+                                        <li>
+                                            <i>
+                                                <MoneyIcon />
+                                            </i>
+                                            <label htmlFor="assets">Rs {minister.assets}</label>
+                                        </li>
+                                        <li>
+                                            <i>
+                                                <MenuBookIcon />
+                                            </i>
+                                            <label htmlFor="education">{minister.education} Pass</label>
+                                        </li>
+                                        <li>
+                                            <i>
+                                                <HomeIcon />
+                                            </i>
+                                            <label htmlFor="address">{minister.address}, {minister.state}-{minister.pincode}</label>
+                                        </li>
+                                    </ul>
+                                </div>
                             </div>
                         </div>
                     </div>
-                </div>
-
-            </Fragment>
-        )
+                </Fragment>
+            )
+        }
     }
 }
 

@@ -1,11 +1,13 @@
 import {
     COUNCILLOR,
-    MLA
+    MLA,
+    MP
 } from './constant'
 
 const initialState = {
     councillor: "",
-    mla: ""
+    mla: "",
+    mp: ""
 };
 
 const ministers = (state = initialState, action) => {
@@ -17,6 +19,10 @@ const ministers = (state = initialState, action) => {
         case MLA:
             return Object.assign({}, state, {
                 mla: action.payload
+            });
+        case MP:
+            return Object.assign({}, state, {
+                mp: action.payload
             });
         default:
             return state;

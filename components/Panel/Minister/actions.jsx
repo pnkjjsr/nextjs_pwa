@@ -11,8 +11,10 @@ const prefetchData = (e) => {
     return async (dispatch) => {
         const session = new authSession();
         const profile = session.getProfile();
+
         let data = {
-            pincode: profile.pincode
+            pincode: profile.pincode,
+            district: profile.district
         }
 
         service.post(`/${e}`, data)

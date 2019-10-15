@@ -64,5 +64,6 @@ export default {
     prefetchData,
     location,
     mobile,
-    account
+    account,
+    getUserImage
 };

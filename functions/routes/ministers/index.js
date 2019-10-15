@@ -9,7 +9,7 @@ const {
 
 exports.councillor = (req, res) => {
     const data = {
-        'constituency': req.body.constituency
+        'constituency': req.body.pincode
     }
 
     // const {
@@ -96,7 +96,7 @@ exports.addCouncillor = (req, res) => {
 
 exports.mla = (req, res) => {
     const data = {
-        'constituency': req.body.constituency
+        'constituency': req.body.pincode
     }
 
     // const {
@@ -185,7 +185,7 @@ exports.addMla = (req, res) => {
 
 exports.mp = (req, res) => {
     const data = {
-        'constituency': req.body.constituency
+        'constituency': req.body.district
     }
 
     // const {

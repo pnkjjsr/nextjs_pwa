@@ -22,7 +22,8 @@ class Account extends Component {
       isMobile: "",
       imgUsr: "",
       state: "",
-      pincode: ""
+      pincode: "",
+      area: ""
     }
   }
 
@@ -61,12 +62,13 @@ class Account extends Component {
 
     this.setState({
       state: user.state,
-      pincode: user.pincode
+      pincode: user.pincode,
+      area: user.area
     });
   }
 
   render() {
-    const { isMobile, imgUsr, pincode, state } = this.state;
+    const { isMobile, imgUsr, area, pincode, state } = this.state;
     return (
       <Fragment>
         <div className="container account">
@@ -89,7 +91,7 @@ class Account extends Component {
               </div>
 
               <h1 className="title">
-                <span>Your Constituency,</span> {pincode} - {state}
+                <span>Your Constituency,</span> {area} - {state}
               </h1>
 
               <div className="row">
