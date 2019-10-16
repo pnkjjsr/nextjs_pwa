@@ -9,6 +9,7 @@
     "serve": "cd functions && firebase serve --only functions",
     "next": "next",
     "build": "next build",
+    "next-start": "next start",
     "export": "npm run build && next export",
     "start-mac": "NODE_ENV=production node server.js",
     "start": "node server.js",

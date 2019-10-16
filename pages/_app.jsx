@@ -5,9 +5,6 @@ import { Provider } from 'react-redux';
 import withRedux from "next-redux-wrapper";
 import { initStore } from "../redux/store";
 
-import { MuiThemeProvider } from '@material-ui/core/styles';
-import theme from "components/Layout/_theme"
-
 import Layout from "components/Layout";
 import Notification from "components/Notification"
 import authSession from "utils/authSession"
@@ -34,12 +31,10 @@ class MyApp extends App {
       return (
         <Container>
           <Provider store={store}>
-            <MuiThemeProvider theme={theme}>
-              <Layout pageTitle="">
-                <Notification />
-                <Component {...pageProps} />
-              </Layout>
-            </MuiThemeProvider>
+            <Layout pageTitle="">
+              <Notification />
+              <Component {...pageProps} />
+            </Layout>
           </Provider>
         </Container>
       );
