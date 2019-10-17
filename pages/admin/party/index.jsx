@@ -8,7 +8,7 @@ class Party extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            parties: ""
+            parties: []
         }
     }
 
@@ -29,10 +29,19 @@ class Party extends Component {
 
     render() {
         const { parties } = this.state;
-        console.log(parties);
-
-        // const renderParties;
-
+        const renderParty = Object.values(parties).map(i => {
+            console.log(i)
+            return (
+                <Fragment>
+                    <ul key={i.uid}>
+                        <li>{i.fullName}</li>
+                        <li>{i.shortName}</li>
+                        <li>{i.founded}</li>
+                        <li>{i.symbol}</li>
+                    </ul>
+                </Fragment>
+            )
+        })
         return (
             <Fragment>
                 <div className="container admin">
@@ -45,8 +54,8 @@ class Party extends Component {
                         </h1>
                     </div>
 
-                    <div>
-
+                    <div className="list">
+                        {renderParty}
                     </div>
 
                 </div>
