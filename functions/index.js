@@ -33,7 +33,8 @@ const {
 
 // party routes
 const {
-    party
+    party,
+    addParty
 } = require("./routes/parties");
 
 main.use(cors());
@@ -61,3 +62,4 @@ app.post('/addMp', addMp);
 
 // Party
 app.post('/party', party);
+app.post('/add-party', addParty);
