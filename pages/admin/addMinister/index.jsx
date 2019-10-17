@@ -1,5 +1,6 @@
 import React, { Component, Fragment } from 'react'
 
+import { service } from 'apiConnect'
 import adminAuth from 'utils/adminAuth'
 import firebaseStorage from 'utils/firestoreStorage'
 
@@ -11,9 +12,31 @@ class Minister extends Component {
     constructor(props) {
         super(props)
         this.state = {
+            display: "d-block",
+            year: "",
+            constituency: "",
+            party: "",
             type: "",
-            file: ""
+            name: "",
+            photoUrl: "",
+            age: "",
+            address: "",
+            pincode: "",
+            zone: "",
+            state: "",
+            cases: "",
+            assets: "",
+            liabilities: ""
         }
+    }
+
+    static getDerivedStateFromProps(nextProps, prevState) {
+        if (prevState.constituency && prevState.party && prevState.type) {
+            return {
+                display: "d-block;"
+            }
+        }
+        return null;
     }
 
     handleFile = (e) => {
@@ -33,12 +56,43 @@ class Minister extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        const { type, file } = this.state;
-        const storage = new firebaseStorage();
-        storage.uploadAffidavits(type, file);
+        const { year, constituency, party, type, name, photoUrl, age, address, pincode, zone, state, cases, assets, liabilities } = this.state;
+        const data = {
+            year: year,
+            constituency: constituency,
+            party: party,
+            type: type,
+            name: name,
+            photoUrl: photoUrl,
+            age: age,
+            address: address,
+            pincode: pincode,
+            zone: zone,
+            state: state,
+            assets: assets,
+            liabilities: liabilities
+        }
+        let apiHit = type
+        console.log(data);
+
+        service.post(`/add-${apiHit}`, data)
+            .then(res => {
+                console.log(res);
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+        // const storage = new firebaseStorage();
+        // storage.uploadAffidavits(type, file);
+    }
+
+    componentDidMount() {
+        const { constituency, party, type } = this.state
     }
 
     render() {
+        const { display } = this.state;
         return (
             <Fragment>
                 <div className="container admin">
@@ -55,8 +109,14 @@ class Minister extends Component {
                         <div className="col-md-6">
                             <form onSubmit={this.handleSubmit}>
                                 <div className="form-group">
+                                    <label htmlFor="year">Year</label>
+                                    <input className="form-control" type="number" name="year" onChange={this.handleChange} />
+                                </div>
+
+                                <div className="form-group">
                                     <label htmlFor="constituency">Constituency</label>
                                     <input className="form-control" type="text" name="constituency" onChange={this.handleChange} />
+                                    <small className="form-text text-muted">Councillor, MLA = Pincode, <br /> MLA = Area</small>
                                 </div>
 
                                 <div className="form-group">
@@ -85,15 +145,15 @@ class Minister extends Component {
 
                                 <hr />
 
-                                <div className="d-none">
+                                <div className={display}>
                                     <div className="form-group">
                                         <label htmlFor="name">Name</label>
                                         <input className="form-control" type="text" name="name" onChange={this.handleChange} />
                                     </div>
 
                                     <div className="form-group">
-                                        <label htmlFor="photo">Photo</label>
-                                        <input type="file" className="form-control-file" name="photo" onChange={this.handleFile} />
+                                        <label htmlFor="photoUrl">Photo</label>
+                                        <input type="file" className="form-control-file" name="photoUrl" onChange={this.handleFile} />
                                     </div>
 
                                     <div className="form-group">
@@ -117,8 +177,8 @@ class Minister extends Component {
                                     </div>
 
                                     <div className="form-group">
-                                        <label htmlFor="Zone">Zone</label>
-                                        <input className="form-control" name="Zone" type="text" onChange={this.handleChange} />
+                                        <label htmlFor="zone">Zone</label>
+                                        <input className="form-control" name="zone" type="text" onChange={this.handleChange} />
                                     </div>
 
                                     <div className="form-group">

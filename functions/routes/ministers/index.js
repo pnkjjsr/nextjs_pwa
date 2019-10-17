@@ -42,6 +42,7 @@ exports.councillor = (req, res) => {
 exports.addCouncillor = (req, res) => {
     const data = {
         "createdAt": new Date().toISOString(),
+        "year": req.body.year,
         "pincode": req.body.pincode,
         "constituency": req.body.constituency,
         "cases": req.body.cases,
@@ -55,7 +56,8 @@ exports.addCouncillor = (req, res) => {
         "assets": req.body.assets,
         "name": req.body.name,
         "zone": req.body.zone,
-        "age": req.body.age
+        "age": req.body.age,
+        "photoUrl": req.body.photoUrl
     }
 
     const {

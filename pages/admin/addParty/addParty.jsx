@@ -1,4 +1,4 @@
-import react, { Component, Fragment } from "react"
+import react, { Component, Fragment } from "pages/admin/addParty/react"
 
 
 class Party extends Component {

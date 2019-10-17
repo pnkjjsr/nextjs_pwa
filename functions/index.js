@@ -31,6 +31,11 @@ const {
     addMp
 } = require("./routes/ministers");
 
+// party routes
+const {
+    party
+} = require("./routes/parties");
+
 main.use(cors());
 main.use('/v1', app)
 exports.api = functions.https.onRequest(main);
@@ -48,8 +53,11 @@ app.post('/verifyPhone', verifyPhone);
 
 // Mini Routes
 app.post('/councillor', councillor);
-app.post('/addCouncillor', addCouncillor);
+app.post('/add-councillor', addCouncillor);
 app.post('/mla', mla);
 app.post('/addMla', addMla);
 app.post('/mp', mp);
 app.post('/addMp', addMp);
+
+// Party
+app.post('/party', party);
