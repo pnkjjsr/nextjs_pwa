@@ -13,7 +13,7 @@ const nextConfig = {
   env: {
     domain: process.env.DOMAIN,
     apiKey: process.env.apiKey,
-    secretKey: process.env.SECRET_KEY,
+    // secretKey: process.env.SECRET_KEY,
     govKey: process.env.GOV_KEY,
     apiProtocol: process.env.API_PROTOCOL,
     requestTimeout: process.env.REQUEST_TIMEOUT,
