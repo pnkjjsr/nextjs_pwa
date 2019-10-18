@@ -55,7 +55,7 @@ class Party extends Component {
                 console.log(response);
             })
             .catch(error => {
-                actionNotification.showNotification(error);
+                // actionNotification.showNotification(error);
                 let data = error.response.data;
                 let msg = data[Object.keys(data)[0]]
                 let obj = { message: msg }
