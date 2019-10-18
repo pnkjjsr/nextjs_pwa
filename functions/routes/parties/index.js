@@ -19,23 +19,36 @@ exports.party = (req, res) => {
 }
 
 exports.addParty = (req, res) => {
-    console.log(req);
-    
     const partyData = {
-        "founded": "01/01/2014",
-        "fullName": "Aam Admi Party",
-        "shortName": "AAp",
-        "photoUrl": ""
+        "createdAt": new Date().toISOString(),
+        "founded": req.body.founded,
+        "fullName": req.body.fullName,
+        "shortName": req.body.shortName,
+        "photoUrl": req.body.photoUrl
     }
-    console.log(partyData);
 
     let partyRef = db.collection('parties');
-    partyRef.get()
+    let query = partyRef.where('fullName', '==', partyData.fullName).where('shortName', '==', partyData.shortName)
+        .get()
         .then(snapshot => {
-            snapshot.forEach(doc => {
-                partyData.push(doc.data())
-            });
-            return res.json(partyData);
+            if (!snapshot.empty) {
+                return res.status(400).json({
+                    status: 'fail/already-registered',
+                    message: 'Party already created.'
+                })
+            } else {
+                db.collection('parties').add(partyData).then(ref => {
+                    let uid = ref.id
+                    db.collection('parties').doc(uid).update({
+                        uid: uid
+                    }).then(ref => {
+                        return res.json({
+                            status: 'done',
+                            message: 'Party successfully added.'
+                        });
+                    })
+                });
+            }
         })
         .catch(error => {
             return res.status(400).json(error)

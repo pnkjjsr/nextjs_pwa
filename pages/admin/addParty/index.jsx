@@ -1,6 +1,13 @@
-import react, { Component, Fragment } from "react"
+import React, { Component, Fragment } from "react"
+import { service } from 'apiConnect'
+import Router from 'next/router';
+import { connect } from "react-redux";
+import { bindActionCreators } from 'redux';
+import actionNotifications from "components/Notification/actions"
 
 import Button from 'components/Form/Button'
+
+
 
 import '../style.scss'
 
@@ -34,7 +41,26 @@ class Party extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
-        return console.log(this.state);
+        const { fullName, shortName, photoUrl, date, month, year } = this.state;
+        const { actionNotification } = this.props
+        const partyData = {
+            fullName: fullName,
+            shortName: shortName,
+            photoUrl: photoUrl,
+            founded: `${date}/${month}/${year}`
+        }
+
+        service.post('/add-party', partyData)
+            .then(response => {
+                console.log(response);
+            })
+            .catch(error => {
+                actionNotification.showNotification(error);
+                let data = error.response.data;
+                let msg = data[Object.keys(data)[0]]
+                let obj = { message: msg }
+                actionNotification.showNotification(obj)
+            })
     }
 
     render() {
@@ -111,4 +137,8 @@ class Party extends Component {
     }
 }
 
-export default Party
+const mapDispatchToProps = dispatch => ({
+    actionNotification: bindActionCreators(actionNotifications, dispatch)
+})
+
+export default connect(state => state, mapDispatchToProps)(Party)

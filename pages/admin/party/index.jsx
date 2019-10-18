@@ -30,16 +30,13 @@ class Party extends Component {
     render() {
         const { parties } = this.state;
         const renderParty = Object.values(parties).map(i => {
-            console.log(i)
             return (
-                <Fragment>
-                    <ul key={i.uid}>
-                        <li>{i.fullName}</li>
-                        <li>{i.shortName}</li>
-                        <li>{i.founded}</li>
-                        <li>{i.symbol}</li>
-                    </ul>
-                </Fragment>
+                <ul key={i.uid}>
+                    <li>{i.fullName}</li>
+                    <li>{i.shortName}</li>
+                    <li>{i.founded}</li>
+                    <li>{i.symbol}</li>
+                </ul>
             )
         })
         return (
