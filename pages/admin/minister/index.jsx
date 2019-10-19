@@ -1,14 +1,15 @@
 import React, { Component, Fragment } from 'react'
 
 import adminAuth from 'utils/adminAuth'
-import firebaseStorage from 'utils/firestoreStorage'
+import { service } from 'apiConnect'
+
+import '../style.scss'
 
 class Minister extends Component {
     constructor(props) {
         super(props)
         this.state = {
-            type: "",
-            file: ""
+            ministers: []
         }
     }
 
@@ -20,54 +21,50 @@ class Minister extends Component {
         });
     }
 
-    handleChange = (e) => {
-        let elm = e.target.name
-        this.setState({
-            [elm]: e.target.value
-        });
-    }
-
-    handleSubmit = (e) => {
-        e.preventDefault();
-        const { type, file } = this.state;
-        const storage = new firebaseStorage();
-        storage.uploadAffidavits(type, file);
+    componentDidMount() {
+        service.post('/minister')
+            .then(res => {
+                if (res.status == 200) {
+                    let data = res.data
+                    this.setState({
+                        ministers: data
+                    })
+                }
+            })
+            .catch(err => {
+                console.log(err);
+            })
     }
 
     render() {
+        const { ministers } = this.state;
+        const renderMinister = Object.values(ministers).map(i => {
+            return (
+                <ul key={i.uid}>
+                    <li>{i.fullName}</li>
+                    <li>{i.name}</li>
+                    <li>{i.assets}</li>
+                    <li>{i.partyShort}</li>
+                </ul>
+            )
+        })
         return (
             <Fragment>
-                <div className="container">
-                    <h3>
-                        Heading
-                    </h3>
-                    <form onSubmit={this.handleSubmit}>
-                        <div className="form-group">
-                            <label htmlFor="type">
-                                Type
-                        </label>
-                            <select className="form-control" name="type" onChange={this.handleChange}>
-                                <option>select</option>
-                                <option value="muncipal">Mun</option>
-                                <option value="mla">MLA</option>
-                                <option value="mp">MP</option>
-                                <option value="cm">CM</option>
-                                <option value="pm">PM</option>
-                            </select>
-                        </div>
-                        <div className="form-group">
-                            <label htmlFor="file">PDF file upload</label>
-                            <input type="file" className="form-control-file" name="file" onChange={this.handleFile} />
-                        </div>
+                <div className="container admin">
+                    <div className="header">
+                        <h1 className="heading">
+                            Check all ministers.
+                            <small>
+                                All minister list
+                            </small>
+                        </h1>
+                    </div>
 
-                        <div>
-                            <button className="btn btn-primary" type="submit">
-                                Submit
-                            </button>
-                        </div>
-                    </form>
+                    <div className="list">
+                        {renderMinister}
+                    </div>
+
                 </div>
-
             </Fragment>
         )
     }

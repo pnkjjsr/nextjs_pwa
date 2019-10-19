@@ -21,14 +21,15 @@ const {
     verifyPhone
 } = require('./routes/users');
 
-// mini routes
+// ministers routes
 const {
     councillor,
     addCouncillor,
     mla,
     addMla,
     mp,
-    addMp
+    addMp,
+    minister
 } = require("./routes/ministers");
 
 // party routes
@@ -52,13 +53,14 @@ app.post('/email', sendEmailVerification);
 app.post('/phone', updatePhone);
 app.post('/verifyPhone', verifyPhone);
 
-// Mini Routes
+// Ministers Routes
 app.post('/councillor', councillor);
 app.post('/add-councillor', addCouncillor);
 app.post('/mla', mla);
 app.post('/addMla', addMla);
 app.post('/mp', mp);
 app.post('/addMp', addMp);
+app.post('/minister', minister)
 
 // Party
 app.post('/party', party);
