@@ -41,8 +41,8 @@ class Minister extends Component {
         const renderMinister = Object.values(ministers).map(i => {
             return (
                 <ul key={i.uid}>
-                    <li>{i.fullName}</li>
                     <li>{i.name}</li>
+                    <li>{i.type}</li>
                     <li>{i.assets}</li>
                     <li>{i.partyShort}</li>
                 </ul>

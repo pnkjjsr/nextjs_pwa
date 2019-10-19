@@ -19,9 +19,10 @@ exports.councillor = (req, res) => {
     // if (!valid) return res.status(400).json(errors);
 
     let councillorRef = db.collection('councillors');
-    let queryRef = councillorRef.where('constituency', '==', data.constituency)
+    let constituencyRef = councillorRef.where('constituency', '==', data.constituency)
+    let winnerRef = constituencyRef.where('winner', '==', true)
 
-    queryRef.get()
+    winnerRef.get()
         .then(snapshot => {
             if (snapshot.empty) {
                 return res.status(400).json({
@@ -42,6 +43,7 @@ exports.councillor = (req, res) => {
 exports.addCouncillor = (req, res) => {
     const data = {
         "createdAt": new Date().toISOString(),
+        "winner": false,
         "year": req.body.year,
         "pincode": req.body.pincode,
         "constituency": req.body.constituency,
@@ -51,13 +53,13 @@ exports.addCouncillor = (req, res) => {
         "partyShort": req.body.partyShort,
         "address": req.body.address,
         "liabilities": req.body.liabilities,
-        "area": req.body.area,
         "state": req.body.state,
         "assets": req.body.assets,
         "name": req.body.name,
         "zone": req.body.zone,
         "age": req.body.age,
-        "photoUrl": req.body.photoUrl
+        "photoUrl": req.body.photoUrl || "",
+        "type": req.body.type
     }
 
     const {
@@ -67,9 +69,10 @@ exports.addCouncillor = (req, res) => {
     if (!valid) return res.status(400).json(errors);
 
     let councillorRef = db.collection('councillors');
-    let queryRef = councillorRef.where('constituency', '==', data.constituency)
+    let constituencyRef = councillorRef.where('constituency', '==', data.constituency)
+    let partyShortRef = constituencyRef.where('partyShort', '==', data.partyShort)
 
-    queryRef.get()
+    partyShortRef.get()
         .then(snapshot => {
             if (!snapshot.empty) {
                 return res.status(400).json({
@@ -77,6 +80,8 @@ exports.addCouncillor = (req, res) => {
                     messsage: "This Constituency already had councillor."
                 })
             } else {
+                console.log(data);
+
                 let newCouncillorRef = councillorRef.add(data).then(ref => {
                     console.log('Added document with ID: ', ref.id);
                     db.collection('councillors').doc(ref.id).update({

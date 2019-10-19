@@ -57,9 +57,9 @@ app.post('/verifyPhone', verifyPhone);
 app.post('/councillor', councillor);
 app.post('/add-councillor', addCouncillor);
 app.post('/mla', mla);
-app.post('/addMla', addMla);
+app.post('/add-mla', addMla);
 app.post('/mp', mp);
-app.post('/addMp', addMp);
+app.post('/add-mp', addMp);
 app.post('/minister', minister)
 
 // Party
