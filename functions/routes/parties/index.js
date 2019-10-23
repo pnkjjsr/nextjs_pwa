@@ -44,7 +44,8 @@ exports.addParty = (req, res) => {
                     }).then(ref => {
                         return res.json({
                             status: 'done',
-                            message: 'Party successfully added.'
+                            message: 'Party successfully added.',
+                            uid: uid
                         });
                     })
                 });

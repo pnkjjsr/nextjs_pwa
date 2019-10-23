@@ -17,7 +17,7 @@ export default class Storage {
         }
     }
 
-    uploadImage(path, file) {
+    uploadImage(path, file, uid) {
         let storageRef = this.initialize();
         const session = new authSession();
         let user = session.getProfile();
@@ -33,9 +33,9 @@ export default class Storage {
                 // Upload file and metadata to the object 'path send via PROPS parameter'
                 var uploadTask = storageRef.child(`${path}/${user.uid}/profile.jpg`).put(file, metadata);
                 break;
-            case "images/gallery":
+            case "images/parties":
                 // Upload file and metadata to the object 'path send via PROPS parameter'
-                var uploadTask = storageRef.child(`${path}/${user.uid}/gallery.jpg`).put(file, metadata);
+                var uploadTask = storageRef.child(`${path}/${uid}/party.jpg`).put(file, metadata);
                 break;
             default:
                 console.log("Error: path not match with any path");

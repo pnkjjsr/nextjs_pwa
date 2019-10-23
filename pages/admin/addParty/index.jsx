@@ -1,9 +1,11 @@
 import React, { Component, Fragment } from "react"
-import { service } from 'apiConnect'
 import Router from 'next/router';
 import { connect } from "react-redux";
 import { bindActionCreators } from 'redux';
 import actionNotifications from "components/Notification/actions"
+
+import { service } from 'apiConnect'
+import firebaseStorage from 'utils/firestoreStorage'
 
 import Button from 'components/Form/Button'
 
@@ -41,6 +43,7 @@ class Party extends Component {
 
     handleSubmit = (e) => {
         e.preventDefault();
+        const storage = new firebaseStorage;
         const { fullName, shortName, photoUrl, date, month, year } = this.state;
         const { actionNotification } = this.props
         const partyData = {
@@ -51,8 +54,16 @@ class Party extends Component {
         }
 
         service.post('/add-party', partyData)
-            .then(response => {
-                console.log(response);
+            .then(res => {
+                let uid = res.data.uid
+
+                storage.uploadImage('images/parties', photoUrl, uid)
+                    .then(res => {
+                        console.log(res);
+                    })
+                    .catch(err => {
+                        console.log(err);
+                    })
             })
             .catch(error => {
                 // actionNotification.showNotification(error);
@@ -68,7 +79,7 @@ class Party extends Component {
             <Fragment>
                 <div className="container admin">
                     <div className="header">
-                        <h1 className="heading">
+                        <h1 className="heading d-none">
                             Add Party
                             <small>
                                 Add your polotical party here.
