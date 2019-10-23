@@ -13,18 +13,21 @@ class Minister extends Component {
         super(props)
         this.state = {
             display: "d-block",
+            typeOptions: [],
+            yearOptions: [],
+            partyOptions: [],
+            zoneOptions: [],
+            type: "",
             year: "",
+            state: "",
             constituency: "",
             party: "",
-            type: "",
             name: "",
             photoUrl: "",
             age: "",
             education: "",
             address: "",
             pincode: "",
-            zone: "",
-            state: "",
             cases: "",
             assets: "",
             liabilities: ""
@@ -52,6 +55,17 @@ class Minister extends Component {
         let elm = e.target.name
         this.setState({
             [elm]: e.target.value
+        }, () => {
+            const { type, state, yearOptions, zoneOptions } = this.state;
+
+            if (type && state) {
+                if (!yearOptions.length) {
+                    this.renderYear()
+                }
+                if (!zoneOptions.length) {
+                    this.renderZone()
+                }
+            }
         });
     }
 
@@ -70,14 +84,14 @@ class Minister extends Component {
             assets: assets,
             name: name,
             pincode: pincode,
-            zone: zone,
             age: age,
-            type: type,
             year: year,
             photoUrl: photoUrl,
         }
+
         let apiHit = type
         console.log(data);
+
 
         service.post(`/add-${apiHit}`, data)
             .then(res => {
@@ -91,12 +105,136 @@ class Minister extends Component {
         // storage.uploadAffidavits(type, file);
     }
 
+    renderConstituency = () => {
+        const { type, zoneOptions } = this.state
+
+        const renderZoneOptions = zoneOptions.map((option, index) => {
+            return (
+                <option key={index} value={option}>{option}</option>
+            )
+        })
+
+        if (type == "councillor" || type == "mla") {
+            return (
+                <Fragment>
+                    <input className="form-control" type="text" maxLength="6" name="constituency" onChange={this.handleChange} />
+                    <small className="form-text text-muted">Councillor, MLA = Pincode</small>
+                </Fragment>
+            )
+        }
+        else if (type == "mp") {
+            return (
+                <Fragment>
+                    <select className="form-control" name="constituency" onChange={this.handleChange}>
+                        <option value="">Select</option>
+                        {renderZoneOptions}
+                    </select>
+                </Fragment>
+            )
+
+        }
+        else {
+            return (
+                <Fragment>
+                    <input className="form-control" type="text" name="constituency" disabled="disabled" onChange={this.handleChange} />
+                    <small className="form-text text-muted">Select minister type first</small>
+                </Fragment>
+            )
+        }
+
+
+    }
+
+    renderYear = () => {
+        const { type, state } = this.state;
+        let data = {
+            "type": type,
+            "state": state
+        }
+
+        service.post('/election-years', data)
+            .then(res => {
+                let years = res.data[0].years
+                this.setState({
+                    yearOptions: years
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    renderZone = () => {
+        const { state } = this.state;
+        let data = {
+            "state": state
+        }
+
+        service.post('/state-zones', data)
+            .then(res => {
+                let zones = res.data[0].zone
+                this.setState({
+                    zoneOptions: zones
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            })
+    }
+
+    componentDidMount() {
+        service.post('/minister-type')
+            .then(res => {
+                this.setState({
+                    typeOptions: res.data
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+
+        service.post('/party')
+            .then(res => {
+                this.setState({
+                    partyOptions: res.data
+                });
+            })
+            .catch(err => {
+                console.log(err);
+            });
+    }
+
     render() {
-        const { display } = this.state;
+        const { display, typeOptions, yearOptions, partyOptions } = this.state;
+
+        const renderTypeOptions = typeOptions.map(option => {
+            return (
+                <option key={option.uid} value={option.type}>{option.name}</option>
+            )
+        })
+
+        const renderYears = yearOptions.map((yr, key) => {
+            return (
+                <option key={key} value={yr}>{yr}</option>
+            )
+        })
+
+        const renderFullPartyOptions = partyOptions.map(option => {
+            return (
+                <option key={option.uid} value={option.fullName}>{option.fullName}</option>
+            )
+        })
+
+        const renderShortPartyOptions = partyOptions.map(option => {
+            return (
+                <option key={option.uid} value={option.shortName}>{option.shortName}</option>
+            )
+        })
+
         return (
             <Fragment>
                 <div className="container admin">
-                    <div className="header">
+                    <div className="header d-none">
                         <h1 className="heading">
                             Add Minister
                             <small>
@@ -108,40 +246,6 @@ class Minister extends Component {
                     <div className="row">
                         <div className="col-md-6">
                             <form onSubmit={this.handleSubmit}>
-                                <div className="form-group">
-                                    <label htmlFor="year">Year</label>
-                                    <select className="form-control" name="year" onChange={this.handleChange}>
-                                        <option value="">Select year</option>
-                                        <option value="2019">2019</option>
-                                        <option value="2017">2017</option>
-                                        <option value="2015">2015</option>
-                                    </select>
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="constituency">Constituency</label>
-                                    <input className="form-control" type="text" name="constituency" onChange={this.handleChange} />
-                                    <small className="form-text text-muted">Councillor, MLA = Pincode, <br /> MLA = Area</small>
-                                </div>
-
-                                <div className="form-group">
-                                    <label htmlFor="party">Party full name</label>
-                                    <select className="form-control" name="party" onChange={this.handleChange}>
-                                        <option>select</option>
-                                        <option value="Bhartiya Janta Party">Bhartiya Janta Party</option>
-                                        <option value="Indian National Congress">Indian National Congress</option>
-                                        <option value="Aam Aadmi Party">Aam Aadmi Party</option>
-                                    </select>
-                                </div>
-                                <div className="form-group">
-                                    <label htmlFor="partyShort">Party short name</label>
-                                    <select className="form-control" name="partyShort" onChange={this.handleChange}>
-                                        <option>select</option>
-                                        <option value="BJP">BJP</option>
-                                        <option value="INC">INC</option>
-                                        <option value="AAP">AAP</option>
-                                    </select>
-                                </div>
 
                                 <div className="form-group">
                                     <label htmlFor="type">
@@ -149,11 +253,43 @@ class Minister extends Component {
                                     </label>
                                     <select className="form-control" name="type" onChange={this.handleChange}>
                                         <option>select</option>
-                                        <option value="councillor">Councillor</option>
-                                        <option value="mla">MLA</option>
-                                        <option value="mp">MP</option>
-                                        <option value="cm">CM</option>
-                                        <option value="pm">PM</option>
+                                        {renderTypeOptions}
+                                    </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="state">State</label>
+                                    <select className="form-control" name="state" onChange={this.handleChange}>
+                                        <option value="">Select</option>
+                                        <option value="New Delhi">New Delhi</option>
+                                    </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="constituency">Constituency</label>
+                                    {this.renderConstituency()}
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="year">Year</label>
+                                    <select className="form-control" name="year" onChange={this.handleChange}>
+                                        <option value="">Select year</option>
+                                        {renderYears}
+                                    </select>
+                                </div>
+
+                                <div className="form-group">
+                                    <label htmlFor="party">Party full name</label>
+                                    <select className="form-control" name="party" onChange={this.handleChange}>
+                                        <option>select</option>
+                                        {renderFullPartyOptions}
+                                    </select>
+                                </div>
+                                <div className="form-group">
+                                    <label htmlFor="partyShort">Party short name</label>
+                                    <select className="form-control" name="partyShort" onChange={this.handleChange}>
+                                        <option>select</option>
+                                        {renderShortPartyOptions}
                                     </select>
                                 </div>
 
@@ -188,19 +324,6 @@ class Minister extends Component {
                                     <div className="form-group">
                                         <label htmlFor="pincode">Pincode</label>
                                         <input className="form-control" name="pincode" type="text" onChange={this.handleChange} />
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label htmlFor="zone">Zone</label>
-                                        <input className="form-control" name="zone" type="text" onChange={this.handleChange} />
-                                        <small className="form-text text-muted">
-                                            New Delhi, South Delhi, West Delhi, East Delhi, Chandni Chowk, North West Delhi, North East Delhi
-                                        </small>
-                                    </div>
-
-                                    <div className="form-group">
-                                        <label htmlFor="state">State</label>
-                                        <input className="form-control" name="state" type="text" onChange={this.handleChange} />
                                     </div>
 
                                     <hr />

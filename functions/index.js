@@ -29,7 +29,8 @@ const {
     addMla,
     mp,
     addMp,
-    minister
+    minister,
+    ministerType
 } = require("./routes/ministers");
 
 // party routes
@@ -37,6 +38,17 @@ const {
     party,
     addParty
 } = require("./routes/parties");
+
+// Locations Routes
+const {
+    stateZones
+} = require("./routes/locations");
+
+
+// Election routes
+const {
+    electionYears
+} = require("./routes/elections");
 
 main.use(cors());
 main.use('/v1', app)
@@ -61,7 +73,14 @@ app.post('/add-mla', addMla);
 app.post('/mp', mp);
 app.post('/add-mp', addMp);
 app.post('/minister', minister)
+app.post('/minister-type', ministerType)
 
 // Party
 app.post('/party', party);
 app.post('/add-party', addParty);
+
+// Election
+app.post('/election-years', electionYears);
+
+// Locations
+app.post('/state-zones', stateZones);

@@ -133,6 +133,7 @@ exports.mla = (req, res) => {
         });
 }
 exports.addMla = (req, res) => {
+
     const mlaData = {
         "createdAt": new Date().toISOString(),
         "pincode": req.body.pincode,
@@ -143,13 +144,14 @@ exports.addMla = (req, res) => {
         "partyShort": req.body.partyShort,
         "address": req.body.address,
         "liabilities": req.body.liabilities,
-        "area": req.body.area,
         "state": req.body.state,
         "assets": req.body.assets,
         "name": req.body.name,
-        "zone": req.body.zone,
-        "age": req.body.age
+        "age": req.body.age,
+        "year": req.body.year,
+        "photoUrl": req.body.photo || ""
     }
+
 
     // const {
     //     valid,
@@ -168,6 +170,8 @@ exports.addMla = (req, res) => {
                     messsage: "This Constituency already had mla."
                 })
             } else {
+                console.log(mlaData);
+                
                 let newMlaRef = mlaRef.add(mlaData).then(ref => {
                     console.log('Added document with ID: ', ref.id);
                     db.collection('mlas').doc(ref.id).update({
@@ -313,5 +317,20 @@ exports.minister = (req, res) => {
         })
         .catch(error => {
             return res.status(400).json(error)
+        });
+}
+
+exports.ministerType = (req, res) => {
+    let data = []
+    let ministerTypeRef = db.collection('minister_type').orderBy('order', 'desc');
+    ministerTypeRef.get()
+        .then(async snapshot => {
+            await snapshot.forEach(doc => {
+                data.push(doc.data())
+            });
+            return res.json(data)
+        })
+        .catch(err => {
+            console.log('Error getting document', err);
         });
 }

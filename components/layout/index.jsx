@@ -21,7 +21,7 @@ class Layout extends Component {
     return (
       <Fragment>
         <Head title={this.props.pageTitle} />
-        <Header />
+        {/* <Header /> */}
         <div className="main">
           {this.props.children}
         </div>
