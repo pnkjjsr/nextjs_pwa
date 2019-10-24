@@ -41,6 +41,11 @@ class EditParty extends Component {
         });
     }
 
+    handleCancel = () => {
+        const { actionHide } = this.props
+        actionHide()
+    }
+
     handleSubmit = (e) => {
         e.preventDefault();
         const storage = new firebaseStorage;
@@ -153,7 +158,7 @@ class EditParty extends Component {
                                 </div>
 
                                 <div>
-                                    <Button text="Submit" variant="btn-primary" />
+                                    <Button text="Submit" variant="btn-primary" /> <button className="btn btn-default" type="button" onClick={this.handleCancel}>Cancel</button>
                                 </div>
                             </form>
                         </div>
