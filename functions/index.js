@@ -36,7 +36,8 @@ const {
 // party routes
 const {
     party,
-    addParty
+    addParty,
+    editParty
 } = require("./routes/parties");
 
 // Locations Routes
@@ -78,6 +79,7 @@ app.post('/minister-type', ministerType)
 // Party
 app.post('/party', party);
 app.post('/add-party', addParty);
+app.post('/edit-party', editParty);
 
 // Election
 app.post('/election-years', electionYears);

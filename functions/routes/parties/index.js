@@ -55,3 +55,27 @@ exports.addParty = (req, res) => {
             return res.status(400).json(error)
         });
 }
+
+exports.editParty = (req, res) => {
+    const _res = res;
+    const partyData = {
+        "updatedAt": new Date().toISOString(),
+        "uid": req.body.uid,
+        "founded": req.body.founded,
+        "fullName": req.body.fullName,
+        "shortName": req.body.shortName,
+        "photoUrl": req.body.photoUrl
+    }
+
+    let partyRef = db.collection('parties').doc(partyData.uid);
+    partyRef.update(partyData).then(function () {
+            return res.json({
+                status: 'done',
+                message: 'Party successfully updated.',
+                name: partyData.fullName
+            });
+        })
+        .catch(error => {
+            return _res.status(400).json(error)
+        });
+}
