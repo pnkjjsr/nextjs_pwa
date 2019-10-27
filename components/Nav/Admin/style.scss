@@ -1,0 +1,18 @@
+@import "common/styles/global.scss";
+
+nav.navbar {
+  padding: 5px 10px;
+  ul {
+    li {
+      a {
+        color: $color-primary;
+        font-size: 14px;
+      }
+      &:hover {
+        .dropdown-menu {
+          display: block;
+        }
+      }
+    }
+  }
+}

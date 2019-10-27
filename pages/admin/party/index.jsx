@@ -87,7 +87,7 @@ class Party extends Component {
             <Fragment>
                 <div className="container admin">
                     <div className="header">
-                        <h1 className="heading d-none">
+                        <h1 className="heading">
                             Check all parties.
                             <small>
                                 All party list

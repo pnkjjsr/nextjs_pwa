@@ -8,6 +8,7 @@ const nextEnv = require('next-env');
 const dotenvLoad = require('dotenv-load');
 dotenvLoad();
 const withNextEnv = nextEnv();
+const webpack = require('webpack');
 
 const nextConfig = {
   env: {
@@ -38,6 +39,15 @@ const nextConfig = {
     isServer,
     defaultLoaders
   }) {
+
+    // bootstrap Jquery
+    config.plugins.push(
+      new webpack.ProvidePlugin({
+        '$': 'jquery',
+        'jQuery': 'jquery',
+      })
+    )
+
     // Alias
     config.resolve.alias['apiConnect'] = path.join(__dirname, 'apiConnect')
     config.resolve.alias['common'] = path.join(__dirname, 'common')
