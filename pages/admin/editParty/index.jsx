@@ -158,7 +158,8 @@ class EditParty extends Component {
                                 </div>
 
                                 <div>
-                                    <Button text="Submit" variant="btn-primary" /> <button className="btn btn-default" type="button" onClick={this.handleCancel}>Cancel</button>
+                                    <Button text="Submit" variant="btn-primary" />
+                                    <button className="btn btn-default" type="button" onClick={this.handleCancel}>Cancel</button>
                                 </div>
                             </form>
                         </div>

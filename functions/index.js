@@ -30,7 +30,8 @@ const {
     mp,
     addMp,
     minister,
-    ministerType
+    ministerType,
+    editMinister
 } = require("./routes/ministers");
 
 // party routes
@@ -75,6 +76,7 @@ app.post('/mp', mp);
 app.post('/add-mp', addMp);
 app.post('/minister', minister)
 app.post('/minister-type', ministerType)
+app.post('/edit-minister', editMinister)
 
 // Party
 app.post('/party', party);

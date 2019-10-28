@@ -171,7 +171,7 @@ exports.addMla = (req, res) => {
                 })
             } else {
                 console.log(mlaData);
-                
+
                 let newMlaRef = mlaRef.add(mlaData).then(ref => {
                     console.log('Added document with ID: ', ref.id);
                     db.collection('mlas').doc(ref.id).update({
@@ -332,5 +332,43 @@ exports.ministerType = (req, res) => {
         })
         .catch(err => {
             console.log('Error getting document', err);
+        });
+}
+
+exports.editMinister = (req, res) => {
+    const ministerData = {
+        "updatedAt": new Date().toISOString(),
+        "uid": req.body.uid,
+        "type": req.body.type,
+        "year": req.body.year,
+        "state": req.body.state,
+        "constituency": req.body.constituency,
+        "party": req.body.party,
+        "partyShort": req.body.partyShort,
+        "name": req.body.name,
+        "photoUrl": req.body.photoUrl || "",
+        "age": req.body.age,
+        "education": req.body.education,
+        "address": req.body.address,
+        "pincode": req.body.pincode,
+        "cases": req.body.cases,
+        "assets": req.body.assets,
+        "liabilities": req.body.liabilities,
+        "winner": req.body.winner,
+    }
+
+    console.log(JSON.stringify(ministerData));
+
+    // const {
+    //     valid,
+    //     errors
+    // } = validateAddCouncillorData(data);
+    // if (!valid) return res.status(400).json(errors);
+
+    let updateMinister = db.collection(`${ministerData.type}s`).doc(ministerData.uid); updateMinister.update(ministerData)
+        .then(function () {
+            res.status(200).json({
+                "message": `${ministerData.name} Minister updated`
+            })
         });
 }

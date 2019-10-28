@@ -70,7 +70,7 @@ class Party extends Component {
     }
 
     render() {
-        const { parties, displayEdit, dataEdit } = this.state;
+        const { parties, displayEdit } = this.state;
 
         const renderParty = Object.values(parties).map(i => {
             return (
