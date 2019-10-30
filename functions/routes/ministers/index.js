@@ -357,15 +357,14 @@ exports.editMinister = (req, res) => {
         "winner": req.body.winner,
     }
 
-    console.log(JSON.stringify(ministerData));
-
     // const {
     //     valid,
     //     errors
     // } = validateAddCouncillorData(data);
     // if (!valid) return res.status(400).json(errors);
 
-    let updateMinister = db.collection(`${ministerData.type}s`).doc(ministerData.uid); updateMinister.update(ministerData)
+    let updateMinister = db.collection(`${ministerData.type}s`).doc(ministerData.uid);
+    updateMinister.update(ministerData)
         .then(function () {
             res.status(200).json({
                 "message": `${ministerData.name} Minister updated`

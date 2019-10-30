@@ -4,9 +4,10 @@ const {
     google
 } = require('googleapis');
 
-exports.googleSheet = (sheet) => {
+exports.googleSheet = (code, type) => {
     return new Promise((resolve, reject) => {
-        const sheetCode = sheet;
+        const sheetCode = code;
+        const ministerType = type;
 
         // If modifying these scopes, delete token.json.
         const SCOPES = ['https://www.googleapis.com/auth/spreadsheets.readonly'];
@@ -91,7 +92,7 @@ exports.googleSheet = (sheet) => {
             });
             sheets.spreadsheets.values.get({
                 spreadsheetId: sheetCode,
-                range: 'mlas!A2:M',
+                range: `${ministerType}!A2:O`,
             }, (err, res) => {
                 if (err) return console.log('The API returned an error: ' + err);
                 let rows = res.data.values;

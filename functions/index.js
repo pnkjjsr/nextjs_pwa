@@ -55,7 +55,9 @@ const {
 
 // Cron Jobs
 const {
-    addMinisters
+    cronCouncillors,
+    cronMlas,
+    cronMps
 } = require("./routes/crons");
 
 main.use(cors());
@@ -96,4 +98,6 @@ app.post('/election-years', electionYears);
 app.post('/state-zones', stateZones);
 
 // Cron Jobs
-app.post('/add-ministers', addMinisters);
+app.post('/add-councillors', cronCouncillors);
+app.post('/add-mlas', cronMlas);
+app.post('/add-mps', cronMps);
