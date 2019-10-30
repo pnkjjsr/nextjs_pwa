@@ -52,6 +52,12 @@ const {
     electionYears
 } = require("./routes/elections");
 
+
+// Cron Jobs
+const {
+    addMinisters
+} = require("./routes/crons");
+
 main.use(cors());
 main.use('/v1', app)
 exports.api = functions.https.onRequest(main);
@@ -88,3 +94,6 @@ app.post('/election-years', electionYears);
 
 // Locations
 app.post('/state-zones', stateZones);
+
+// Cron Jobs
+app.post('/add-ministers', addMinisters);

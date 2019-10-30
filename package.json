@@ -37,6 +37,7 @@
     "firebase-admin": "^8.6.0",
     "firebaseui": "^4.2.0",
     "fs": "^0.0.1-security",
+    "googleapis": "^39.2.0",
     "helmet": "^3.21.1",
     "isdev": "^1.0.1",
     "isomorphic-unfetch": "^3.0.0",
