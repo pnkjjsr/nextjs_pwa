@@ -92,7 +92,7 @@ exports.googleSheet = (code, type) => {
             });
             sheets.spreadsheets.values.get({
                 spreadsheetId: sheetCode,
-                range: `${ministerType}!A2:O`,
+                range: `${ministerType}!A2:P`,
             }, (err, res) => {
                 if (err) return console.log('The API returned an error: ' + err);
                 let rows = res.data.values;
